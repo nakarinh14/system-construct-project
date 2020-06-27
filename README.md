@@ -21,7 +21,7 @@ I only return a JSON in the backend REST controller ```CourseListController.java
 
 
 
-I have asked Aj., he said we will need to configure and deploy Vue frontend in a nginx webserver later, so the ```yarn serve``` is just temporary for development i guess
+I have asked Aj., he said we will need to configure and deploy Vue frontend in a nginx webserver later, so the ```yarn serve``` is just temporary for development I guess, and we can move on nginx after everything is done
 
 
 Optional: On Chrome. I think these 2 extension are quite useful in debugging frontend and backend later on :
