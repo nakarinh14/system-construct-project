@@ -14,7 +14,7 @@ After ```yarn``` is installed, run ```yarn global add @vue/cli```
 
 Both Vue and Springboot will occupy same port (localhost:8080) by default, I haven't configure it yet, so run ```SsoApplication.java``` first in IntelliJ IDEA to start backend server so it occupy 8080. And Vue might occupy 8081 (in Mac for me)
 
-To deploy Vue, just cd in ```frontend``` and type ```yarn serve```, which would deploy in localhost and display a URL where the website is.
+To deploy Vue, just ```cd``` in ```frontend``` and type ```yarn serve```, which would deploy in localhost and display a URL where the website is.
 
 
 I only return a JSON in the backend REST controller ```CourseListController.java```for URL ```localhost:8080/api/courses```, which is displaying on the Home page for Vue. 
@@ -24,4 +24,7 @@ I only return a JSON in the backend REST controller ```CourseListController.java
 I have asked Aj., he said we will need to configure and deploy Vue frontend in a nginx webserver later, so the ```yarn serve``` is just temporary for development i guess
 
 
+Optional: On Chrome. I think these 2 extension are quite useful in debugging frontend and backend later on :
+
+<a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en">Vue.js Chrome extension</a>,  <a href="https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en">JSON formatter (to read JSON easily on web)</a>
 
