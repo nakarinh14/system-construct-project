@@ -17,7 +17,7 @@ Both Vue and Springboot will occupy same port (localhost:8080) by default, I hav
 To deploy Vue, just ```cd``` in ```frontend``` and type ```yarn serve```, which would deploy in localhost and display a URL where the website is.
 
 
-I only return a JSON in the backend REST controller ```CourseListController.java```for URL ```localhost:8080/api/courses```, which is displaying on the Home page for Vue. 
+I only return a JSON in the backend REST controller ```CourseListController.java```for URL ```localhost:8080/api/courses```, which those 2 courses data displays on the Home page for Vue. 
 
 
 
