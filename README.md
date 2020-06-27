@@ -29,5 +29,5 @@ Optional: On Chrome. I think these 2 extension are quite useful in debugging fro
 <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en">Vue.js Chrome extension</a>,  <a href="https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en">JSON formatter (to read JSON easily on web)</a>
 
 
-To develop ```frontend``` I recommend using WebStorm (which is from IntelliJ) or VSCode is fine too
+To develop ```frontend``` I recommend using <a href="https://www.jetbrains.com/webstorm/download/#section=mac"> WebStorm </a> (which is from IntelliJ) or VSCode is fine too
 
