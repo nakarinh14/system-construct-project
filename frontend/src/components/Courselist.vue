@@ -5,7 +5,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
 
     const apiURL = "http://localhost:8080/api/courses";
     export default {
@@ -18,7 +17,7 @@
             }
         },
         created() {
-            axios.get(apiURL)
+            this.axios.get(apiURL)
                 .then(response => {
                     this.courses = response.data;
                 })
@@ -29,4 +28,6 @@
         }
     };
 </script>
+
+
 
