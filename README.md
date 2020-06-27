@@ -1,1 +1,33 @@
 # system-construct-project
+To clone from git:
+```
+git clone https://github.com/nakarinh14/system-construct-project
+```
+
+For spring boot, in IntelliJ IDEA import/open the ```backend``` folder and reload the maven dependency
+
+For Vue, install ```yarn``` first. Check   https://classic.yarnpkg.com/en/docs/install/
+
+After ```yarn``` is installed, run ```yarn global add @vue/cli```
+
+<b> To run: </b>
+
+Both Vue and Springboot will occupy same port (localhost:8080) by default, I haven't configure it yet, so run ```SsoApplication.java``` first in IntelliJ IDEA to start backend server so it occupy 8080. And Vue might occupy 8081 (in Mac for me)
+
+To deploy Vue, just ```cd``` in ```frontend``` and type ```yarn serve```, which would deploy in localhost and display a URL where the website is.
+
+
+I only return a JSON in the backend REST controller ```CourseListController.java```for URL ```localhost:8080/api/courses```, which those 2 courses data displays on the Home page for Vue. 
+
+
+
+I have asked Aj., he said we will need to configure and deploy Vue frontend in a nginx webserver later, so the ```yarn serve``` is just temporary for development I guess, and we can move on nginx after everything is done
+
+
+Optional: On Chrome. I think these 2 extension are quite useful in debugging frontend and backend later on :
+
+<a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en">Vue.js Chrome extension</a>,  <a href="https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en">JSON formatter (to read JSON easily on web)</a>
+
+
+To develop ```frontend``` I recommend using <a href="https://www.jetbrains.com/webstorm/download/#section=mac"> WebStorm </a> (which is from IntelliJ) or VSCode is fine too
+
