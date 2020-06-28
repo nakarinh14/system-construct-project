@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div id="nav" v-if="this.$route.path !== '/login'">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      <router-link to="/setting">Setting</router-link>
+      <router-link to="/"><BIconHouseFill></BIconHouseFill>Home</router-link>  |
+      <router-link to="/about">About</router-link>  |
+      <router-link to="/setting"><BIconGearFill></BIconGearFill>Setting</router-link>
     </div>
     <router-view/>
   </div>
@@ -33,9 +33,12 @@
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 </style>
