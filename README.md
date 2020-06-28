@@ -23,8 +23,27 @@ I only return a JSON in the backend REST controller ```CourseListController.java
 
 I have asked Aj., he said we will need to configure and deploy Vue frontend in a nginx webserver later, so the ```yarn serve``` is just temporary for development I guess, and we can move on nginx after everything is done
 
+<b> To work on project seperately: </b>
 
-Optional: On Chrome. I think these 2 extension are quite useful in debugging frontend and backend later on :
+DON'T WORK ON ```Master``` BRANCH ON YOUR PC. To push change, don't ```git push``` on the master branch on your computer, as when you ```git push```, it will also merge with master branch on Github and may cause file and error conflict for others when they also ```git pull``` for latest update.
+
+Work on a seperate branch on your local:
+Create a new seperate branch with ```git checkout -b your-branch-name-here```
+
+When you want to push change from ```your-branch-name-here``` to github, do usual ```git add . ``` , ```git commit -m "msg"``` , and when push do ```git push origin your-branch-name-here``` (origin is the remote repos, which is this github master branch)
+
+Afterward, a pull request will appear on Github, so we can go and compare and check if there are conflicting files or not, then we can decide to merge with master branch here.
+
+<b> To update changes and files from other people push: </b>
+
+```git pull origin your-branch-name-here```
+
+<a href="https://www.youtube.com/watch?v=MnUd31TvBoU">Source</a>
+
+
+
+
+<b> Optional: </b> On Chrome. I think these 2 extension are quite useful in debugging frontend and backend later on :
 
 <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en">Vue.js Chrome extension</a>,  <a href="https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en">JSON formatter (to read JSON easily on web)</a>
 
