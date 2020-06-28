@@ -6,7 +6,7 @@
             <b-container>
 
                 <b-row class="justify-content-md-center label-row">
-                    <label><BIconTextLeft style="margin-right: 5px"></BIconTextLeft>Username:</label>
+                    <label><BIconPersonFill style="margin-right: 5px"></BIconPersonFill>Username:</label>
                 </b-row>
                 <b-row class="justify-content-md-center ">
 

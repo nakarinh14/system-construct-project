@@ -3,7 +3,7 @@
         <b-table striped bordered hover :head-variant="'dark'" :items="courses" :fields="fields">
             <template v-slot:cell(infos)="row">
                 <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-                    {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+                    {{ row.detailsShowing ? 'Hide' : 'Show'}} Details <BIconInfoCircle></BIconInfoCircle>
                 </b-button>
 
             </template>
