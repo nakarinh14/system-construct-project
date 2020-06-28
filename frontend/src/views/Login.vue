@@ -1,39 +1,43 @@
 <template>
-    <div>
-        <b-container>
-            <b-form @submit="login">
+    <div id="form-container">
+        <h1 id="login-title">Login</h1>
+        <b-form @submit="login">
+            <b-container>
 
-            <b-form-group
-                    id="input-group-1"
-                    label="ID:"
-                    label-for="input-1"
-                    class="form-align-self-center"
-            >
-                <b-form-input
-                        id="input-1"
-                        v-model="form.id"
-                        type="text"
-                        required
-                        placeholder="uxxxxxxx or vxxxxxxx"
-                ></b-form-input>
-            </b-form-group>
+                <b-row class="justify-content-md-center label-row">
+                    <label><BIconTextLeft style="margin-right: 5px"></BIconTextLeft>Username:</label>
+                </b-row>
+                <b-row class="justify-content-md-center ">
 
+                    <b-form-input
+                            id="input-1"
+                            v-model="form.id"
+                            type="text"
+                            class="w-25"
+                            required
+                            placeholder="uxxxxxxx or vxxxxxxx"
+                    ></b-form-input>
+                </b-row>
+                <b-row class="justify-content-md-center label-row">
+                    <label><BIconLockFill /> Password:</label>
+                </b-row>
 
-                <b-form-group id="input-group-2" label="Password:" label-for="input-2" class="form-align-self-center">
+                <b-row class="justify-content-md-center">
                     <b-form-input
                             id="input-2"
                             v-model="form.password"
                             type="password"
-                            required
-                    ></b-form-input>
-                </b-form-group>
+                            class="w-25"
+                            required>
 
+                    </b-form-input>
+                </b-row>
+                <b-row class="justify-content-md-center label-row">
+                    <b-button type="submit" variant="primary" >Submit</b-button>
+                </b-row>
 
-
-                <b-button type="submit" variant="primary">Submit</b-button>
-
-            </b-form>
-        </b-container>
+            </b-container>
+        </b-form>
     </div>
 
 </template>
@@ -76,13 +80,23 @@
 
 </script>
 
-<!--<style scoped>-->
-<!--.form-align-self-center {-->
-<!--    div {-->
-<!--        div {-->
-<!--            align-self: center !important;-->
-<!--        }-->
-<!--    }-->
-<!--}-->
+<style scoped>
+    #form-container{
+        margin-top: 180px;
+    }
+    #login-title{
+        margin-bottom: 60px;
+    }
+    .label-row{
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+/*.form-align-self-center{*/
+/*    div {*/
+/*        div {*/
+/*            align-self: center !important;*/
+/*        }*/
+/*    }*/
+/*}*/
 
-<!--</style>-->
+</style>
