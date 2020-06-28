@@ -1,6 +1,7 @@
 <template>
     <div id="form-container">
         <h1 id="login-title">Login</h1>
+
         <b-form @submit="login">
             <b-container>
 
@@ -11,7 +12,7 @@
 
                     <b-form-input
                             id="input-1"
-                            v-model="form.id"
+                            v-model="form.username"
                             type="text"
                             class="w-25"
                             required
@@ -43,12 +44,14 @@
 </template>
 
 <script>
+    import Vue from "vue";
+
     export default {
         name: 'Login',
         data() {
             return {
                 form: {
-                    id: '',
+                    username: '',
                     password: ''
                 },
             }
@@ -56,12 +59,13 @@
         methods: {
             login: function() {
                 // post check
-                this.$session.set("auth", true);
+                Vue.prototype.$session.set("auth", true);
+                // Vue.prototype.$session.set("user_type", "instructor")
                 this.$router.push("/");
                 // const postUrl = "http://localhost:8080/api/auth/login"
                 // this.axios.post(postUrl, {
-                //     username: '',
-                //     password: '',
+                //     username: this.username,
+                //     password: this.password,
                 // })
                 //     .then(response =>{
                 //         if(response.status === 200){
@@ -91,12 +95,5 @@
         margin-top: 30px;
         margin-bottom: 10px;
     }
-/*.form-align-self-center{*/
-/*    div {*/
-/*        div {*/
-/*            align-self: center !important;*/
-/*        }*/
-/*    }*/
-/*}*/
 
 </style>

@@ -22,11 +22,11 @@
 
     const apiURL = "http://localhost:8080/api/courses";
     export default {
-        name: 'Courselist',
+        name: 'InstructorDashboard',
         data() {
             return {
                 fields: ["courseId","courseName","division","section",
-                    "instructorName","capacity","registered","seatAvailable","time","infos"],
+                    "capacity","registered","seatAvailable","time","infos"],
                 courses: [],
             }
         },
@@ -35,9 +35,9 @@
                 .then(response => {
                     this.courses = response.data;
                 })
-                    .catch(()=> {
-                        console.log("REST call failed.");
-                    })
+                .catch(()=> {
+                    console.log("REST call failed.");
+                })
         }
     };
 </script>
