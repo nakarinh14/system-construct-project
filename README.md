@@ -25,7 +25,7 @@ I have asked Aj., he said we will need to configure and deploy Vue frontend in a
 
 ## To work on project seperately:
 
-DON'T WORK ON ```Master``` BRANCH ON YOUR PC. To push change, don't ```git push``` on the master branch on your computer, as when you ```git push```, it will also merge with master branch on Github and may cause file and error conflict for others when they also ```git pull``` for latest update.
+<b> DON'T WORK ON ```Master``` BRANCH ON YOUR PC. </b> To push change, don't ```git push``` on the master branch on your computer, as when you ```git push```, it will also merge with master branch on Github and may cause file and error conflict for others when they also ```git pull``` for latest update.
 
 Work on a seperate branch on your local:
 Create a new seperate branch with ```git checkout -b your-branch-name-here```
@@ -33,6 +33,8 @@ Create a new seperate branch with ```git checkout -b your-branch-name-here```
 When you want to push change from ```your-branch-name-here``` to github, do usual ```git add . ``` , ```git commit -m "msg"``` , and when push do ```git push origin your-branch-name-here``` (origin is the remote repos, which is this github master branch)
 
 Afterward, a pull request will appear on Github, so we can go and compare and check if there are conflicting files or not, then we can decide to merge with master branch here.
+
+<a href="https://www.youtube.com/watch?v=MnUd31TvBoU">Source</a>
 
 ## To update changes and files from other people push:
 
