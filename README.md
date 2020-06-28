@@ -30,7 +30,7 @@ I have asked Aj., he said we will need to configure and deploy Vue frontend in a
 Work on a seperate branch on your local:
 Create a new seperate branch with ```git checkout -b your-branch-name-here```. This would automatically switch from your branch ```master``` to ```your-branch-name``` as shown from your Terminal/Shell
 
-When you want to push change from ```your-branch-name-here``` to github, do the usual ```git add . ``` , ```git commit -m "msg"``` , and when push do ```git push origin your-branch-name-here``` (```origin``` is this Github ```master``` branch)
+When you want to push change from ```your-branch-name-here``` to github, do the usual ```git add . ``` , ```git commit -m "msg"``` in your branch, and when push run ```git push origin your-branch-name-here``` (```origin``` is this Github ```master``` branch)
 
 Afterward, a pull request will appear on Github, so we can go and compare and check if there are conflicting files or not, then we can decide to merge with master branch here.
 
