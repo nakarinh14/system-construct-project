@@ -1,10 +1,10 @@
-package project.sso.sso.dataBase;
+package project.sso.sso.query;
 
 import java.sql.*;
 
 public abstract class MySQLDatabase<IDtype> {
     public static final String jdbcDriverStr = "com.mysql.cj.jdbc.Driver";
-    private static final String jdbcURL = "jdbc:mysql://localhost:3306/construct_project?" + "user=root&password=A1234567!";
+    private static final String jdbcURL = "jdbc:mysql://localhost:3306/construct_project?" + "user=root&password=nakarinh198799";
 
     protected Connection connection;
     protected Statement statement;

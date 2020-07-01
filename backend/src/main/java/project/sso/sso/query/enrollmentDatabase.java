@@ -1,4 +1,4 @@
-package project.sso.sso.dataBase;
+package project.sso.sso.query;
 
 import java.sql.ResultSet;
 

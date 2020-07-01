@@ -11,8 +11,8 @@ import java.util.List;
 @RestController
 public class CourseListController {
 
-    @GetMapping("/api/courses")
-    public List<Course> getCourses(){
+    @GetMapping("/api/student/courses")
+    public List<Course> getStudentCourses(){
         List<Course> tmp = new ArrayList<>();
         tmp.add(new Course(
                 "101",
