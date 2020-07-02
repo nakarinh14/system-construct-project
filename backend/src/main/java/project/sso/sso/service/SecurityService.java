@@ -39,7 +39,7 @@ public class SecurityService {
             session.setAttribute("username", username);
             Long id = user.getId();
             session.setAttribute("sessionId", id);
-            session.setAttribute("role", user.getRole().getRole());
+            session.setAttribute("role", user.getRole().getRole().toString());
             return true;
         } else {
             return false;
