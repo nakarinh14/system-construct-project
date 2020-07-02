@@ -22,11 +22,11 @@ public class User{
     private String username;
     private String password;
 
-    @OneToOne(mappedBy = "username")
-    private Profile profile;
-
-    @OneToOne(mappedBy = "username")
-    private Role role;
+//    @OneToOne(mappedBy = "username")
+//    private Profile profile;
+//
+//    @OneToOne(mappedBy = "username")
+//    private Role role;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
