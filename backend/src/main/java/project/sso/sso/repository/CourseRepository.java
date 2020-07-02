@@ -6,4 +6,5 @@ import project.sso.sso.entity.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
+
 }
