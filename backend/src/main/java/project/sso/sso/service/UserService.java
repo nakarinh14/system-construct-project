@@ -20,7 +20,7 @@ public class UserService {
         if(user == null){
             return userPostForm;
         } else if(user.getPassword().equals(password)) {
-            return new UserPostForm("success","");
+            return new UserPostForm("success",user.getRole().getRole());
         } else {
             return new UserPostForm("failed", "");
         }
