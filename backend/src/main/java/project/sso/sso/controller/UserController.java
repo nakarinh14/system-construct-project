@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.sso.sso.entity.Course;
+import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
 import project.sso.sso.repository.CourseRepository;
 import project.sso.sso.repository.UserRepository;
@@ -37,6 +38,9 @@ public class UserController {
         user.setUsername("test");
         user.setPassword("test");
         user.setCourses(t);
+//        Role role = new Role();
+//        role.setRole("Admin");
+//        user.setRole(role);
         User savedUser = userRepository.save(user);
 
         return savedUser;

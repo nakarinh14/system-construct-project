@@ -22,6 +22,6 @@ public class Profile {
     String lastname;
 
     @OneToOne
-    private User username;
+    private User user;
 
 }
