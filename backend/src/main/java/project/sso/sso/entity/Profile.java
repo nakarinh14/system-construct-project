@@ -1,6 +1,7 @@
 package project.sso.sso.entity;
 
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,13 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private Long id;
+
+    @NotNull
     String firstname;
+
+    @NotNull
     String lastname;
 
     @OneToOne

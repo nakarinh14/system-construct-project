@@ -1,5 +1,6 @@
 package project.sso.sso.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,6 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "role")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,9 +19,11 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private RoleType role;
 
 }
