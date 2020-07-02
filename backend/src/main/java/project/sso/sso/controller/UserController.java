@@ -9,7 +9,6 @@ import project.sso.sso.repository.CourseRepository;
 import project.sso.sso.repository.UserRepository;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -20,8 +19,6 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private CourseRepository courseRepository;
-
-
 
     @GetMapping("/api/student/test")
     public User addUser() {
