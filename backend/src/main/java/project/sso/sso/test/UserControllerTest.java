@@ -1,10 +1,9 @@
-package project.sso.sso.controller;
+package project.sso.sso.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.sso.sso.entity.Course;
-import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
 import project.sso.sso.repository.CourseRepository;
 import project.sso.sso.repository.UserRepository;
@@ -14,7 +13,7 @@ import java.util.Set;
 
 
 @RestController
-public class UserController {
+public class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
