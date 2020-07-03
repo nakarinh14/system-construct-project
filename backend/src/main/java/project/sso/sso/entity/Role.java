@@ -22,7 +22,6 @@ public class Role {
     @NotNull
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     @NotNull
     private RoleType role;
 
