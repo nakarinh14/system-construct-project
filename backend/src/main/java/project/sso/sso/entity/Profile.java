@@ -22,10 +22,10 @@ public class Profile {
     private Long id;
 
     @NotNull
-    String firstname;
+    private String firstname;
 
     @NotNull
-    String lastname;
+    private String lastname;
 
     @OneToOne
     private User user;

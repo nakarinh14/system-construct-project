@@ -20,7 +20,7 @@
 
 <script>
 
-    const apiURL = "http://localhost:8080/api/courses";
+    const apiURL = "http://localhost:8080/api/student/course";
     export default {
         name: 'InstructorDashboard',
         data() {
