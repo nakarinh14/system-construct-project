@@ -16,7 +16,7 @@ public class CourseService {
         return courseRepository.findCoursesByInstructorId(id);
     }
 
-    public boolean updateCourseByInfo(String courseId, String info){
+    public boolean updateCourseByInfo(Long courseId, String info){
         Course course = courseRepository.findCourseById(courseId);
         if(course != null){
             course.setInfo(info); // This will update info, and update, not append row

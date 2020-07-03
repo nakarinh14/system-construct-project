@@ -26,4 +26,7 @@ public class Role {
     @NotNull
     private RoleType role;
 
+    @OneToOne
+    private User user;
+
 }

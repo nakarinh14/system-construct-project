@@ -34,7 +34,7 @@ public class CourseController {
     }
 
     @PostMapping("/api/instructor/update")
-    public String updateCourseInfo(@RequestParam String courseId, @RequestParam String info){
+    public String updateCourseInfo(@RequestParam Long courseId, @RequestParam String info){
         boolean cond = courseService.updateCourseByInfo(courseId, info);
         return cond ? "success" : "failed";
     }

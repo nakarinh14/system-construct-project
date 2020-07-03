@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -27,13 +28,18 @@ public class User{
     @NotNull
     private String password;
 
-    @OneToOne
+    @OneToOne(mappedBy = "user")
     private Role role;
 
-    @ElementCollection
-    @CollectionTable(name = "course", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "courses")
-    private Set<Course> courses;
+    @OneToOne(mappedBy = "user")
+    private Profile profile;
 
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(
+            name = "enrollment",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> courses = new HashSet<>();
 
 }

@@ -20,7 +20,7 @@ public class UserControllerTest {
     @Autowired
     private CourseRepository courseRepository;
 
-    @GetMapping("/api/student/test")
+    @GetMapping("/api/test/student/test")
     public User addUser() {
         Set<Course> t = new HashSet<>();
         Course courses = new Course();
