@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
-import project.sso.sso.service.CourseService;
+import project.sso.sso.service.DashboardService;
 import project.sso.sso.service.UserService;
 
 import java.util.Map;
@@ -19,7 +19,7 @@ public class CourseControllerTest {
     @Autowired
     UserService userService;
     @Autowired
-    CourseService courseService;
+    DashboardService dashboardService;
 
     @PostMapping("/api/test/student/course")
     public Set<Course> getStudentCourse(@RequestBody Map<String, Object> payload){
@@ -36,12 +36,12 @@ public class CourseControllerTest {
 
     @PostMapping("/api/test/instructor/course")
     public Set<Course> getInstructorCourse(@RequestParam String instructorId){
-        return courseService.getCourseByInstructor(instructorId);
+        return dashboardService.getCourseByInstructor(instructorId);
     }
 
     @PostMapping("/api/test/instructor/update")
     public String updateCourseInfo(@RequestParam Long courseId, @RequestParam String info){
-        boolean cond = courseService.updateCourseByInfo(courseId, info);
+        boolean cond = dashboardService.updateCourseByInfo(courseId, info);
         return cond ? "success" : "failed";
     }
 

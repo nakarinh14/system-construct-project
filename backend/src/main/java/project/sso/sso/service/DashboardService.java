@@ -4,17 +4,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
+import project.sso.sso.model.DashboardResponse;
 import project.sso.sso.repository.CourseRepository;
 import project.sso.sso.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
-public class CourseService {
+public class DashboardService {
     @Autowired
     CourseRepository courseRepository;
     @Autowired
     UserRepository userRepository;
+
+
+    public DashboardResponse getUserDashboard(String username){
+        User user = userRepository.findByUsername(username);
+        String role = user.getRole().getRole().getPermission();
+        if(role.equals("admin")){
+            return new DashboardResponse(role, courseRepository.findAll());
+        } else {
+            Set<Course> courses = userRepository.findByUsername(username).getCourses();
+            List<Course> parsedCourses = new ArrayList<Course>(courses);
+            return new DashboardResponse(role, parsedCourses);
+        }
+    }
 
     public Set<Course> getCourseByInstructor(String id){
         return courseRepository.findCoursesByInstructorId(id);
@@ -30,25 +46,4 @@ public class CourseService {
         return false;
     }
 
-//    public void addCourse(Long courseId,
-//                          String username,
-//                          String info,
-//                          int capacity,
-//                          int registered,
-//                          int section){
-//        Course course = new Course();
-//
-//        course.setInfo(info);
-//        course.setCapacity(capacity);
-//        course.setRegistered(registered);
-//        course.setSection(section);
-//        course.setInstructorId();
-//        course.set
-//
-//    }
-//
-//    public void addInstructor(Long courseId, ){
-//
-//    }
-//
 }

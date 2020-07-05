@@ -2,6 +2,7 @@ package project.sso.sso.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import project.sso.sso.entity.Course;
 import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
 
