@@ -19,13 +19,10 @@ public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private Long id;
 
-    @NotNull
     private String username;
 
-    @NotNull
     private String password;
 
     @OneToOne(mappedBy = "user")

@@ -21,14 +21,13 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private Long id;
 
     @NotNull
     private String courseId;
 
     @NotNull
-    private String section;
+    private int section;
 
     @NotNull
     private String date;

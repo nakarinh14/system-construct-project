@@ -1,14 +1,18 @@
 package project.sso.sso.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
+import project.sso.sso.model.UserPostForm;
 import project.sso.sso.repository.CourseRepository;
 import project.sso.sso.repository.UserRepository;
+import project.sso.sso.service.CourseService;
+import project.sso.sso.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -16,32 +20,38 @@ import java.util.Set;
 public class UserControllerTest {
 
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CourseRepository courseRepository;
+    private UserService userService;
 
-    @GetMapping("/api/test/student/test")
-    public User addUser() {
-        Set<Course> t = new HashSet<>();
-        Course courses = new Course();
-        courses.setCapacity(10);
-        courses.setDate("10");
-        courses.setInfo("testing");
-        courses.setInstructorId("idk");
-        courses.setRegistered(10);
-        courses.setSection("2");
-        t.add(courses);
-        courseRepository.save(courses);
 
-        User user = new User();
-        user.setUsername("test");
-        user.setPassword("test");
-        user.setCourses(t);
-//        Role role = new Role();
-//        role.setRole("Admin");
-//        user.setRole(role);
-        User savedUser = userRepository.save(user);
+    @PostMapping("/api/test/student/add")
+    public User addUser(@RequestParam String username,
+                        @RequestParam String password,
+                        @RequestParam String firstname,
+                        @RequestParam String lastname){
 
-        return savedUser;
+        return userService.addUser(username, password, firstname, lastname);
+    }
+
+    @PostMapping("/api/test/student/get")
+    public User getUser(@RequestParam String username){
+        return userService.getUser(username);
+    }
+
+    @PostMapping("/api/test/auth")
+    public User authenticate(@RequestBody Map<String, Object> payload, HttpSession session){
+        String username = (String) payload.get("username");
+        String password = (String) payload.get("password");
+
+        User user = userService.authenticate(username,password);
+        if(user != null){
+            session.setAttribute("role", user.getRole().getRole().getPermission());
+            session.setAttribute("username", username);
+        }
+        return user;
+    }
+
+    @PostMapping("/api/test/session")
+    public void authenticate( HttpSession session){
+        System.out.println((String) session.getAttribute("username"));
     }
 }

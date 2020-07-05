@@ -2,8 +2,10 @@ package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.sso.sso.entity.Profile;
 import project.sso.sso.entity.User;
 import project.sso.sso.model.UserPostForm;
+import project.sso.sso.repository.ProfileRepository;
 import project.sso.sso.repository.UserRepository;
 
 @Service
@@ -12,21 +14,39 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public UserPostForm authenticate(String username, String password){
+    @Autowired
+    ProfileRepository profileRepository;
 
-        UserPostForm userPostForm = new UserPostForm();
+
+    public User authenticate(String username, String password){
+
         User user = userRepository.findByUsername(username);
 
-        if(user == null){
-            return userPostForm;
-        } else if(user.getPassword().equals(password)) {
-            return new UserPostForm("success",user.getRole().getRole().getPermission());
-        } else {
-            return new UserPostForm("failed", "");
+        if(user != null){
+            if(user.getPassword().equals(password)) {
+                return user;
+            }
         }
+        return null;
     }
 
     public User getUser(String username){
         return userRepository.findByUsername(username);
+    }
+
+    public User addUser(String username, String password, String firstname, String lastname){
+        User user = new User();
+        Profile profile = new Profile();
+
+        user.setUsername(username);
+        user.setPassword(password);
+        userRepository.save(user);
+
+        profile.setFirstname(firstname);
+        profile.setLastname(lastname);
+        profile.setUser(user);
+        profileRepository.save(profile);
+
+        return getUser(username);
     }
 }

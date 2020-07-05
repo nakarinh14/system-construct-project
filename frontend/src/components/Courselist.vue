@@ -1,5 +1,4 @@
 <template>
-    <form @submit="">
         <b-container fluid>
             <b-table striped bordered hover :head-variant="'dark'" :items="courses" :fields="fields">
                 <template v-slot:cell(infos)="row">
@@ -16,13 +15,13 @@
                 </template>
             </b-table>
         </b-container>
-    </form>
 </template>
 
 
 <script>
+    import axios from 'axios'
+    import Vue from "vue";
 
-    const apiURL = "http://localhost:8080/api/courses";
     export default {
         name: 'Courselist',
         data() {
@@ -33,27 +32,31 @@
                 info: ""
             }
         },
-        methods:{
-          onSubmit(){
-              const postUrl = "http://localhost:8080/api/instructor/update"
-
-              this.axios.post(postUrl, {
-                  username: this.username,
-                  info: this.info,
-              })
-                  .then(response =>{
-                      if(response.status === 200){
-                      }
-                  })
-          }
-        },
+        // methods:{
+        //   onSubmit(){
+        //       const postUrl = "http://localhost:8080/api/instructor/update"
+        //
+        //       this.axios.post(postUrl, {
+        //           username: this.username,
+        //           info: this.info,
+        //       })
+        //           .then(response =>{
+        //               if(response.status === 200){
+        //               }
+        //           })
+        //   }
+        // },
         created() {
-            this.axios.get(apiURL)
+            const apiURL = "http://localhost:8081/api/test/student/course";
+            axios.post(apiURL, {
+                username: Vue.prototype.$session.get("username"),
+                role: Vue.prototype.$session.get("role")
+            })
                 .then(response => {
                     this.courses = response.data;
                 })
                     .catch(()=> {
-                        console.log("REST call failed.");
+                        console.log("Dashboard REST call failed.");
                     })
         }
     };

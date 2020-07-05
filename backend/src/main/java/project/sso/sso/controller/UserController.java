@@ -32,7 +32,7 @@ public class UserController {
         courses.setInfo("testing");
         courses.setInstructorId("idk");
         courses.setRegistered(10);
-        courses.setSection("2");
+//        courses.setSection("2");
         t.add(courses);
         courseRepository.save(courses);
         // Set username and password
