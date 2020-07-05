@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
+import project.sso.sso.model.AuthenticateResponse;
 import project.sso.sso.model.AuthenticationRequest;
 import project.sso.sso.model.AuthenticationResponse;
 import project.sso.sso.repository.RoleRepository;
@@ -28,72 +29,79 @@ public class SecurityService {
     @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
-    private HttpSession session;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private MyUserDetailsService userDetailsService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    public boolean isAuthorized(AuthenticationRequest authenticationRequest) throws Exception {
-        try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            authenticationRequest.getUsername(), authenticationRequest.getPassword()
-                    )
-            );
-            return true;
-        } catch (BadCredentialsException e){
-            throw new Exception("Incorrect username or password", e);
-        }
-    }
-
-    public boolean authenticate(String username, String password) {
+    public boolean authenticate(AuthenticationRequest authenticationRequest) {
+        String username = authenticationRequest.getUsername();
+        String password = authenticationRequest.getPassword();
         User user = userRepository.findByUsername(username);
-        if (user != null && Objects.equals(user.getPassword(), password)) {
-            session.setAttribute("username", username);
-            session.setAttribute("role", user.getRole().getRole());
-            return true;
-        } else {
-            return false;
-        }
+        return user != null && Objects.equals(user.getPassword(), password);
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) throws Exception {
-        if(isAuthorized(authenticationRequest)) {
-            final UserDetails USER_DETAILS = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    public boolean isAuthorized(HttpSession session){
+        return session.getAttribute("username") != null;
+    }
 
-            final String JWT = jwtUtil.generateToken(USER_DETAILS);
-
-            return new AuthenticationResponse(JWT);
+    public boolean isAuthorized(HttpSession session, String role){
+        if(isAuthorized(session)){
+            String username = (String) session.getAttribute("username");
+            return getRole(username).equals(role);
         }
-        return new AuthenticationResponse("403");
+        return false;
+    }
+
+    private String getRole(String username){
+        return userRepository.findByUsername(username).getRole().getRole().getPermission();
     }
 
     public Optional<User> getUser(Long id){
         return userRepository.findById(id);
     }
 
-    public User getUser(String username){
-        return userRepository.findByUsername(username);
-    }
-
     public Role getRole(User user){
         return roleRepository.findByUser(user);
     }
 
-    public Role getRole(String username){
-        User user = userRepository.findByUsername(username);
-        return roleRepository.findByUser(user);
-    }
-
-    public void logout() {
+    public void logout(HttpSession session) {
         session.removeAttribute("username");
         session.invalidate();
     }
+
+
+// ================================ JWT Authentication: May not be used... =========================
+// ================================ I realized normal session works too =====================
+
+//
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
+//
+//    @Autowired
+//    private MyUserDetailsService userDetailsService;
+//
+//    @Autowired
+//    private JwtUtil jwtUtil;
+//
+//    public boolean isAuthorized(AuthenticationRequest authenticationRequest) throws Exception {
+//        try{
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            authenticationRequest.getUsername(), authenticationRequest.getPassword()
+//                    )
+//            );
+//            return true;
+//        } catch (BadCredentialsException e){
+//            throw new Exception("Incorrect username or password", e);
+//        }
+//    }
+//
+//    public AuthenticationResponse authenticate_jwt(AuthenticationRequest authenticationRequest) throws Exception {
+//        if(isAuthorized(authenticationRequest)) {
+//            final UserDetails USER_DETAILS = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+//
+//            final String JWT = jwtUtil.generateToken(USER_DETAILS);
+//
+//            return new AuthenticationResponse(JWT);
+//        }
+//        return new AuthenticationResponse("403");
+//    }
+//
+
 }

@@ -6,12 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPostForm {
+@Getter
+@Setter
+public class DashboardInfoRequest {
 
-    String status;
-    String role;
+    private String courseId;
+    private String info;
 }

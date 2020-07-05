@@ -2,18 +2,11 @@ package project.sso.sso.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
-import project.sso.sso.model.UserPostForm;
-import project.sso.sso.repository.CourseRepository;
-import project.sso.sso.repository.UserRepository;
-import project.sso.sso.service.CourseService;
 import project.sso.sso.service.UserService;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 
 @RestController
