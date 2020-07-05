@@ -1,6 +1,7 @@
 package project.sso.sso.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +19,6 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private Long id;
 
     @NotNull
@@ -27,6 +27,7 @@ public class Profile {
     @NotNull
     private String lastname;
 
+    @JsonIgnore
     @OneToOne
     private User user;
 

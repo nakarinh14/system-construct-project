@@ -2,6 +2,7 @@ package project.sso.sso.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import project.sso.sso.entity.Course;
@@ -9,6 +10,7 @@ import project.sso.sso.entity.User;
 import project.sso.sso.service.CourseService;
 import project.sso.sso.service.UserService;
 
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -20,8 +22,10 @@ public class CourseControllerTest {
     CourseService courseService;
 
     @PostMapping("/api/test/student/course")
-    public Set<Course> getStudentCourse(@RequestParam String username,
-                                   @RequestParam String role){
+    public Set<Course> getStudentCourse(@RequestBody Map<String, Object> payload){
+        String role = (String) payload.get("role");
+        String username = (String) payload.get("username");
+
         Set<Course> courses = null;
         if(role.equals("student")){
             User user = userService.getUser(username);
@@ -40,4 +44,6 @@ public class CourseControllerTest {
         boolean cond = courseService.updateCourseByInfo(courseId, info);
         return cond ? "success" : "failed";
     }
+
+
 }

@@ -45,6 +45,7 @@
 
 <script>
     import Vue from "vue";
+    import axios from 'axios';
 
     export default {
         name: 'Login',
@@ -57,26 +58,23 @@
             }
         },
         methods: {
-            login: function() {
+            login: function(e) {
                 // post check
-                Vue.prototype.$session.set("auth", true);
-                // Vue.prototype.$session.set("user_type", "instructor")
-                this.$router.push("/");
-                // const postUrl = "http://localhost:8080/api/auth/login"
-                // this.axios.post(postUrl, {
-                //     username: this.username,
-                //     password: this.password,
-                // })
-                //     .then(response =>{
-                //         if(response.status === 200){
-                //             this.$session.start();
-                //             this.$session.set('jwt', response.body.token);
-                //         }
-                //     })
-            },
-            onSubmit: function(evt) {
-                evt.preventDefault()
-                alert(JSON.stringify(this.form))
+                e.preventDefault();
+                const postUrl = "http://localhost:8081/api/test/auth"
+                axios.post(postUrl, {
+                    username: this.form.username,
+                    password: this.form.password,
+                })
+                    .then(response =>{
+                        Vue.prototype.$session.set("role", response.data.role);
+                        Vue.prototype.$session.set("username", this.form.username);
+                        Vue.prototype.$session.set("auth", true);
+                        this.$router.push("/");
+                    })
+                        .catch(() => {
+                            console.log("Login REST called failed");
+                        })
             }
         }
     }
