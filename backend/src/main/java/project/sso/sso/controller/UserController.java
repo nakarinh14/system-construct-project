@@ -30,7 +30,6 @@ public class UserController {
         courses.setCapacity(10);
         courses.setDate("10");
         courses.setInfo("testing");
-        courses.setInstructorId("idk");
         courses.setRegistered(10);
 //        courses.setSection("2");
         t.add(courses);

@@ -31,6 +31,14 @@ public class User{
     @OneToOne(mappedBy = "user")
     private Profile profile;
 
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(
+            name="join_instructor_teacher",
+            joinColumns = @JoinColumn(name="instructor_id"),
+            inverseJoinColumns=@JoinColumn(name="course_id")
+    )
+    private Set<Course> courseTeached = new HashSet<>();
+
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "enrollment",
