@@ -10,6 +10,7 @@ import project.sso.sso.entity.User;
 import project.sso.sso.service.DashboardService;
 import project.sso.sso.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class CourseControllerTest {
     DashboardService dashboardService;
 
     @PostMapping("/api/test/student/course")
-    public Set<Course> getStudentCourse(@RequestBody Map<String, Object> payload){
+    public Set<Course> getStudentCourse(@RequestBody Map<String, Object> payload, HttpSession session){
         String role = (String) payload.get("role");
         String username = (String) payload.get("username");
 
@@ -39,11 +40,11 @@ public class CourseControllerTest {
         return dashboardService.getCourseByInstructor(instructorId);
     }
 
-    @PostMapping("/api/test/instructor/update")
-    public String updateCourseInfo(@RequestParam Long courseId, @RequestParam String info){
-        boolean cond = dashboardService.updateCourseByInfo(courseId, info);
-        return cond ? "success" : "failed";
-    }
+//    @PostMapping("/api/test/instructor/update")
+//    public String updateCourseInfo(@RequestParam Long courseId, @RequestParam String info){
+//        boolean cond = dashboardService.updateCourseByInfo(courseId, info);
+//        return cond ? "success" : "failed";
+//    }
 
 
 }
