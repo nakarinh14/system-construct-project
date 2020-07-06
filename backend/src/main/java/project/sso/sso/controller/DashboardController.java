@@ -2,6 +2,7 @@ package project.sso.sso.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import project.sso.sso.model.AuthenticateResponse;
 import project.sso.sso.model.DashboardInfoRequest;
 import project.sso.sso.model.DashboardResponse;
 import project.sso.sso.service.DashboardService;
@@ -35,13 +36,17 @@ public class DashboardController {
     }
 
     @PostMapping("/api/dashboard/update")
-    public void updateDashboard(@RequestBody DashboardInfoRequest dashboardRequest, HttpSession session){
+    public AuthenticateResponse updateDashboard(@RequestBody DashboardInfoRequest dashboardRequest, HttpSession session){
         if(securityService.isAuthorized(session,"instructor")){
             // Update info with function from DashboardService with DashboardInfoRequest
+            if(dashboardService.updateCourseByInfo(dashboardRequest)){
+                return new AuthenticateResponse("success");
+            }
         }
+        return new AuthenticateResponse("failed");
     }
 
-// ==================== Decide to combine into one ==========================
+// =========== Decide to combine instructor/student into one with /api/dashboard =============
 
 //    // Return all course for student, if the session username belongs to student
 //    @PostMapping("/api/dashboard/student")
@@ -57,11 +62,5 @@ public class DashboardController {
 //    @PostMapping("/api/dashboard/instructor")
 //    public Set<Course> getInstructorCourse(@RequestParam String instructorId){
 //        return dashboardService.getCourseByInstructor(instructorId);
-//    }
-//    // Update the given course for instructor, if the session username belongs to student
-//    @PostMapping("/api/dashboard/update")
-//    public String updateCourseInfo(@RequestParam Long courseId, @RequestParam String info){
-//        boolean cond = dashboardService.updateCourseByInfo(courseId, info);
-//        return cond ? "success" : "failed";
 //    }
 }

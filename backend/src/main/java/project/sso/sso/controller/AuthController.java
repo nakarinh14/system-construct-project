@@ -25,7 +25,7 @@ public class AuthController {
     public AuthenticateResponse doLogin(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
         if (securityService.authenticate(authenticationRequest)) {
             session.setAttribute("username", authenticationRequest.getUsername());
-            return new AuthenticateResponse("sucess");
+            return new AuthenticateResponse("success");
         } else {
             return new AuthenticateResponse("failed");
         }
