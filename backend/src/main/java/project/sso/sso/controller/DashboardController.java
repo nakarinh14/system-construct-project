@@ -25,7 +25,7 @@ public class DashboardController {
 
     // Replace all dashboard into one response {role:..., course:...}, to be validate at frontend again.
 
-    @PostMapping("/api/dashboard")
+    @GetMapping("/api/dashboard")
     public DashboardResponse getDashboard(HttpSession session){
         if(securityService.isAuthorized(session)){
             return dashboardService.getUserDashboard((String) session.getAttribute("username"));

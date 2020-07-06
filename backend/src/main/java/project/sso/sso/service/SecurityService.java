@@ -1,10 +1,10 @@
 package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.BadCredentialsException;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
@@ -13,8 +13,6 @@ import project.sso.sso.model.AuthenticationRequest;
 import project.sso.sso.model.AuthenticationResponse;
 import project.sso.sso.repository.RoleRepository;
 import project.sso.sso.repository.UserRepository;
-import project.sso.sso.security.JwtUtil;
-import project.sso.sso.security.MyUserDetailsService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Objects;

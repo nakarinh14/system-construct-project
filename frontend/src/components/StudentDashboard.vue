@@ -23,41 +23,15 @@
     import Vue from "vue";
 
     export default {
-        name: 'Courselist',
+        name: 'StudentDashboard',
+        props: ['course'],
         data() {
             return {
                 fields: ["courseId","courseName","division","section",
                     "instructorName","capacity","registered","seatAvailable","time","infos"],
-                courses: [],
+                courses: this.course,
                 info: ""
             }
-        },
-        // methods:{
-        //   onSubmit(){
-        //       const postUrl = "http://localhost:8080/api/instructor/update"
-        //
-        //       this.axios.post(postUrl, {
-        //           username: this.username,
-        //           info: this.info,
-        //       })
-        //           .then(response =>{
-        //               if(response.status === 200){
-        //               }
-        //           })
-        //   }
-        // },
-        created() {
-            const apiURL = "http://localhost:8081/api/test/student/course";
-            axios.post(apiURL, {
-                username: Vue.prototype.$session.get("username"),
-                role: Vue.prototype.$session.get("role")
-            })
-                .then(response => {
-                    this.courses = response.data;
-                })
-                    .catch(()=> {
-                        console.log("Dashboard REST call failed.");
-                    })
         }
     };
 </script>
