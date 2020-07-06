@@ -19,21 +19,28 @@ public class DashboardService {
     @Autowired
     UserRepository userRepository;
 
-
     public DashboardResponse getUserDashboard(String username){
         User user = userRepository.findByUsername(username);
         String role = user.getRole().getRole().getPermission();
-        if(role.equals("admin")){
-            return new DashboardResponse(role, courseRepository.findAll());
-        } else {
-            Set<Course> courses = userRepository.findByUsername(username).getCourses();
-            List<Course> parsedCourses = new ArrayList<Course>(courses);
-            return new DashboardResponse(role, parsedCourses);
+        switch(role){
+            case "admin":
+                return new DashboardResponse(role, courseRepository.findAll());
+            case "instructor":
+                Set<Course> coursesTeaches = userRepository.findByUsername(username).getCourseTeached();
+                List<Course> parsedCoursesTeaches = new ArrayList<Course>(coursesTeaches);
+                return new DashboardResponse(role, parsedCoursesTeaches);
+            case "student":
+                Set<Course> courses = userRepository.findByUsername(username).getCourses();
+                List<Course> parsedCourses = new ArrayList<Course>(courses);
+                return new DashboardResponse(role, parsedCourses);
+            default:
+                return new DashboardResponse();
         }
     }
 
-    public Set<Course> getCourseByInstructor(String id){
-        return courseRepository.findCoursesByInstructorId(id);
+    public Set<Course> getCourseByInstructor(String username){
+
+        return userRepository.findByUsername(username).getCourseTeached();
     }
 
     public boolean updateCourseByInfo(Long courseId, String info){
