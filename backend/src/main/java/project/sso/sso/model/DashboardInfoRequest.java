@@ -12,6 +12,6 @@ import lombok.Setter;
 @Setter
 public class DashboardInfoRequest {
 
-    private String courseId;
+    private Long courseId;
     private String info;
 }
