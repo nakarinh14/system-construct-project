@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.sso.sso.entity.Course;
 
 import java.util.List;
-import java.util.Set;
 
 
 @AllArgsConstructor
@@ -16,5 +14,5 @@ import java.util.Set;
 @Getter
 public class DashboardResponse {
     private String role;
-    private List<Course> courses;
+    private List<FormattedCourse> courses;
 }

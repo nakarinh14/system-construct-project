@@ -42,8 +42,8 @@
 </template>
 
 <script>
-    import Vue from "vue";
     import axios from 'axios';
+    import Vue from 'vue'
 
     export default {
         name: 'Login',
@@ -72,9 +72,12 @@
                 axios.post(postUrl, {
                     username: this.form.username,
                     password: this.form.password,
-                })
+                }, {withCredentials: true})
                     .then(response =>{
                         if(response.data.status === "success") {
+                            this.$cookies.set('username',response.data.username);
+                            this.$cookies.set('firstname',response.data.firstname);
+                            this.$cookies.set('lastname',response.data.lastname);
                             this.$router.push("/");
                         } else{
                             this.validateTrigger(false, "Authentication failed. Please check username and password.");

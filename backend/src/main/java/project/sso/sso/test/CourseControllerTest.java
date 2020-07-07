@@ -35,10 +35,10 @@ public class CourseControllerTest {
         return courses;
     }
 
-    @PostMapping("/api/test/instructor/course")
-    public Set<Course> getInstructorCourse(@RequestParam String instructorId){
-        return dashboardService.getCourseByInstructor(instructorId);
-    }
+//    @PostMapping("/api/test/instructor/course")
+//    public Set<Course> getInstructorCourse(@RequestParam String instructorId){
+//        return dashboardService.getCourseByInstructor(instructorId);
+//    }
 
 //    @PostMapping("/api/test/instructor/update")
 //    public String updateCourseInfo(@RequestParam Long courseId, @RequestParam String info){

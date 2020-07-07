@@ -1,14 +1,10 @@
 package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.BadCredentialsException;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import project.sso.sso.entity.Profile;
 import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
-import project.sso.sso.model.AuthenticateResponse;
 import project.sso.sso.model.AuthenticationRequest;
 import project.sso.sso.model.AuthenticationResponse;
 import project.sso.sso.repository.RoleRepository;
@@ -27,11 +23,20 @@ public class SecurityService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public boolean authenticate(AuthenticationRequest authenticationRequest) {
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
         String username = authenticationRequest.getUsername();
         String password = authenticationRequest.getPassword();
         User user = userRepository.findByUsername(username);
-        return user != null && Objects.equals(user.getPassword(), password);
+        if(user != null && Objects.equals(user.getPassword(), password)){
+            Profile profile = user.getProfile();
+            AuthenticationResponse response = new AuthenticationResponse();
+            response.setStatus("success");
+            response.setUsername(username);
+            response.setFirstname(profile.getFirstname());
+            response.setLastname(profile.getLastname());
+            return response;
+        }
+        return new AuthenticationResponse("failed",null,null,null);
     }
 
     public boolean isAuthorized(HttpSession session){

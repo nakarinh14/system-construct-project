@@ -13,22 +13,22 @@
                         <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
                     </b-card>
                 </template>
+                <template v-slot:cell(seatAvailable)="row">
+                    {{row.item.capacity - row.item.registered}}
+                </template>
             </b-table>
         </b-container>
 </template>
 
 
 <script>
-    import axios from 'axios'
-    import Vue from "vue";
-
     export default {
         name: 'StudentDashboard',
         props: ['course'],
         data() {
             return {
                 fields: ["courseId","courseName","division","section",
-                    "instructorName","capacity","registered","seatAvailable","time","infos"],
+                    "instructorName","capacity","registered","seatAvailable","date","infos"],
                 courses: this.course,
                 info: ""
             }

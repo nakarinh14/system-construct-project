@@ -27,6 +27,8 @@ public class Profile {
     @NotNull
     private String lastname;
 
+    private String title;
+
     @JsonIgnore
     @OneToOne
     private User user;

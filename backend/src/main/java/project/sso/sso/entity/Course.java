@@ -26,6 +26,10 @@ public class Course {
     @NotNull
     private String courseId;  // ICCS101, etc.
 
+    private String courseName;
+
+    private String division;
+
     @NotNull
     private int section; // Section 1,2,3..
 
@@ -37,14 +41,16 @@ public class Course {
 
     private int registered;
 
+    private Long instructorId;
+
     @ManyToOne
     @JoinTable(
-            name = "join_instructor_course",
-            inverseJoinColumns = @JoinColumn(name="instructor_id"),
+            name = "join_term_course",
+            inverseJoinColumns = @JoinColumn(name="term_id"),
             joinColumns = @JoinColumn(name = "course_id")
 
     )
-    private User instructorId;
+    private Term term;
 
     private String info;
 

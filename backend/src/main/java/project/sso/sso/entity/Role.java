@@ -1,5 +1,6 @@
 package project.sso.sso.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Role {
     @NotNull
     private RoleType role;
 
+    @JsonIgnore
     @OneToOne
     private User user;
 
