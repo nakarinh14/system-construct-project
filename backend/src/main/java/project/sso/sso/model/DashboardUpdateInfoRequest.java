@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DashboardInfoRequest {
+public class DashboardUpdateInfoRequest {
 
     private Long courseId;
     private String info;

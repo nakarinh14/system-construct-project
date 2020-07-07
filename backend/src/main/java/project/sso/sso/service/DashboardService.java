@@ -3,18 +3,17 @@ package project.sso.sso.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.Course;
+import project.sso.sso.entity.Term;
 import project.sso.sso.entity.User;
-import project.sso.sso.model.DashboardInfoRequest;
-import project.sso.sso.model.DashboardResponse;
+import project.sso.sso.model.*;
 import project.sso.sso.repository.CourseRepository;
 import project.sso.sso.repository.ProfileRepository;
+import project.sso.sso.repository.TermRepository;
 import project.sso.sso.repository.UserRepository;
 import project.sso.sso.utils.ParseCourse;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class DashboardService {
@@ -25,35 +24,66 @@ public class DashboardService {
     @Autowired
     ProfileRepository profileRepository;
     @Autowired
+    TermRepository termRepository;
+    @Autowired
     ParseCourse parseCourse;
 
-    public DashboardResponse getUserDashboard(String username){
+
+    public DashboardResponse getUserDashboard(DashboardRequest dashboardRequest, String username){
         User user = userRepository.findByUsername(username);
-        String role = user.getRole().getRole().getPermission();
+        String role = userRepository.getRoleOfUsername(username).toLowerCase();
+        Long termId = dashboardRequest.getTermId() != null ? dashboardRequest.getTermId() : termRepository.getCurrentTermId();
         List<Course> courses = null;
         switch(role){
             case "admin":
+                System.out.println("Got in admin");
                 courses = courseRepository.findAll();
                 break;
             case "instructor":
-                courses = courseRepository.findCoursesByInstructorId(user.getId());
+                System.out.println("Got in instructor");
+                courses = courseRepository.findCoursesFromInstructorAndTerm(user.getId(), termId);
                 break;
             case "student":
-                Set<Course> courseLearn = userRepository.findByUsername(username).getCourses();
-                courses = new ArrayList<>(courseLearn);
+                System.out.println("Got in student");
+                courses = courseRepository.findCoursesFromStudentAndTerm(username, termId);
+                System.out.println(courses.size());
                 break;
         }
+
+        Term currentTerm = termRepository.findById(termId).get();
         return new DashboardResponse(
                 role,
-                parseCourse.parseCourse(courses, userRepository, profileRepository)
+                parseCourse.parseCourse(courses, userRepository, profileRepository),
+                termRepository.findAll(),
+                currentTerm
         );
     }
+
+
+    public Long getLatestTermId(){
+        return termRepository.getCurrentTermId();
+    }
+//
+//    private List<Course> filterDashboard(List<Course> courses, Long term_id){
+//        // If anyone find better efficient method, please do.
+//        // Dont wanna use too much for loop.
+//        if(term_id != null){ // term_id is null where all term is requested.
+//            List<Course> filteredCourses = new ArrayList<>();
+//            for(Course course : courses){
+//                if(course.getTerm().getId().equals(term_id)) {
+//                    filteredCourses.add(course);
+//                }
+//            }
+//            return filteredCourses;
+//        }
+//        return courses;
+//    }
 
 //    public Set<Course> getCourseByInstructor(String username){
 //        return courseRepository.findCoursesByInstructorId(user.getId());
 //    }
 
-    public boolean updateCourseByInfo(HttpSession session, DashboardInfoRequest dashboardRequest){
+    public boolean updateCourseByInfo(HttpSession session, DashboardUpdateInfoRequest dashboardRequest){
         Course course = courseRepository.findCourseById(dashboardRequest.getCourseId());
         Long userId = userRepository.findByUsername((String) session.getAttribute("username")).getId();
         if(course != null){

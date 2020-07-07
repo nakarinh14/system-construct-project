@@ -1,6 +1,7 @@
 package project.sso.sso.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.Role;
@@ -17,6 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
      boolean existsByUsername(String username);
 
-     List<User> findByRole(Role role);
+     @Query("SELECT u.role.role FROM User u WHERE u.username = ?1")
+     String getRoleOfUsername(String username);
 
 }

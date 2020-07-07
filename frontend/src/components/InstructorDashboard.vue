@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <b-table striped bordered hover :head-variant="'dark'" :items="courses" :fields="fields">
+        <b-table striped bordered hover :head-variant="'dark'" :items="course" :fields="fields">
             <template v-slot:cell(infos)="row">
                 <b-modal
                         :id="row.item.id+'-modal'"
@@ -34,9 +34,18 @@
         props: ['course'],
         data() {
             return {
-                fields: ["courseId","courseName","division","section",
-                    "capacity","registered","seatAvailable","date","infos"],
-                courses: this.course,
+                fields: [
+                    {key:"courseId", sortable:true},
+                    {key:"courseName", sortable:true},
+                    {key:"division", sortable:true},
+                    {key:"section", sortable:true},
+                    {key:"instructorName", sortable:true},
+                    {key:"capacity", sortable:true},
+                    {key:"registered", sortable:true},
+                    {key:"seatAvailable", sortable: true},
+                    {key:"date"},
+                    {key:"infos", label:"Info"}
+                ],
                 info: ""
             }
         },
@@ -48,6 +57,7 @@
                 this.postInfo(id, updatedText)
             },
             postInfo: function(id, text){
+                // Edit info of course teach by instructor.
                 const apiURL = "http://localhost:8081/api/dashboard/update"
                 axios.post(apiURL, {
                     "info": text,

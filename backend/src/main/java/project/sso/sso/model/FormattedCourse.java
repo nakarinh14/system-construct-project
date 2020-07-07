@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.sso.sso.entity.Term;
 
-import javax.persistence.*;
-
 @Getter
 @Setter
 @AllArgsConstructor
