@@ -7,6 +7,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AuthenticateResponse {
+public class ValidateResponse {
     String status;
 }

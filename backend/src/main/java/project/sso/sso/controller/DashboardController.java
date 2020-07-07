@@ -2,7 +2,7 @@ package project.sso.sso.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import project.sso.sso.model.AuthenticateResponse;
+import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.model.DashboardInfoRequest;
 import project.sso.sso.model.DashboardResponse;
 import project.sso.sso.service.DashboardService;
@@ -36,14 +36,14 @@ public class DashboardController {
     }
 
     @PostMapping("/api/dashboard/update")
-    public AuthenticateResponse updateDashboard(@RequestBody DashboardInfoRequest dashboardRequest, HttpSession session){
+    public ValidateResponse updateDashboard(@RequestBody DashboardInfoRequest dashboardRequest, HttpSession session){
         if(securityService.isAuthorized(session,"instructor")){
             // Update info with function from DashboardService with DashboardInfoRequest
-            if(dashboardService.updateCourseByInfo(dashboardRequest)){
-                return new AuthenticateResponse("success");
+            if(dashboardService.updateCourseByInfo(session, dashboardRequest)){
+                return new ValidateResponse("success");
             }
         }
-        return new AuthenticateResponse("failed");
+        return new ValidateResponse("failed");
     }
 
 // =========== Decide to combine instructor/student into one with /api/dashboard =============

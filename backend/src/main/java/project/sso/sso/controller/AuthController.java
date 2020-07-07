@@ -2,12 +2,10 @@ package project.sso.sso.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import project.sso.sso.model.AuthenticateResponse;
-import project.sso.sso.model.AuthenticationRequest;
 import project.sso.sso.model.AuthenticationResponse;
+import project.sso.sso.model.ValidateResponse;
+import project.sso.sso.model.AuthenticationRequest;
 import project.sso.sso.service.SecurityService;
 
 import javax.servlet.http.HttpSession;
@@ -19,19 +17,25 @@ public class AuthController {
     private SecurityService securityService;
 
     @PostMapping("/api/auth/login")
-    public AuthenticateResponse doLogin(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
-        if (securityService.authenticate(authenticationRequest)) {
+    public AuthenticationResponse doLogin(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
+        AuthenticationResponse response = securityService.authenticate(authenticationRequest);
+        if(response.getStatus().equals("success")){
             session.setAttribute("username", authenticationRequest.getUsername());
-            return new AuthenticateResponse("success");
-        } else {
-            return new AuthenticateResponse("failed");
         }
+        return response;
     }
 
     @PostMapping("/api/auth/logout")
-    public void doLogout(HttpSession session){
+    public ValidateResponse doLogout(HttpSession session){
         session.removeAttribute("username");
         session.invalidate();
+        return new ValidateResponse("success");
+    }
+
+    @GetMapping("/api/auth/validate")
+    public ValidateResponse validateLogin(HttpSession session){
+        String status = securityService.isAuthorized(session) ? "success" : "failed";
+        return new ValidateResponse(status);
     }
 
 }

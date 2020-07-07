@@ -7,8 +7,11 @@ import project.sso.sso.entity.User;
 import project.sso.sso.model.DashboardInfoRequest;
 import project.sso.sso.model.DashboardResponse;
 import project.sso.sso.repository.CourseRepository;
+import project.sso.sso.repository.ProfileRepository;
 import project.sso.sso.repository.UserRepository;
+import project.sso.sso.utils.ParseCourse;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +22,10 @@ public class DashboardService {
     CourseRepository courseRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ProfileRepository profileRepository;
+    @Autowired
+    ParseCourse parseCourse;
 
     public DashboardResponse getUserDashboard(String username){
         User user = userRepository.findByUsername(username);
@@ -27,26 +34,34 @@ public class DashboardService {
         switch(role){
             case "admin":
                 courses = courseRepository.findAll();
+                break;
             case "instructor":
-                Set<Course> coursesTeaches = userRepository.findByUsername(username).getCourseTeached();
-                courses = new ArrayList<Course>(coursesTeaches); // Convert Set<Course> to List<Course>
+                courses = courseRepository.findCoursesByInstructorId(user.getId());
+                break;
             case "student":
                 Set<Course> courseLearn = userRepository.findByUsername(username).getCourses();
-                courses = new ArrayList<Course>(courseLearn); // Convert Set<Course> to List<Course>
+                courses = new ArrayList<>(courseLearn);
+                break;
         }
-        return new DashboardResponse(role, courses);
+        return new DashboardResponse(
+                role,
+                parseCourse.parseCourse(courses, userRepository, profileRepository)
+        );
     }
 
-    public Set<Course> getCourseByInstructor(String username){
-        return userRepository.findByUsername(username).getCourseTeached();
-    }
+//    public Set<Course> getCourseByInstructor(String username){
+//        return courseRepository.findCoursesByInstructorId(user.getId());
+//    }
 
-    public boolean updateCourseByInfo(DashboardInfoRequest dashboardRequest){
+    public boolean updateCourseByInfo(HttpSession session, DashboardInfoRequest dashboardRequest){
         Course course = courseRepository.findCourseById(dashboardRequest.getCourseId());
+        Long userId = userRepository.findByUsername((String) session.getAttribute("username")).getId();
         if(course != null){
-            course.setInfo(dashboardRequest.getInfo()); // This will update info, and update, not append row
-            courseRepository.save(course);
-            return true;
+            if(course.getInstructorId().equals(userId)) {
+                course.setInfo(dashboardRequest.getInfo()); // This will update info, and update, not append row
+                courseRepository.save(course);
+                return true;
+            }
         }
         return false;
     }
