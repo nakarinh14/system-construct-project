@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.sso.sso.entity.Term;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ import java.util.List;
 public class DashboardResponse {
     private String role;
     private List<FormattedCourse> courses;
+    private List<Term> termOptions;
+    private Term requestedTerm;
 }

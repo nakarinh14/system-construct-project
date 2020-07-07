@@ -1,6 +1,6 @@
 <template>
         <b-container fluid>
-            <b-table striped bordered hover :head-variant="'dark'" :items="courses" :fields="fields">
+            <b-table striped bordered hover :head-variant="'dark'" :items="course" :fields="fields">
                 <template v-slot:cell(infos)="row">
                     <b-button size="sm" @click="row.toggleDetails" class="mr-2">
                         {{ row.detailsShowing ? 'Hide' : 'Show'}} Details <BIconInfoCircle></BIconInfoCircle>
@@ -27,9 +27,18 @@
         props: ['course'],
         data() {
             return {
-                fields: ["courseId","courseName","division","section",
-                    "instructorName","capacity","registered","seatAvailable","date","infos"],
-                courses: this.course,
+                fields: [
+                    {key:"courseId", sortable:true},
+                    {key:"courseName", sortable:true},
+                    {key:"division", sortable:true},
+                    {key:"section", sortable:true},
+                    {key:"instructorName", sortable:true},
+                    {key:"capacity", sortable:true},
+                    {key:"registered", sortable:true},
+                    {key:"seatAvailable", sortable: true},
+                    {key:"date"},
+                    {key:"infos", label:"Info"}
+                ],
                 info: ""
             }
         }

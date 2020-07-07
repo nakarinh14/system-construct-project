@@ -2,9 +2,8 @@ package project.sso.sso.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import project.sso.sso.model.ValidateResponse;
-import project.sso.sso.model.DashboardInfoRequest;
-import project.sso.sso.model.DashboardResponse;
+import project.sso.sso.model.*;
+import project.sso.sso.repository.UserRepository;
 import project.sso.sso.service.DashboardService;
 import project.sso.sso.service.SecurityService;
 import project.sso.sso.service.UserService;
@@ -23,12 +22,14 @@ public class DashboardController {
     @Autowired
     DashboardService dashboardService;
 
+    @Autowired
+    UserRepository userRepository;
     // Replace all dashboard into one response {role:..., course:...}, to be validate at frontend again.
 
-    @GetMapping("/api/dashboard")
-    public DashboardResponse getDashboard(HttpSession session){
+    @PostMapping("/api/dashboard")
+    public DashboardResponse getDashboard(@RequestBody DashboardRequest dashboardRequest, HttpSession session){
         if(securityService.isAuthorized(session)){
-            return dashboardService.getUserDashboard((String) session.getAttribute("username"));
+            return dashboardService.getUserDashboard(dashboardRequest, (String) session.getAttribute("username"));
         } else {
             // If not authenticated, return response with empty attributes.
             return new DashboardResponse();
@@ -36,7 +37,7 @@ public class DashboardController {
     }
 
     @PostMapping("/api/dashboard/update")
-    public ValidateResponse updateDashboard(@RequestBody DashboardInfoRequest dashboardRequest, HttpSession session){
+    public ValidateResponse updateDashboard(@RequestBody DashboardUpdateInfoRequest dashboardRequest, HttpSession session){
         if(securityService.isAuthorized(session,"instructor")){
             // Update info with function from DashboardService with DashboardInfoRequest
             if(dashboardService.updateCourseByInfo(session, dashboardRequest)){
@@ -44,6 +45,11 @@ public class DashboardController {
             }
         }
         return new ValidateResponse("failed");
+    }
+
+    @GetMapping("/api/dashboard/latest")
+    public Long getLatest(){
+        return dashboardService.getLatestTermId();
     }
 
 // =========== Decide to combine instructor/student into one with /api/dashboard =============

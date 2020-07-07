@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <b-table striped bordered hover :head-variant="'dark'" :items="courses" :fields="fields">
+        <b-table striped bordered hover :head-variant="'dark'" :items="course" :fields="fields">
             <template v-slot:cell(infos)="row">
                 <b-button size="sm" @click="row.toggleDetails" class="mr-2">
                     {{ row.detailsShowing ? 'Hide' : 'Show'}} Details <BIconInfoCircle></BIconInfoCircle>
@@ -29,7 +29,6 @@
             return {
                 fields: ["courseId","courseName","division","section",
                     "instructorName","capacity","registered","seatAvailable","date","infos"],
-                courses: this.course,
                 info: ""
             }
         }
