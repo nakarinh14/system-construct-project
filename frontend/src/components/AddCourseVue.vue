@@ -1,12 +1,11 @@
 <template>
-    <div>
 
-    </div>
+<div></div>
 </template>
 
 <script>
     export default {
-        name: "Setting"
+        name: "AddCourseVue"
     }
 </script>
 

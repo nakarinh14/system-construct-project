@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <b>{{this.$cookies.get("firstname")}} {{this.$cookies.get("lastname")}}'s Dashboard</b>
-        <h3>{{requested_term.semester}}, {{requested_term.year}}</h3>
+        <h3 v-if="requested_term.semester !== ''">{{requested_term.semester}}, {{requested_term.year}}</h3>
         <b-container fluid>
             <b-row align-h="start">
                 <b-col sm="2">
@@ -10,7 +10,7 @@
             </b-row>
         </b-container>
 
-        <component :is="component_name" :course="course"></component>
+        <component :is="component_name" :course="course" :busy="busy"></component>
     </div>
 </template>
 
@@ -40,11 +40,13 @@
                 },
                 // Dropdown options
                 showed_term: '',
-                options: []
+                options: [],
+                busy: false
             }
         },
         watch:{
             selected_term: function(){
+                this.busy = true;
                 const apiURL = "http://localhost:8081/api/dashboard";
                 axios.post(apiURL, {termId: this.selected_term},
                     {withCredentials: true})
@@ -54,17 +56,20 @@
                             this.requested_term = response.data.requestedTerm;
                         }
                     })
+                this.busy = false;
             }
         },
         created() {
             const apiURL = "http://localhost:8081/api/dashboard";
+            this.busy = true;
             axios.post(apiURL, {termId:null},
             {withCredentials: true})
                 .then(response => {
                     if(response.data.role){
-                        this.course = response.data.courses;
                         this.requested_term = response.data.requestedTerm;
+                        this.course = response.data.courses;
                         this.options = response.data.termOptions.map(x => ({"value":x.id, "text":x.semester+", "+x.year}));
+                        this.selected_term = response.data.requestedTerm.id;
                         switch(response.data.role){
                             case "student":
                                 this.component_name = "StudentDashboard"
@@ -81,6 +86,8 @@
                 .catch(()=> {
                     console.log("Dashboard REST call failed.")
                 })
+            // this.busy = false;
+            this.busy = false;
         }
     }
 </script>

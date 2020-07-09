@@ -1,5 +1,6 @@
 package project.sso.sso.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,9 +24,16 @@ public class User{
 
     private String username;
 
+    @JsonIgnore
     private String password;
 
-    @OneToOne(mappedBy = "user")
+    @ManyToOne
+    @JoinTable(
+            name = "join_user_role",
+            inverseJoinColumns = @JoinColumn(name="role_id"),
+            joinColumns = @JoinColumn(name = "user_id")
+
+    )
     private Role role;
 
     @OneToOne(mappedBy = "user")

@@ -9,6 +9,7 @@ import lombok.Setter;
 import project.sso.sso.misc.RoleType;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -26,7 +27,12 @@ public class Role {
     private RoleType role;
 
     @JsonIgnore
-    @OneToOne
-    private User user;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(
+            name="set_role_user",
+            joinColumns = @JoinColumn(name="role_id"),
+            inverseJoinColumns=@JoinColumn(name="user_id")
+    )
+    private Set<User> user;
 
 }

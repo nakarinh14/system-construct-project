@@ -1,5 +1,7 @@
 <template>
+
     <b-container fluid>
+
         <b-table striped bordered hover :head-variant="'dark'" :items="course" :fields="fields">
             <template v-slot:cell(infos)="row">
                 <b-button size="sm" @click="row.toggleDetails" class="mr-2">

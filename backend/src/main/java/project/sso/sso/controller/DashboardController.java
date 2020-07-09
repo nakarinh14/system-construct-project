@@ -2,6 +2,7 @@ package project.sso.sso.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import project.sso.sso.entity.User;
 import project.sso.sso.model.*;
 import project.sso.sso.repository.UserRepository;
 import project.sso.sso.service.DashboardService;
@@ -9,6 +10,7 @@ import project.sso.sso.service.SecurityService;
 import project.sso.sso.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class DashboardController {
@@ -50,6 +52,11 @@ public class DashboardController {
     @GetMapping("/api/dashboard/latest")
     public Long getLatest(){
         return dashboardService.getLatestTermId();
+    }
+
+    @GetMapping("/api/dashboard/enrolled/{courseId}")
+    public List<User> getEnrolledStudents(@PathVariable Long courseId, HttpSession session){
+        return dashboardService.getStudentsFromCourseId(courseId);
     }
 
 // =========== Decide to combine instructor/student into one with /api/dashboard =============
