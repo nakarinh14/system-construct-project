@@ -21,4 +21,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
      @Query("SELECT u.role.role FROM User u WHERE u.username = ?1")
      String getRoleOfUsername(String username);
 
+
 }

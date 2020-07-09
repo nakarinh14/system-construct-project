@@ -43,7 +43,6 @@
 
 <script>
     import axios from 'axios';
-    import Vue from 'vue'
 
     export default {
         name: 'Login',
@@ -78,6 +77,7 @@
                             this.$cookies.set('username',response.data.username);
                             this.$cookies.set('firstname',response.data.firstname);
                             this.$cookies.set('lastname',response.data.lastname);
+                            this.$cookies.set('role',response.data.role);
                             this.$router.push("/");
                         } else{
                             this.validateTrigger(false, "Authentication failed. Please check username and password.");

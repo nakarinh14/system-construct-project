@@ -5,9 +5,9 @@
                 <b-col></b-col>
                 <b-col>
                     <div id="nav">
-                        <router-link to="/"><BIconHouseFill></BIconHouseFill>Home</router-link>  |
-                        <router-link to="/about">About</router-link>  |
-                        <router-link to="/setting"><BIconGearFill></BIconGearFill>Setting</router-link>
+                        <router-link to="/"><BIconHouseFill class="icon-pad"></BIconHouseFill>Home</router-link>  |
+                        <router-link to="/about"><BIconInfoCircleFill class="icon-pad"></BIconInfoCircleFill>About</router-link>  |
+                        <router-link to="/setting" v-if="this.$cookies.get('role') === 'admin'"><BIconGearFill class="icon-pad"></BIconGearFill>Admin</router-link>
                     </div>
                 </b-col>
                 <b-col><p style="padding:30px">Login as <b>{{this.$cookies.get("username")}}</b> | <b-button @click="logout" size="sm">Logout</b-button></p></b-col>
@@ -32,6 +32,7 @@
                             this.$cookies.remove("username");
                             this.$cookies.remove("firstname");
                             this.$cookies.remove("lastname");
+                            this.$cookies.remove("role");
                             this.$router.push("/login");
                         }
                     })
@@ -66,6 +67,10 @@
 
     #nav a.router-link-exact-active {
         color: #42b983;
+    }
+    .icon-pad {
+        margin-left: 5px;
+        margin-right: 5px;
     }
 
 </style>

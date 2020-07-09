@@ -34,9 +34,10 @@ public class SecurityService {
             response.setUsername(username);
             response.setFirstname(profile.getFirstname());
             response.setLastname(profile.getLastname());
+            response.setRole(user.getRole().getRole().getPermission().toLowerCase());
             return response;
         }
-        return new AuthenticationResponse("failed",null,null,null);
+        return new AuthenticationResponse("failed",null,null,null, null);
     }
 
     public boolean isAuthorized(HttpSession session){

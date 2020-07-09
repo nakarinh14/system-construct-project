@@ -63,7 +63,11 @@ public class DashboardService {
     public Long getLatestTermId(){
         return termRepository.getCurrentTermId();
     }
-//
+
+    public List<User> getStudentsFromCourseId(Long courseId){
+        return courseRepository.findStudentsByCourseIdAndInstructorId(courseId);
+    }
+    //
 //    private List<Course> filterDashboard(List<Course> courses, Long term_id){
 //        // If anyone find better efficient method, please do.
 //        // Dont wanna use too much for loop.

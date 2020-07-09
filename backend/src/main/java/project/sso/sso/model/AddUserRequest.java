@@ -1,6 +1,5 @@
 package project.sso.sso.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,11 +9,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class AuthenticationResponse {
-
-    private String status;
+public class AddUserRequest {
     private String username;
+    private String password;
+    private String role;
     private String firstname;
     private String lastname;
-    private String role;
+    private String title;
 }
