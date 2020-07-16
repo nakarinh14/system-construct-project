@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "../views/Login";
-import Setting from "../views/Setting";
+import Setting from "../components/AdminSettingComponent";
 import axios from 'axios';
 
 Vue.use(VueRouter)

@@ -10,12 +10,12 @@
                 <template v-slot:cell(infos)="row">
                     <b-modal
                             :id="row.item.id+'-modal'"
-                            @ok="handleOk"
+                            size="lg"
                     >
                         <template v-slot:modal-title>
                             {{row.item.courseName}} (Section {{row.item.section}})
                         </template>
-                        {{row.item.info }}
+                        {{row.item.info}}
                     </b-modal>
                     <b-button v-b-modal="row.item.id+'-modal'" size="sm" class="mr-2">
                         Show Info
