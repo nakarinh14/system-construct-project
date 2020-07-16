@@ -9,11 +9,12 @@
                     <b-card
                             class="shadow rounded"
                             style="cursor: pointer;"
-                            header="Add Course"
+                            header="Edit Courses"
                             header-text-variant="white"
                             header-tag="header"
                             header-bg-variant="dark"
-                            title="Add new courses to the database."
+                            title="View and modifies courses."
+                            @click="switch_component('EditCourseVue')"
 
 
                     >
@@ -23,25 +24,12 @@
                     <b-card
                             class="shadow rounded"
                             style="cursor: pointer;"
-                            header="Add User"
+                            header="Edit Users"
                             header-text-variant="white"
                             header-tag="header"
                             header-bg-variant="dark"
-                            title="Add new users to the database."
-                            @click="test"
-
-                    >
-                    </b-card>
-                </b-col>
-                <b-col>
-                    <b-card
-                            class="shadow rounded"
-                            style="cursor: pointer;"
-                            header="Assign Course"
-                            header-text-variant="white"
-                            header-tag="header"
-                            header-bg-variant="dark"
-                            title="Assign course to a user."
+                            title="View and modifies user settings."
+                            @click="switch_component('EditUserVue')"
 
                     >
                     </b-card>
@@ -54,16 +42,14 @@
 
 <script>
 
-    import AddCourseVue from '@/components/AddCourseVue.vue'
-    import AddUserVue from '@/components/AddUserVue.vue';
-    import AssignCourseVue from '@/components/AssignCourseVue.vue';
+    import EditUserVue from '@/components/EditUserVue.vue'
+    import EditCourseVue from '@/components/EditCourseVue.vue';
 
     export default {
         name: "Setting",
         components:{
-            AddCourseVue,
-            AddUserVue,
-            AssignCourseVue
+            EditUserVue,
+            EditCourseVue
         },
         data(){
             return{
@@ -71,8 +57,8 @@
             }
         },
         methods:{
-            test: function(){
-                this.setting_component="AddUserVue"
+            switch_component: function(name){
+                this.setting_component=name
             },
             backMain: function(){
                 this.setting_component = null;
