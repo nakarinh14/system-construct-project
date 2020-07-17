@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-container style="margin-bottom: 20px">
+        <b-container style="margin-bottom: 20px" fluid>
             <b-row cols="3">
                 <b-col  class="d-flex justify-content-start">
                     <div>
@@ -137,13 +137,13 @@
                     {key:"students",label:"Students"},
                     {key:"infos", label:"Info"}
                 ],
-                info: "",
-                students_get: [],
                 students_fields: [
                     {key:"id", sortable:true, label:"User ID"},
                     {key: 'username', sortable: true},
                     {key:'name', sortable: true},
                 ],
+                info: "",
+                students_get: [],
                 search_filter: null,
                 currentPage: 1,
                 perPage: 10,
@@ -151,8 +151,11 @@
                 pageOptions: [10, 25, 40, 100]
             }
         },
-        created(){
-          this.rows = this.course.length;
+        watch:{
+            course: function(){
+                this.rows = this.course.length
+                this.currentPage = 1
+            }
         },
         computed: {
             currentPageCount: function(){
