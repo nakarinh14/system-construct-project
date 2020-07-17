@@ -1,14 +1,13 @@
 package project.sso.sso.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
 import project.sso.sso.model.AddUserRequest;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.service.AdminService;
+import project.sso.sso.service.DashboardService;
 import project.sso.sso.service.SecurityService;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +22,9 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
+    @Autowired
+    DashboardService dashboardService;
+
     @GetMapping("/api/admin/users")
     List<User> getAllUsers(HttpSession httpSession){
         if(securityService.isAuthorized(httpSession, "admin")){
@@ -35,6 +37,14 @@ public class AdminController {
     ValidateResponse addUser(@RequestBody AddUserRequest addUserRequest, HttpSession httpSession){
         if(securityService.isAuthorized(httpSession, "admin")){
             return adminService.addUser(addUserRequest);
+        }
+        return null;
+    }
+
+    @GetMapping("/api/admin/users/course/{id}")
+    List<Course> getAllCoursesByUsers(@PathVariable Long id, HttpSession httpSession){
+        if(securityService.isAuthorized(httpSession, "admin")){
+            return adminService.getAllCourses(id);
         }
         return null;
     }
