@@ -8,9 +8,11 @@
                     <b-form-select v-model="selected_term" :options="options" size="sm" class="mt-3"></b-form-select>
                 </b-col>
             </b-row>
+
         </b-container>
 
-        <component :is="component_name" :course="course" :busy="busy"></component>
+
+        <component :is="component_name" :course="course" :busy="busy" :filter="search_filter"></component>
     </div>
 </template>
 
@@ -40,7 +42,9 @@
                 // Dropdown options
                 showed_term: '',
                 options: [],
-                busy: false
+                busy: false,
+                search_filter: '',
+                currentPage: 0
             }
         },
         watch:{
@@ -98,6 +102,22 @@
     td {
         font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         font-size: 15px;
+    }
+    .search-bar{
+        border-left: none;
+    }
+    .input-group-text {
+        border-right: none;
+        background-color: #ffffff;
+    }
+
+    .icon-bar{
+        display: inline-block;
+        width: 100%;
+    }
+
+    .search-bar:focus{
+        outline: 30px;
     }
 
 </style>

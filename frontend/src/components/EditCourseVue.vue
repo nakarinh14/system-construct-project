@@ -1,6 +1,5 @@
 <template>
     <div>
-        <b-btn v-b-modal="'add-course-modal'"><BIconPlusSquareFill></BIconPlusSquareFill> Add new course</b-btn>
         <b-modal
                 id="add-course-modal"
         >
@@ -10,8 +9,17 @@
             <AddCourseForm />
         </b-modal>
 
+        <b-container>
+            <b-row>
+                <b-btn v-b-modal="'add-course-modal'" class="justify-content-start">
+                    <BIconPlusSquareFill></BIconPlusSquareFill> Add new course
+                </b-btn>
+            </b-row>
+        </b-container>
+
+
         <b-container fluid>
-            <b-table striped bordered hover :head-variant="'dark'" :items="courses" :fields="fields">
+            <b-table striped bordered hover :head-variant="'dark'" :items="courses" :fields="fields" class="align-middle">
                 <template v-slot:cell(infos)="row">
                     <b-modal
                             :id="row.item.id+'-modal'"
