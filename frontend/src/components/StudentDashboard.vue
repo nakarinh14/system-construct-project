@@ -111,6 +111,12 @@
               return `Showing ${minBound} to ${maxBound} entries out of ${this.rows}`
           }
         },
+        watch:{
+            course: function(){
+                this.rows = this.course.length
+                this.currentPage = 1
+            }
+        },
         data() {
             return {
                 fields: [
@@ -133,9 +139,6 @@
                 pageOptions: [10, 25, 40, 100]
 
             }
-        },
-        created() {
-            this.rows = this.course.length
         },
         methods:{
             onFiltered: function(filteredItems) {

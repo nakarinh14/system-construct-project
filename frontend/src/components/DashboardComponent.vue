@@ -93,8 +93,6 @@
                 .catch(()=> {
                     console.log("Dashboard REST call failed.")
                 })
-            // this.busy = false;
-            this.busy = false;
         }
     }
 </script>

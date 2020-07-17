@@ -12,7 +12,12 @@
                         <router-link to="/about"><BIconInfoCircleFill class="icon-pad"></BIconInfoCircleFill>About</router-link>  |
                     </div>
                 </b-col>
-                <b-col><p style="padding:30px">Login as <b>{{this.$cookies.get("username")}}</b> | <b-button @click="logout" size="sm">Logout</b-button></p></b-col>
+                <b-col>
+                    <p style="padding:30px">Logged in as
+                        <b>{{this.$cookies.get("username")}}</b> |
+                        <a href="#" @click.prevent="logout">Logout</a>
+                    </p>
+                </b-col>
             </b-row>
         </b-container>
         <router-view/>
