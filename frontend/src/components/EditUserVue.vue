@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h2>Users Settings</h2>
+        <h3>Users Settings</h3>
 
-        <b-btn v-b-modal="'add-user-modal'"><BIconPersonPlusFill></BIconPersonPlusFill> Add new user</b-btn>
+        <b-btn v-b-modal="'add-user-modal'"><BIconPersonPlusFill></BIconPersonPlusFill> Add User  </b-btn>
         <b-modal
                 id="add-user-modal"
                 @ok="addUser"

@@ -1,8 +1,22 @@
 <template>
     <div>
-        <h1>Admin Setting</h1>
+
+
+        <b-container fluid>
+            <b-row>
+                <b-col>
+                    <b-btn v-if="setting_component !== null" @click="backMain" style="margin-left: 10rem">
+                        <BIconArrowBarLeft></BIconArrowBarLeft> Back
+                    </b-btn>
+                </b-col>
+                <b-col align-self="center" cols="3">
+                    <h1>Admin Setting</h1>
+                </b-col>
+                <b-col></b-col>
+            </b-row>
+        </b-container>
         <hr style="max-width: 60%; margin-top: 40px; margin-bottom: 60px">
-        <b-btn v-if="setting_component !== null" @click="backMain">Go back</b-btn>
+
         <b-container v-if="setting_component === null">
             <b-row>
                 <b-col>
