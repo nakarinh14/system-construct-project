@@ -1,45 +1,11 @@
 <template>
     <div>
-        <b-container style="margin-bottom: 20px" fluid>
-            <b-row cols="3">
-                <b-col  class="d-flex justify-content-start">
-                    <div>
-                        <b>Show</b>
-                        <b-form-select
-                                v-model="perPage"
-                                id="perPageSelect"
-                                size="sm"
-                                :options="pageOptions"
-                                style="width: 65px"
-                        ></b-form-select>
-                        <b>entries</b>
-
-                    </div>
-                </b-col>
-                <b-col>
-                    <b-input-group size="sm">
-                        <b-input-group-prepend>
-                                <span class="input-group-text">
-                                    <BIconSearch class="icon-bar"></BIconSearch>
-                                </span>
-                        </b-input-group-prepend>
-                        <b-form-input
-                                v-model="search_filter"
-                                placeholder="Search Courses"
-                                type="search"
-                                class="search-bar"
-                        >
-                        </b-form-input>
-                    </b-input-group>
-                </b-col>
-            </b-row>
-        </b-container>
         <b-container fluid>
             <b-table striped bordered hover
                      :head-variant="'dark'"
                      :items="course"
                      :fields="course_fields"
-                     :filter="filter"
+                     :filter="searchFilter"
                      :current-page="currentPage"
                      :per-page="perPage"
                      @filtered="onFiltered"
@@ -47,7 +13,7 @@
                 <template v-slot:cell(infos)="row">
                     <b-modal
                             :id="row.item.id+'-modal'"
-                            @ok="handleOk(row.item.id)"
+                            @ok="handleOk(row.item.id, row.item.courseId)"
                             size="lg"
                     >
                         <template v-slot:modal-title>
@@ -72,6 +38,7 @@
                             class="mr-2"
                             v-b-modal="'show-modal-'+row.item.id"
                             :id="'btn-student-'+row.item.id"
+                            variant="primary"
                             @click="showStudents(row.item.id)"><BIconPersonFill />
                     </b-btn>
                     <b-modal
@@ -82,7 +49,7 @@
                             Enrolled Students for {{row.item.courseName}} (Section {{row.item.section}})
                         </template>
                         <!-- Table in show students modal  -->
-                        <b-table bordered :head-variant="'dark'" :items="students_get" :fields="students_fields">
+                        <b-table bordered :head-variant="'dark'" :items="studentsGet" :fields="students_fields">
                             <template v-slot:cell(name)="inner">
                                 {{inner.item.profile.title}} {{inner.item.profile.firstname}} {{inner.item.profile.lastname}}
                             </template>
@@ -94,26 +61,6 @@
                 </template>
             </b-table>
         </b-container>
-        <b-container style="margin-top: 15px" fluid>
-            <b-row>
-                <b-col></b-col>
-                <b-col>
-                    <span>{{currentPageCount}}</span>
-                </b-col>
-                <b-col>
-                    <b-pagination
-                            v-model="currentPage"
-                            :per-page="perPage"
-                            :total-rows="rows"
-                            aria-controls="my-table"
-                            size="sm"
-                            class="justify-content-end"
-                            prev-text="Prev"
-                            next-text="Next"
-                    ></b-pagination>
-                </b-col>
-            </b-row>
-        </b-container>
     </div>
 </template>
 <script>
@@ -121,7 +68,7 @@
 
     export default {
         name: 'InstructorDashboard',
-        props: ['course', 'filter'],
+        props: ['course', 'searchFilter', 'currentPage', 'perPage'],
         data() {
             return {
                 course_fields: [
@@ -143,39 +90,17 @@
                     {key:'name', sortable: true},
                 ],
                 info: "",
-                students_get: [],
-                search_filter: null,
-                currentPage: 1,
-                perPage: 10,
-                rows: 0,
-                pageOptions: [10, 25, 40, 100]
-            }
-        },
-        watch:{
-            course: function(){
-                this.rows = this.course.length
-                this.currentPage = 1
-            }
-        },
-        computed: {
-            currentPageCount: function(){
-                let minBound = 1 + ((this.currentPage-1)*this.perPage)
-                let maxBound = Math.min(this.currentPage * this.perPage, this.rows);
-                if(this.rows === 0){
-                    minBound = 0;
-                    maxBound = 0;
-                }
-                console.log(minBound)
-                return `Showing ${minBound} to ${maxBound} entries out of ${this.rows}`
+                studentsGet: [],
             }
         },
         methods:{
-            handleOk: function(id){
-                const updatedText = this.$refs[id+'-textarea'].$refs.input._value // Access current value from form.
-                console.log(updatedText)
-                this.postInfo(id, updatedText)
+            handleOk: function(id, courseId){
+                // Access current value from textarea form.
+                const updatedText = this.$refs[id+'-textarea'].$refs.input._value
+                // Update info from edited textarea
+                this.postInfo(id, updatedText, courseId)
             },
-            postInfo: function(id, text){
+            postInfo: function(id, text, courseId){
                 // Edit info of course teach by instructor.
                 const apiURL = "http://localhost:8081/api/dashboard/update"
                 axios.post(apiURL, {
@@ -184,34 +109,52 @@
                 },{withCredentials: true})
                     .then(response => {
                         if(response.data.status === "success"){
-                            this.$router.go(0)
+                            this.$emit('fetchData')
                             console.log("post update success")
+                            this.makeToast(courseId, true);
                         } else{
                             console.log("post update not success")
                         }
                     })
                     .catch(()=> {
                         console.log("Dashboard post REST call failed.")
+                        this.makeToast(courseId, false);
                     })
             },
-            showStudents: function(id){
+            showStudents: function(id){ // For viewing students of a particular course when being viewed.
                 console.log(id)
                 const getUrl = "http://localhost:8081/api/dashboard/enrolled/"+id
                 axios.get(getUrl,{withCredentials: true})
                     .then(response => {
-                        this.students_get = response.data
+                        this.studentsGet = response.data
                     })
                     .catch(()=> {
                         console.log("Dashboard post REST call failed.")
                     })
-            },
 
-            onFiltered: function(filteredItems) {
-                // Trigger pagination to update the number of buttons/pages due to filtering
-                this.rows = filteredItems.length
-                this.currentPage = 1
+            },
+            makeToast: function(courseId, success){ // Creating small popup window on top right
+                let title = 'Course Info Updated'
+                let msg = `Course info for ${courseId} is successfully updated.`;
+                let variant = 'success'
+
+                if(!success){
+                    title = 'Server Request Failed'
+                    msg = `Course info for ${courseId} failed to update.`;
+                    variant = 'danger'
+                }
+                this.$bvToast.toast(msg, {
+                    title: title,
+                    variant: variant,
+                    autoHideDelay: 4400,
+                    appendToast: true
+                })
+            },
+            onFiltered: function(filteredItems) { // Trigger pagination to update the number of buttons/pages due to filtering
+                // Emit event back to DashboardComponent to update pagination with filtered length
+                this.$emit('filterUpdated', filteredItems.length)
             }
-        }
+        },
     };
 </script>
 
