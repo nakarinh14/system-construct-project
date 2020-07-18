@@ -1,23 +1,8 @@
 <template>
     <div>
-
-
-        <b-container fluid>
-            <b-row>
-                <b-col>
-                    <b-btn v-if="setting_component !== null" @click="backMain" style="margin-left: 10rem">
-                        <BIconArrowBarLeft></BIconArrowBarLeft> Back
-                    </b-btn>
-                </b-col>
-                <b-col align-self="center" cols="3">
-                    <h1>Admin Setting</h1>
-                </b-col>
-                <b-col></b-col>
-            </b-row>
-        </b-container>
+        <h1>Admin Page</h1>
         <hr style="max-width: 60%; margin-top: 40px; margin-bottom: 60px">
-
-        <b-container v-if="setting_component === null">
+        <b-container>
             <b-row>
                 <b-col>
                     <b-card
@@ -28,9 +13,7 @@
                             header-tag="header"
                             header-bg-variant="dark"
                             title="View and modifies courses."
-                            @click="switch_component('EditCourseVue')"
-
-
+                            @click="switchPage('/admin/courses')"
                     >
                     </b-card>
                 </b-col>
@@ -43,39 +26,27 @@
                             header-tag="header"
                             header-bg-variant="dark"
                             title="View and modifies user settings."
-                            @click="switch_component('EditUserVue')"
+                            @click="switchPage('/admin/users')"
 
                     >
                     </b-card>
                 </b-col>
             </b-row>
         </b-container>
-        <component :is="setting_component"></component>
     </div>
 </template>
 
 <script>
-
-    import EditUserVue from '@/components/EditUserVue.vue'
-    import EditCourseVue from '@/components/EditCourseVue.vue';
-
     export default {
         name: "Setting",
-        components:{
-            EditUserVue,
-            EditCourseVue
-        },
         data(){
             return{
                 setting_component: null
             }
         },
         methods:{
-            switch_component: function(name){
-                this.setting_component=name
-            },
-            backMain: function(){
-                this.setting_component = null;
+            switchPage: function(name){
+                this.$router.push(name)
             }
         }
     }

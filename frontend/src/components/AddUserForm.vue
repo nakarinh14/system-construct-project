@@ -56,6 +56,7 @@
             <b-form-group id="input-group-3" label="Role:" label-for="input-r">
                 <b-form-select
                         id="input-r"
+                        :options="['Student', 'Instructor', 'Admin']"
                         required
                 ></b-form-select>
             </b-form-group>

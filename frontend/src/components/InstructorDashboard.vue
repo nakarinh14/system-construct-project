@@ -3,7 +3,7 @@
         <b-container fluid>
             <b-table striped bordered hover
                      :head-variant="'dark'"
-                     :items="course"
+                     :items="data"
                      :fields="course_fields"
                      :filter="searchFilter"
                      :current-page="currentPage"
@@ -24,8 +24,8 @@
                                 :ref="row.item.id+'-textarea'"
                                 :value="row.item.info"
                                 placeholder="Enter something..."
-                                rows="4"
-                                max-rows="6"
+                                rows="12"
+                                max-rows="12"
                         ></b-form-textarea>
                     </b-modal>
                     <b-button v-b-modal="row.item.id+'-modal'" size="sm" class="mr-2">
@@ -68,7 +68,7 @@
 
     export default {
         name: 'InstructorDashboard',
-        props: ['course', 'searchFilter', 'currentPage', 'perPage'],
+        props: ['data', 'searchFilter', 'currentPage', 'perPage'],
         data() {
             return {
                 course_fields: [

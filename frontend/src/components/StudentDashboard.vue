@@ -4,7 +4,7 @@
             <b-table striped bordered hover
                      :busy="busy"
                      :head-variant="'dark'"
-                     :items="course"
+                     :items="data"
                      :fields="fields"
                      :filter="searchFilter"
                      :current-page="currentPage"
@@ -48,7 +48,7 @@
 <script>
     export default {
         name: 'StudentDashboard',
-        props: ['course', 'busy', 'searchFilter', 'currentPage', 'perPage'],
+        props: ['data', 'busy', 'searchFilter', 'currentPage', 'perPage'],
         data() {
             return {
                 fields: [
