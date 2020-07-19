@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Course {
+public class   Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +34,7 @@ public class Course {
     private int section; // Section 1,2,3..
 
     @NotNull
-    private String date;
+    private String date; //test
 
     @NotNull
     private int capacity;
@@ -48,8 +48,9 @@ public class Course {
             name = "join_term_course",
             inverseJoinColumns = @JoinColumn(name="term_id"),
             joinColumns = @JoinColumn(name = "course_id")
-
     )
+
+
     private Term term;
 
     private String info;
