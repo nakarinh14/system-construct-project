@@ -34,22 +34,23 @@ public class   Course {
     private int section; // Section 1,2,3..
 
     @NotNull
-    private String date;
+    private String date; //test
 
     @NotNull
     private int capacity;
 
     private int registered;
 
-    private Long instructorId; //Testing
+    private Long instructorId;
 
     @ManyToOne
     @JoinTable(
             name = "join_term_course",
             inverseJoinColumns = @JoinColumn(name="term_id"),
             joinColumns = @JoinColumn(name = "course_id")
-
     )
+
+
     private Term term;
 
     private String info;
