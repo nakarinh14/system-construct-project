@@ -8,6 +8,7 @@
             >
                 <b-form-input
                         id="input-id"
+                        v-model="form.id"
                         type="text"
                         required
                         placeholder="Enter Course ID"
@@ -20,6 +21,7 @@
             >
                 <b-form-input
                         id="input-name"
+                        v-model="form.name"
                         type="text"
                         required
                         placeholder="Enter Course Name"
@@ -32,6 +34,7 @@
             >
                 <b-form-input
                         id="input-division"
+                        v-model="form.division"
                         type="text"
                         required
                         placeholder="Enter Course Division"
@@ -44,6 +47,7 @@
             >
                 <b-form-input
                         id="input-section"
+                        v-model="form.section"
                         type="text"
                         required
                         placeholder="Enter Course Section"
@@ -51,6 +55,7 @@
             </b-form-group>
             <b-form-group id="input-group-instructor" label="Instructor:" label-for="input-instructor">
                 <b-form-select
+                        v-model="form.instructor"
                         id="input-instructor"
                         required
                 ></b-form-select>
@@ -62,6 +67,7 @@
             >
                 <b-form-input
                         id="input-capacity"
+                        v-model="form.capacity"
                         type="text"
                         required
                         placeholder="Enter Capacity"
@@ -74,6 +80,7 @@
             >
                 <b-form-input
                         id="input-registered"
+                        v-model="form.registered"
                         type="text"
                         required
                         placeholder="Enter Registered Students"
@@ -86,6 +93,7 @@
             >
                 <b-form-input
                         id="input-date"
+                        v-model="form.date"
                         type="text"
                         required
                         placeholder="Enter Date"
@@ -97,8 +105,50 @@
 
 <script>
 
+    import axios from "axios";
+
     export default {
-        name: "AddCourseForm"
+        name: "AddCourseForm",
+        data(){
+            return{
+                form:{
+                    id: '',
+                    name: '',
+                    division: '',
+                    section: '',
+                    capacity: '',
+                    registered: '',
+                    date: '',
+                    instructor: ''
+                }
+            }
+        },
+        methods:{
+            sendRequest(){
+                const apiURL = "http://localhost:8081/api/admin/courses/add/";
+                axios.post(apiURL, this.form, {withCredentials: true})
+                    .then(response => {
+                        if(response.data.status) {
+                            this.$emit('requestSent', {
+                                variant:'success',
+                                title: 'Add user success',
+                                msg:`New user, ${this.form.username} (${this.form.firstname} ${this.form.lastname}), is successfully added to the database.`})
+                        } else{
+                            this.$emit('requestSent', {
+                                variant:'danger',
+                                title: 'Add user failed',
+                                msg:'The server isn\'t able to add user. Please use a different username'})
+                        }
+                    })
+                    .catch(()=> {
+                        this.$emit('requestSent', {
+                            variant:'warning',
+                            title: 'Server request failed',
+                            msg:'Server may be temporally unavailable. Please try again later.'}
+                        )
+                    })
+            }
+        }
     }
 </script>
 

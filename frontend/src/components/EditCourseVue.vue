@@ -3,10 +3,10 @@
         <h2>Courses Settings</h2>
         <div style="margin-bottom: 30px">
             <a href="#" @click.prevent="showModal" style="padding-right: 15px">
-                <BIconPlusSquareFill></BIconPlusSquareFill> Add new course
+                <BIconPlusSquareFill></BIconPlusSquareFill> Add new term
             </a>
             <a href="#" @click.prevent="showModal" style="padding-left: 15px">
-                <BIconPersonCheckFill></BIconPersonCheckFill> Assign course to student
+                <BIconPlusSquareFill></BIconPlusSquareFill> Add new course
             </a>
         </div>
         <b-modal
