@@ -18,7 +18,7 @@
                     </div>
                 </template>
                 <template v-slot:cell(infos)="row">
-                    <b-modal
+                    <b-modal scrollable
                             :id="row.item.id+'-modal'"
                             size="lg"
                     >

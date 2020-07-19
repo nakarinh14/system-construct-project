@@ -11,13 +11,17 @@
 
         <b-modal
                 ref="add-user-modal"
-                @ok="addUser"
+                @ok="toggleClicked"
 
         >
             <template v-slot:modal-title>
                Add new user
             </template>
-            <AddUserForm />
+            <AddUserForm
+                    :clickedOk="toggle"
+                    v-on:requestSent="requestSent"
+            >
+            </AddUserForm>
         </b-modal>
        <BaseTable
                :data="users"
@@ -36,6 +40,7 @@
         data() {
             return {
                 users: null,
+                toggle: false
             }
         },
         components: {
@@ -55,12 +60,24 @@
                 })
         },
         methods:{
-            addUser: function(){
-                console.log("adding user")
-            },
             showModal() {
                 this.$refs['add-user-modal'].show()
             },
+            toggleClicked(){
+                this.toggle = true;
+            },
+            requestSent(res){
+                this.makeToast(res);
+                this.toggle = false;
+            },
+            makeToast(res){
+                this.$bvToast.toast(res.msg, {
+                    title: res.title,
+                    variant: res.variant,
+                    autoHideDelay: 4400,
+                    appendToast: true
+                })
+            }
         },
     }
 </script>
