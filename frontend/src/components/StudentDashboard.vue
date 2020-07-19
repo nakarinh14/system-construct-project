@@ -1,6 +1,16 @@
 <template>
+    <div>
         <b-container fluid>
-            <b-table striped bordered hover :busy="busy" :head-variant="'dark'" :items="course" :fields="fields">
+            <b-table striped bordered hover
+                     :busy="busy"
+                     :head-variant="'dark'"
+                     :items="data"
+                     :fields="fields"
+                     :filter="searchFilter"
+                     :current-page="currentPage"
+                     :per-page="perPage"
+                     @filtered="onFiltered"
+            >
                 <template v-slot:table-busy>
                     <div class="text-center text-danger my-2">
                         <b-spinner class="align-middle"></b-spinner>
@@ -8,16 +18,20 @@
                     </div>
                 </template>
                 <template v-slot:cell(infos)="row">
-                    <b-modal
+                    <b-modal scrollable
                             :id="row.item.id+'-modal'"
-                            @ok="handleOk"
+                            size="lg"
                     >
                         <template v-slot:modal-title>
                             {{row.item.courseName}} (Section {{row.item.section}})
                         </template>
-                        {{row.item.info }}
+                        {{row.item.info}}
                     </b-modal>
-                    <b-button v-b-modal="row.item.id+'-modal'" size="sm" class="mr-2">
+                    <b-button v-b-modal="row.item.id+'-modal'"
+                              size="sm"
+                              class="mr-2"
+                              variant="primary"
+                    >
                         Show Info
                     </b-button>
                 </template>
@@ -27,17 +41,18 @@
                 </template>
             </b-table>
         </b-container>
+    </div>
 </template>
 
 
 <script>
     export default {
         name: 'StudentDashboard',
-        props: ['course', 'busy'],
+        props: ['data', 'busy', 'searchFilter', 'currentPage', 'perPage'],
         data() {
             return {
                 fields: [
-                    {key:"courseId", sortable:true},
+                    {key:"courseId", sortable:true, label:"Course ID"},
                     {key:"courseName", sortable:true},
                     {key:"division", sortable:true},
                     {key:"section", sortable:true},
@@ -48,11 +63,18 @@
                     {key:"date"},
                     {key:"infos", label:"Info"}
                 ],
-                info: ""
+                info: "",
+            }
+        },
+        methods:{
+            onFiltered: function(filteredItems) { // Trigger pagination to update the number of buttons/pages due to filtering
+                // Emit event back to DashboardComponent to update pagination with filtered length
+                this.$emit('filterUpdated', filteredItems.length)
             }
         }
     };
 </script>
+
 
 
 

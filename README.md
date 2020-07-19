@@ -12,8 +12,6 @@ After ```yarn``` is installed, run ```yarn global add @vue/cli```
 
 ## To run:
 
-Both Vue and Springboot will occupy same port (localhost:8080) by default, I haven't configure it yet, so run ```SsoApplication.java``` first in IntelliJ IDEA to start backend server so it occupy 8080. And Vue might occupy 8081 (in Mac for me)
-
 To deploy Vue, just ```cd``` in ```frontend``` and type ```yarn serve```, which would deploy in localhost and display a URL where the website is.
 
 

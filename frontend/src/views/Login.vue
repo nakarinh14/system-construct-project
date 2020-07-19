@@ -74,10 +74,11 @@
                 }, {withCredentials: true})
                     .then(response =>{
                         if(response.data.status === "success") {
+                            this.$cookies.config(60 * 35); // set 15 minute expired token
                             this.$cookies.set('username',response.data.username);
                             this.$cookies.set('firstname',response.data.firstname);
                             this.$cookies.set('lastname',response.data.lastname);
-                            this.$cookies.set('role',response.data.role);
+                            this.$cookies.set('role',response.data.role.toLowerCase());
                             this.$router.push("/");
                         } else{
                             this.validateTrigger(false, "Authentication failed. Please check username and password.");
@@ -88,15 +89,20 @@
                             console.log("Login REST called failed");
                         })
             }
+        },
+        created() {
+            this.$cookies.remove('username')
+            this.$cookies.remove('firstname')
+            this.$cookies.remove('lastname')
+            this.$cookies.remove('role')
         }
     }
-
 
 </script>
 
 <style scoped>
     #form-container{
-        margin-top: 180px;
+        margin-top: 100px;
     }
     #login-title{
         margin-bottom: 60px;

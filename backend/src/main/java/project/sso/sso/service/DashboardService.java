@@ -29,15 +29,17 @@ public class DashboardService {
     ParseCourse parseCourse;
 
 
-    public DashboardResponse getUserDashboard(DashboardRequest dashboardRequest, String username){
+    public DashboardResponse getUserDashboard(Long termId, String username){
         User user = userRepository.findByUsername(username);
         String role = userRepository.getRoleOfUsername(username).toLowerCase();
-        Long termId = dashboardRequest.getTermId() != null ? dashboardRequest.getTermId() : termRepository.getCurrentTermId();
+        if(termId == 0){
+            termId = termRepository.getCurrentTermId();
+        }
         List<Course> courses = null;
         switch(role){
             case "admin":
                 System.out.println("Got in admin");
-                courses = courseRepository.findAll();
+                courses = courseRepository.findCourseByTermId(termId);
                 break;
             case "instructor":
                 System.out.println("Got in instructor");
@@ -59,33 +61,9 @@ public class DashboardService {
         );
     }
 
-
-    public Long getLatestTermId(){
-        return termRepository.getCurrentTermId();
-    }
-
     public List<User> getStudentsFromCourseId(Long courseId){
         return courseRepository.findStudentsByCourseIdAndInstructorId(courseId);
     }
-    //
-//    private List<Course> filterDashboard(List<Course> courses, Long term_id){
-//        // If anyone find better efficient method, please do.
-//        // Dont wanna use too much for loop.
-//        if(term_id != null){ // term_id is null where all term is requested.
-//            List<Course> filteredCourses = new ArrayList<>();
-//            for(Course course : courses){
-//                if(course.getTerm().getId().equals(term_id)) {
-//                    filteredCourses.add(course);
-//                }
-//            }
-//            return filteredCourses;
-//        }
-//        return courses;
-//    }
-
-//    public Set<Course> getCourseByInstructor(String username){
-//        return courseRepository.findCoursesByInstructorId(user.getId());
-//    }
 
     public boolean updateCourseByInfo(HttpSession session, DashboardUpdateInfoRequest dashboardRequest){
         Course course = courseRepository.findCourseById(dashboardRequest.getCourseId());

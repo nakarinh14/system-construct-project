@@ -5,12 +5,19 @@
                 <b-col></b-col>
                 <b-col>
                     <div id="nav">
-                        <router-link to="/"><BIconHouseFill class="icon-pad"></BIconHouseFill>Home</router-link>  |
+                        <router-link to="/">
+                            <span v-if="this.$cookies.get('role') !== 'admin'"><BIconHouseFill class="icon-pad"></BIconHouseFill>Home</span>
+                            <span v-else><BIconGearFill class="icon-pad"></BIconGearFill>Admin </span>
+                        </router-link>  |
                         <router-link to="/about"><BIconInfoCircleFill class="icon-pad"></BIconInfoCircleFill>About</router-link>  |
-                        <router-link to="/setting" v-if="this.$cookies.get('role') === 'admin'"><BIconGearFill class="icon-pad"></BIconGearFill>Admin</router-link>
                     </div>
                 </b-col>
-                <b-col><p style="padding:30px">Login as <b>{{this.$cookies.get("username")}}</b> | <b-button @click="logout" size="sm">Logout</b-button></p></b-col>
+                <b-col>
+                    <p style="padding:30px">Logged in as
+                        <b>{{this.$cookies.get("username")}}</b> |
+                        <a href="#" @click.prevent="logout">Logout</a>
+                    </p>
+                </b-col>
             </b-row>
         </b-container>
         <router-view/>
@@ -20,6 +27,9 @@
 <script>
 
     import axios from "axios";
+    import 'bootstrap/dist/css/bootstrap.css';
+    import 'bootstrap-vue/dist/bootstrap-vue.css';
+
     export default {
         name: 'app',
         methods: {

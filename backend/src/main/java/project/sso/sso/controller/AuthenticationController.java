@@ -11,7 +11,7 @@ import project.sso.sso.service.SecurityService;
 import javax.servlet.http.HttpSession;
 
 @RestController
-public class AuthController {
+public class AuthenticationController {
 
     @Autowired
     private SecurityService securityService;

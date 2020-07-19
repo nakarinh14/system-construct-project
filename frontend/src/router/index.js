@@ -2,7 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "../views/Login";
-import Setting from "../views/Setting";
+import Setting from "../components/AdminSettingComponent";
+import EditUserVue from "../components/EditUserVue";
+import EditCourseVue from "../components/EditCourseVue";
 import axios from 'axios';
 
 Vue.use(VueRouter)
@@ -37,6 +39,23 @@ const routes = [
             requiresAuth: true
         }
     },
+    {
+        path:'/admin/courses',
+        name: 'Courses',
+        component: EditCourseVue,
+        meta:{
+            requiresAuth: true
+        }
+    },
+    {
+        path:'/admin/users',
+        name:'Users',
+        component: EditUserVue,
+        meta:{
+            requiresAuth: true
+        }
+
+    }
 ]
 
 const router = new VueRouter({
@@ -47,6 +66,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if(to.matched.some(record => record.meta.requiresAuth)){
+
         const validateUrl = "http://localhost:8081/api/auth/validate";
         axios.get(validateUrl, {withCredentials: true})
             .then(response => {
