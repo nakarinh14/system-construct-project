@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Course {
+public class   Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +41,7 @@ public class Course {
 
     private int registered;
 
-    private Long instructorId;
+    private Long instructorId; //Testing
 
     @ManyToOne
     @JoinTable(
