@@ -146,7 +146,7 @@
                 this.$bvToast.toast(msg, {
                     title: title,
                     variant: variant,
-                    autoHideDelay: 4400,
+                    autoHideDelay: 3800,
                     appendToast: true
                 })
             },
