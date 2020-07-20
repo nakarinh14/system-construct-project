@@ -6,17 +6,18 @@ git clone https://github.com/nakarinh14/system-construct-project
 
 For spring boot, in IntelliJ IDEA import/open the ```backend``` folder and reload the maven dependency
 
+For Window: install ```node.js``` before ```yarn```. Check  https://nodejs.org/en/
+
 For Vue, install ```yarn``` first. Check   https://classic.yarnpkg.com/en/docs/install/
 
 After ```yarn``` is installed, run ```yarn global add @vue/cli```
+
 
 ## To run:
 
 To deploy Vue, just ```cd``` in ```frontend``` and type ```yarn serve```, which would deploy in localhost and display a URL where the website is.
 
-
-I only return a JSON in the backend REST controller ```CourseListController.java```for URL ```localhost:8080/api/courses```, which those 2 courses data displays on the Home page for Vue. 
-
+For window before run ```yarn serve``` run ```npm i``` first.
 
 
 I have asked Aj., he said we will need to configure and deploy Vue frontend in a nginx webserver later, so the ```yarn serve``` is just temporary for development I guess, and we can move on nginx after everything is done
