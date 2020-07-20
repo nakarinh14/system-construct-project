@@ -4,23 +4,23 @@
 git clone https://github.com/nakarinh14/system-construct-project
 ```
 
-For spring boot, in IntelliJ IDEA import/open the ```backend``` folder and reload the maven dependency
+<b> For spring boot </b>, in IntelliJ IDEA import/open the ```backend``` folder and reload the maven dependency
 
-For Window: install ```node.js``` before ```yarn```. Check  https://nodejs.org/en/
+<b> For Vue </b>, install ```yarn``` first. Check   https://classic.yarnpkg.com/en/docs/install/
 
-For Vue, install ```yarn``` first. Check   https://classic.yarnpkg.com/en/docs/install/
+<b> For Window </b<: install ```node.js``` before ```yarn```. Check  https://nodejs.org/en/
 
 After ```yarn``` is installed, run ```yarn global add @vue/cli```
 
 
 ## To run:
 
-To deploy Vue, just ```cd``` in ```frontend``` and type ```yarn serve```, which would deploy in localhost and display a URL where the website is.
+To deploy Vue, just ```cd``` to ```frontend``` and type ```yarn serve```, which would deploy in localhost8080 and display a URL where the website is.
 
-For window before run ```yarn serve``` run ```npm i``` first.
+<b>For Window</b>, before running ```yarn serve``` run ```npm i``` first.
 
 
-I have asked Aj., he said we will need to configure and deploy Vue frontend in a nginx webserver later, so the ```yarn serve``` is just temporary for development I guess, and we can move on nginx after everything is done
+I have asked Aj., he said we will need to configure and deploy Vue frontend in a Nginx webserver later, so the ```yarn serve``` is just temporary for development I guess, and we can move on nginx after everything is done
 
 ## To work on project seperately:
 
