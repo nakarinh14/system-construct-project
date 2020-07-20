@@ -12,7 +12,7 @@ import lombok.Setter;
 public class AddUserRequest {
     private String username;
     private String password;
-    private String role;
+    private Long role;
     private String firstname;
     private String lastname;
     private String title;
