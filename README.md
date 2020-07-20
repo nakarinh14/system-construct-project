@@ -37,7 +37,7 @@ Before pushing your branch to Github, make sure your branch that you want to pus
 5. ```git merge master``` to merge master into your local branch, which update changes, etc.
 6. From there, edit any merge conflict (if any) and then you can push into Github
 
-When you want to push change from ```your-branch-name-here``` to Github, do the usual ```git add . ``` , ```git commit -m "msg"``` in your branch, and when push run ```git push origin your-branch-name-here``` (```origin``` is this Github ```master``` branch)
+When you want to push your commited branch from ```your-branch-name-here``` to Github, the command is ```git push origin your-branch-name-here``` (```origin``` is this Github ```master``` branch)
 
 Afterward, a pull request will appear on Github, so we can go and compare and check if there are conflicting files or not, then we can decide to merge with master branch here.
 
