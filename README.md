@@ -6,11 +6,11 @@ git clone https://github.com/nakarinh14/system-construct-project
 
 <b> For Spring Boot: </b> In IntelliJ IDEA import/open the ```backend``` folder and reload the maven dependency
 
-<b> For Vue</b>, Install ```yarn``` first. Check   https://classic.yarnpkg.com/en/docs/install/
+<b> For Vue</b>, Install ```yarn``` first. Check   https://classic.yarnpkg.com/en/docs/install/.
 
-* <b> For Windows </b<: install ```node.js``` before ```yarn```. Check  https://nodejs.org/en/
+* <b> For Windows </b>: Install ```node.js``` before ```yarn```. Check  https://nodejs.org/en/.
 
-* After ```yarn``` is installed, run ```yarn global add @vue/cli```
+* After ```yarn``` is installed, run ```yarn global add @vue/cli```.
 
 
 ## To run:
