@@ -10,6 +10,6 @@ public enum RoleType {
     // Update Enum approach. Method from https://www.baeldung.com/jpa-persisting-enums-in-jpa
     ADMIN("admin"),INSTRUCTOR("instructor"),STUDENT("student");
 
-    private String permission;
+    private final String permission;
 
 }
