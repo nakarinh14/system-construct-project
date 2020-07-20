@@ -43,7 +43,7 @@
                                 {{`${row.item.profile.firstname} ${row.item.profile.lastname}  (${row.item.username})`}}
                             </template>
                             <template v-slot:cell(remove)>
-                                <a href="#"><BIconPersonDashFill class="icon-tmp"></BIconPersonDashFill></a>
+                                <a href="#" @click.prevent="requestAssign"><BIconPersonDashFill class="icon-tmp"></BIconPersonDashFill></a>
                             </template>
                         </b-table>
 
@@ -82,7 +82,7 @@
                                 {{`${row.item.profile.firstname} ${row.item.profile.lastname}  (${row.item.username})`}}
                             </template>
                             <template v-slot:cell(remove)>
-                                <BIconPersonPlusFill class="icon-tmp"></BIconPersonPlusFill>
+                                <a href="#" @click.prevent="requestAssign"><BIconPersonPlusFill class="icon-tmp"></BIconPersonPlusFill></a>
                             </template>
                         </b-table>
                     </b-col>
@@ -131,7 +131,7 @@
                         no-stacking
                 >
                     <template v-slot:modal-header>
-                        Enrolled Students for {{row.item.courseName}} (Section {{row.item.section}})
+                        <b>Enrolled Students in {{row.item.courseId}} (Section {{row.item.section}})</b>
                         <a href="#" @click.prevent="showAssign" style="padding-left: 15px">
                             <BIconPersonCheckFill></BIconPersonCheckFill> Add students to course
                         </a>
@@ -184,6 +184,7 @@
                 unassigned_students: null,
                 searchFilterE: null,
                 searchFilterA: null,
+                enrolledId: null
             }
         },
         methods:{
@@ -198,6 +199,7 @@
                 axios.get(getUrl,{withCredentials: true})
                     .then(response => {
                         this.studentsGet = response.data
+                        this.enrolledId = response.data.map(x => x.id)
                     })
                     .catch(()=> {
                         console.log("Dashboard post REST call failed.")
@@ -205,7 +207,6 @@
 
             },
             getAllStudents(){
-                console.log("tessss")
                 const apiURL = "http://localhost:8081/api/admin/users";
                 axios.get(apiURL, {withCredentials: true})
                     .then(response => {
@@ -222,14 +223,53 @@
                 this.$refs['assign-modal'].show()
             },
             filterUser: function(users){
-                let enrolledId = this.studentsGet.map(x => x.id)
-                console.log(enrolledId)
-                let o = users.filter(x =>
-                    (x.role.role.toLowerCase() === "student") && (!(x.id in enrolledId))
+                return users.filter(x =>
+                    (x.role.role.toLowerCase() === "student") && !this.enrolledId.includes(x.id)
                 )
-                console.log(o)
-                return o
-            }
+            },
+            requestAssign: function(requestType, courseId, userId, courseName, userName){
+                const apiURL = "http://localhost:8081/api/admin/courses/assign";
+                axios.post(apiURL,
+                    {
+                        requestType: requestType,
+                        courseId: courseId,
+                        userId: userId
+                    },
+                    {withCredentials: true})
+                    .then(response => {
+                        if(response.data){
+                            if(requestType === "add"){
+                                this.makeToast(
+                                    "Student Assigned Success",
+                                    `${courseName} is successfully assigned to ${userName}`,
+                                    "success"
+                                )
+                            } else{
+                                this.makeToast(
+                                    "Student Removed Success",
+                                    `${courseName} is successfully removed from ${userName}`,
+                                    "success"
+                                )
+                            }
+                        }
+                    })
+                    .catch(()=> {
+                        this.makeToast(
+                            "Server Request Failed",
+                            `Server isn't able to make request. Please try again later`,
+                            "warning"
+                        )
+                        console.log("Dashboard user get call failed.")
+                    })
+            },
+            makeToast: function(title, msg, variant){ // Creating small popup window on top right
+                this.$bvToast.toast(msg, {
+                    title: title,
+                    variant: variant,
+                    autoHideDelay: 3800,
+                    appendToast: true
+                })
+            },
         }
     }
 </script>
