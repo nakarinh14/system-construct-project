@@ -17,12 +17,12 @@ git clone https://github.com/nakarinh14/system-construct-project
 
 To deploy Vue, just ```cd``` to ```frontend``` and type ```yarn serve```, which would deploy in localhost8080 and display a URL where the website is.
 
-<b>For Window</b>, before running ```yarn serve``` run ```npm i``` first.
+* <b>For Window</b>: before running ```yarn serve``` run ```npm i``` first.
 
 
 I have asked Aj., he said we will need to configure and deploy Vue frontend in a Nginx webserver later, so the ```yarn serve``` is just temporary for development I guess, and we can move on nginx after everything is done
 
-## To work on project seperately:
+## To work on project seperately (IMPORTANT):
 
 <b> DON'T WORK ON ```master``` BRANCH ON YOUR PC. </b> To push change, don't ```git push``` on the ```master``` branch on your computer, as it will merge with master branch on Github and may cause file and error conflict for others when they ```git pull``` for latest update for their branch.
 
