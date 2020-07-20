@@ -24,7 +24,7 @@ I have asked Aj., he said we will need to configure and deploy Vue frontend in a
 
 ## To work on project seperately:
 
-<b> DON'T WORK ON ```master``` BRANCH ON YOUR PC. </b> To push change, don't ```git push``` on the ```master``` branch on your computer (indicate from your Terminal/Shell when ```cd``` in folder), as when you ```git push``` from there, it will merge with master branch on Github and may cause file and error conflict for others when they also ```git pull``` for latest update.
+<b> DON'T WORK ON ```master``` BRANCH ON YOUR PC. </b> To push change, don't ```git push``` on the ```master``` branch on your computer, as it will merge with master branch on Github and may cause file and error conflict for others when they ```git pull``` for latest update for their branch.
 
 Work on a seperate branch on your local:
 Create a new seperate branch with ```git checkout -b your-branch-name-here```. This would automatically switch from your branch ```master``` to ```your-branch-name``` as shown from your Terminal/Shell
@@ -48,7 +48,7 @@ Afterward, a pull request will appear on Github, so we can go and compare and ch
 
 On Chrome. I think these 2 extension are quite useful in debugging frontend and backend later on :
 
-<a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en">Vue.js Chrome extension</a>,  <a href="https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en">JSON formatter (to read JSON easily on web)</a>
+<a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en">Vue.js Chrome extension</a>
 
 
 To develop ```frontend``` I recommend using <a href="https://www.jetbrains.com/webstorm/download/#section=mac"> WebStorm </a> (which is from IntelliJ) or VSCode is fine too
