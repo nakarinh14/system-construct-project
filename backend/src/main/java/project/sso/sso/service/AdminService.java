@@ -8,6 +8,7 @@ import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
 import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.AddUserRequest;
+import project.sso.sso.model.AssignCourseRequest;
 import project.sso.sso.model.RemoveCourseRequest;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.repository.*;
@@ -88,6 +89,18 @@ public class AdminService {
         return new ValidateResponse("Fail");
     }
 
+    public ValidateResponse assignCourse(AssignCourseRequest assignCourseRequest) {
+        User user = userRepository.findByUsername(assignCourseRequest.getUsername());
+        Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
+        if (user !=  null) {
+            course.getStudents().add(user);
+            user.getCourses().add(course);
+            userRepository.save(user);
+            courseRepository.save(course);
+            return new ValidateResponse("Success");
+        }
+        return new ValidateResponse("Fail");
+    }
 
 
 }
