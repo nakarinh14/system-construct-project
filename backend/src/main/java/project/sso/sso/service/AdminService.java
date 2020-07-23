@@ -6,6 +6,7 @@ import project.sso.sso.entity.Course;
 import project.sso.sso.entity.Profile;
 import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
+import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.AddUserRequest;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.repository.*;
@@ -53,16 +54,14 @@ public class AdminService {
             profile.setLastname(addUserRequest.getLastname());
             profile.setTitle(addUserRequest.getTitle());
             profileRepository.save(profile);
-            //Set role
-            Role role = new Role();
 
             // Set user
             User user = new User();
             user.setUsername(addUserRequest.getUsername());
             user.setPassword(addUserRequest.getPassword());
             user.setProfile(profile);
-            Optional<Role> roleName = roleRepository.findById(addUserRequest.getRole());
-            user.setRole(roleName.get());
+            Role role = roleRepository.findByRole(RoleType.valueOf(addUserRequest.getRole().toUpperCase()));
+            user.setRole(role);
             profile.setUser(user);
 
             userRepository.save(user);

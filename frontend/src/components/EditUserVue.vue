@@ -23,6 +23,7 @@
             >
             </AddUserForm>
         </b-modal>
+
        <BaseTable
                :data="users"
                tableComponent="AdminUserTable"
@@ -67,6 +68,8 @@
                 this.toggle = true;
             },
             requestSent(res){
+                console.log("res:")
+                console.log(res)
                 this.makeToast(res);
                 this.toggle = false;
             },

@@ -99,10 +99,12 @@
         },
         methods:{
             sendRequest(){
-                const apiURL = "http://localhost:8081/api/admin/users/add/";
+                const apiURL = "http://localhost:8081/api/admin/add/user/";
+                console.log("request SENT!")
                 axios.post(apiURL, this.form, {withCredentials: true})
                     .then(response => {
                         if(response.data.status) {
+                            console.log(response.data)
                             this.$emit('requestSent', {
                                 variant:'success',
                                 title: 'Add user success',
