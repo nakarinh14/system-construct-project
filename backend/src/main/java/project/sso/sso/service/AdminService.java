@@ -83,8 +83,10 @@ public class AdminService {
         Course targetCourse = courseRepository.findCourseById(removeCourseRequest.getRemoveCourseID());
         if(target != null){
             target.getCourses().remove(targetCourse);
+            targetCourse.getStudents().remove(target);
+            userRepository.save(target);
+            courseRepository.save(targetCourse);
             return new ValidateResponse("Success");
-
         }
         return new ValidateResponse("Fail");
     }
