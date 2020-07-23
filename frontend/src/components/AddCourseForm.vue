@@ -119,7 +119,8 @@
                     capacity: '',
                     registered: '',
                     date: '',
-                    instructor: ''
+                    instructorId: '',
+                    termId: ''
                 }
             }
         },

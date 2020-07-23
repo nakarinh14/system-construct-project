@@ -26,8 +26,9 @@ public class AuthenticationController {
 
     @PostMapping("/api/auth/logout")
     public ValidateResponse doLogout(HttpSession session){
-        session.removeAttribute("username");
-        session.invalidate();
+        if(securityService.isAuthorized(session)) {
+            securityService.logout(session);
+        }
         return new ValidateResponse("success");
     }
 

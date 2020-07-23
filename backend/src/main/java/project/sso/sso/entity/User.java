@@ -36,7 +36,7 @@ public class User{
     )
     private Role role;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Profile profile;
 
     @ManyToMany(cascade = CascadeType.REMOVE)

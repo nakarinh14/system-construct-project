@@ -12,7 +12,6 @@ import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.repository.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -53,21 +52,26 @@ public class AdminService {
             profile.setFirstname(addUserRequest.getFirstname());
             profile.setLastname(addUserRequest.getLastname());
             profile.setTitle(addUserRequest.getTitle());
-            profileRepository.save(profile);
 
             // Set user
             User user = new User();
             user.setUsername(addUserRequest.getUsername());
             user.setPassword(addUserRequest.getPassword());
+
             user.setProfile(profile);
-            Role role = roleRepository.findByRole(RoleType.valueOf(addUserRequest.getRole().toUpperCase()));
-            user.setRole(role);
             profile.setUser(user);
 
+            Role role = roleRepository.findByRoleEquals(RoleType.valueOf(addUserRequest.getRole().toUpperCase()));
+            user.setRole(role);
+            role.getUser().add(user);
+
             userRepository.save(user);
-            return new ValidateResponse("Success");
+            roleRepository.save(role);
+
+
+            return new ValidateResponse("success");
         } else {
-            return new ValidateResponse("Fail");
+            return new ValidateResponse("fail");
         }
     }
 

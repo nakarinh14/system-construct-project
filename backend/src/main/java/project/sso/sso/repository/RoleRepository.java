@@ -11,5 +11,5 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Role findByUser(User user);
 
-    Role findByRole(RoleType roleType);
+    Role findByRoleEquals(RoleType roleType);
 }
