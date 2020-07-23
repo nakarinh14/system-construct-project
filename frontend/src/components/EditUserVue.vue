@@ -23,6 +23,7 @@
             >
             </AddUserForm>
         </b-modal>
+
        <BaseTable
                :data="users"
                tableComponent="AdminUserTable"
@@ -67,10 +68,14 @@
                 this.toggle = true;
             },
             requestSent(res){
-                this.makeToast(res);
                 this.toggle = false;
+                this.makeToast(res);
             },
             makeToast(res){
+                console.log(res)
+                console.log(res.msg)
+                console.log(res.title)
+                console.log(res.variant)
                 this.$bvToast.toast(res.msg, {
                     title: res.title,
                     variant: res.variant,
