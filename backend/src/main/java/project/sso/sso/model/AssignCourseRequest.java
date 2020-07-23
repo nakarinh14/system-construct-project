@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class AddCourseRequest {
+public class AssignCourseRequest {
     private String username;
     private Long addCourseID;
 }
