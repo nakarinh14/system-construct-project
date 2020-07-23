@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "../views/Login";
 import Setting from "../components/AdminSettingComponent";
-import EditUserVue from "../components/EditUserVue";
-import EditCourseVue from "../components/EditCourseVue";
+import EditUserVue from "../components/AdminUserView";
+import EditCourseVue from "../components/AdminCourseView";
 import axios from 'axios';
 
 Vue.use(VueRouter)
