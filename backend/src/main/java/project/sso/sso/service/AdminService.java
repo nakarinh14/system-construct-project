@@ -90,7 +90,10 @@ public class AdminService {
         User user = userRepository.findByUsername(assignCourseRequest.getUsername());
         Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
         if (user !=  null) {
+            course.getStudents().add(user);
             user.getCourses().add(course);
+            userRepository.save(user);
+            courseRepository.save(course);
             return new ValidateResponse("Success");
         }
         return new ValidateResponse("Fail");

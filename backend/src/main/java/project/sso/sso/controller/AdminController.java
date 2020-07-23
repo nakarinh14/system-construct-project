@@ -51,7 +51,7 @@ public class AdminController {
         return null;
     }
 
-    @GetMapping("/api/admin/users/remove/course")
+    @PostMapping("/api/admin/users/remove/course")
     ValidateResponse  removeCourseFromUser(@RequestBody RemoveCourseRequest removeCourseRequest, HttpSession httpSession){
         if(securityService.isAuthorized(httpSession, "admin")){
             return adminService.removeCourse(removeCourseRequest);
@@ -59,7 +59,7 @@ public class AdminController {
         return null;
     }
 
-    @GetMapping("/api/admin/courses/assign")
+    @PostMapping("/api/admin/courses/assign")
     ValidateResponse assignCourseToUser(@RequestBody AssignCourseRequest assignCourseRequest, HttpSession httpSession) {
         if (securityService.isAuthorized(httpSession,"admin")) {
             return adminService.assignCourse(assignCourseRequest);
