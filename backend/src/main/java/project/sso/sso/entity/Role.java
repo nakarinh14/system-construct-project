@@ -23,7 +23,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     private RoleType role;
 
     @JsonIgnore

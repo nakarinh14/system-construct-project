@@ -9,11 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class AddUserRequest {
+public class RemoveCourseRequest {
     private String username;
-    private String password;
-    private Long role;
-    private String firstname;
-    private String lastname;
-    private String title;
+    private Long removeCourseID;
+
 }

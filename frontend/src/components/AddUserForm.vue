@@ -81,7 +81,7 @@
           clickedOk: function(){
               if(this.clickedOk === true){
                   this.sendRequest()
-                  this.$emit('requestSent',)
+                  this.$emit('requestSent')
               }
           }
         },
