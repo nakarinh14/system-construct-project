@@ -7,7 +7,6 @@ import project.sso.sso.model.AuthenticationResponse;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.model.AuthenticationRequest;
 import project.sso.sso.service.SecurityService;
-
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -27,7 +26,9 @@ public class AuthenticationController {
 
     @PostMapping("/api/auth/logout")
     public ValidateResponse doLogout(HttpSession session){
-        securityService.logout(session);
+        if(securityService.isAuthorized(session)) {
+            securityService.logout(session);
+        }
         return new ValidateResponse("success");
     }
 
