@@ -93,7 +93,7 @@
                     title: '',
                     firstname: '',
                     lastname: '',
-                    role: ''
+                    role: null
                 }
             }
         },
