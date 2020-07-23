@@ -8,6 +8,7 @@ import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
 import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.AddUserRequest;
+import project.sso.sso.model.RemoveCourseRequest;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.repository.*;
 
@@ -30,6 +31,7 @@ public class AdminService {
 
     @Autowired
     TermRepository termRepository;
+
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
@@ -74,5 +76,18 @@ public class AdminService {
             return new ValidateResponse("fail");
         }
     }
+
+    public ValidateResponse removeCourse(RemoveCourseRequest removeCourseRequest) {
+        User target = userRepository.findByUsername(removeCourseRequest.getUsername());
+        Course targetCourse = courseRepository.findCourseById(removeCourseRequest.getRemoveCourseID());
+        if(target != null){
+            target.getCourses().remove(targetCourse);
+            return new ValidateResponse("Success");
+
+        }
+        return new ValidateResponse("Fail");
+    }
+
+
 
 }
