@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
 import project.sso.sso.model.AddUserRequest;
+import project.sso.sso.model.RemoveUserRequest;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.service.AdminService;
 import project.sso.sso.service.DashboardService;
@@ -40,6 +41,14 @@ public class AdminController {
         }
         return null;
     }
+
+    @PostMapping("/api/admin/remove/user")
+    ValidateResponse removeUser(@RequestBody RemoveUserRequest removeUserRequest, HttpSession httpSession){
+        if(securityService.isAuthorized(httpSession,"admin")){
+            return adminService.removeUser(removeUserRequest);
+        }
+        return null;
+}
 
     @GetMapping("/api/admin/users/course/{id}")
     List<Course> getAllCoursesByUsers(@PathVariable Long id, HttpSession httpSession){

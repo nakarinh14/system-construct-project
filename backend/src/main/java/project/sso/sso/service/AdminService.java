@@ -6,7 +6,9 @@ import project.sso.sso.entity.Course;
 import project.sso.sso.entity.Profile;
 import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
+import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.AddUserRequest;
+import project.sso.sso.model.RemoveUserRequest;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.repository.*;
 
@@ -61,8 +63,8 @@ public class AdminService {
             user.setUsername(addUserRequest.getUsername());
             user.setPassword(addUserRequest.getPassword());
             user.setProfile(profile);
-            Optional<Role> roleName = roleRepository.findById(addUserRequest.getRole());
-            user.setRole(roleName.get());
+            Role roleName = roleRepository.findByRole(RoleType.valueOf("student"));
+            user.setRole(roleName);
             profile.setUser(user);
 
             userRepository.save(user);
@@ -71,5 +73,7 @@ public class AdminService {
             return new ValidateResponse("Fail");
         }
     }
+
+
 
 }
