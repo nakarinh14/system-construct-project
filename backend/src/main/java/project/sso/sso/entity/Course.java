@@ -17,26 +17,22 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class   Course {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     private String courseId;  // ICCS101, etc.
 
     private String courseName;
 
     private String division;
 
-    @NotNull
     private int section; // Section 1,2,3..
 
-    @NotNull
     private String date; //test
 
-    @NotNull
     private int capacity;
 
     private int registered;

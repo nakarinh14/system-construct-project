@@ -6,6 +6,9 @@ import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
 import project.sso.sso.model.AddUserRequest;
 import project.sso.sso.model.RemoveUserRequest;
+
+import project.sso.sso.model.AssignCourseRequest;
+import project.sso.sso.model.RemoveCourseRequest;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.service.AdminService;
 import project.sso.sso.service.DashboardService;
@@ -57,4 +60,22 @@ public class AdminController {
         }
         return null;
     }
+
+    @PostMapping("/api/admin/users/remove/course")
+    ValidateResponse  removeCourseFromUser(@RequestBody RemoveCourseRequest removeCourseRequest, HttpSession httpSession){
+        if(securityService.isAuthorized(httpSession, "admin")){
+            return adminService.removeCourse(removeCourseRequest);
+        }
+        return null;
+    }
+
+    @PostMapping("/api/admin/courses/assign")
+    ValidateResponse assignCourseToUser(@RequestBody AssignCourseRequest assignCourseRequest, HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession,"admin")) {
+            return adminService.assignCourse(assignCourseRequest);
+        }
+        return null;
+    }
+
+
 }

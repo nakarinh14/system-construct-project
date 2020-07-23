@@ -9,11 +9,12 @@ import project.sso.sso.entity.User;
 import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.AddUserRequest;
 import project.sso.sso.model.RemoveUserRequest;
+import project.sso.sso.model.AssignCourseRequest;
+import project.sso.sso.model.RemoveCourseRequest;
 import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.repository.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -32,6 +33,7 @@ public class AdminService {
 
     @Autowired
     TermRepository termRepository;
+
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
@@ -54,26 +56,65 @@ public class AdminService {
             profile.setFirstname(addUserRequest.getFirstname());
             profile.setLastname(addUserRequest.getLastname());
             profile.setTitle(addUserRequest.getTitle());
-            profileRepository.save(profile);
-            //Set role
-            Role role = new Role();
 
             // Set user
             User user = new User();
             user.setUsername(addUserRequest.getUsername());
             user.setPassword(addUserRequest.getPassword());
+
             user.setProfile(profile);
-            Role roleName = roleRepository.findByRole(RoleType.valueOf("student"));
-            user.setRole(roleName);
+
             profile.setUser(user);
 
+            Role role = roleRepository.findByRoleEquals(RoleType.valueOf(addUserRequest.getRole().toUpperCase()));
+            user.setRole(role);
+            role.getUser().add(user);
+
             userRepository.save(user);
-            return new ValidateResponse("Success");
+            roleRepository.save(role);
+
+
+            return new ValidateResponse("success");
         } else {
-            return new ValidateResponse("Fail");
+            return new ValidateResponse("fail");
         }
     }
+    public ValidateResponse removeUser(RemoveUserRequest removeUserRequest){
+        if(userRepository.existsByUsername(removeUserRequest.getUsername())){
+            User target = userRepository.findByUsername(removeUserRequest.getUsername());
+            if(target != null){
+                userRepository.delete(target);
+                return new ValidateResponse("deleted.");
+            }else{
+                return new ValidateResponse("username doesn't exist.");
+            }
+        }
+        return new ValidateResponse("Fail");
+    }
 
+    public ValidateResponse removeCourse(RemoveCourseRequest removeCourseRequest) {
+        User target = userRepository.findByUsername(removeCourseRequest.getUsername());
+        Course targetCourse = courseRepository.findCourseById(removeCourseRequest.getRemoveCourseID());
+        if(target != null){
+            target.getCourses().remove(targetCourse);
+            return new ValidateResponse("Success");
+
+        }
+        return new ValidateResponse("Fail");
+    }
+
+    public ValidateResponse assignCourse(AssignCourseRequest assignCourseRequest) {
+        User user = userRepository.findByUsername(assignCourseRequest.getUsername());
+        Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
+        if (user !=  null) {
+            course.getStudents().add(user);
+            user.getCourses().add(course);
+            userRepository.save(user);
+            courseRepository.save(course);
+            return new ValidateResponse("Success");
+        }
+        return new ValidateResponse("Fail");
+    }
 
 
 }

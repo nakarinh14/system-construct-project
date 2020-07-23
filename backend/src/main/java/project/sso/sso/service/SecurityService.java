@@ -64,6 +64,10 @@ public class SecurityService {
         return roleRepository.findByUser(user);
     }
 
+    public User getUser(String username){
+        return userRepository.findByUsername(username);
+    }
+
     public void logout(HttpSession session) {
         session.removeAttribute("username");
         session.invalidate();
