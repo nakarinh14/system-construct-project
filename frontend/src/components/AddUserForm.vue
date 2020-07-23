@@ -79,9 +79,9 @@
         props: ['clickedOk'],
         watch:{
           clickedOk: function(){
-              if(this.clickedOk === true){
+              console.log("excuted clickedOk")
+              if(this.clickedOk){
                   this.sendRequest()
-                  this.$emit('requestSent')
               }
           }
         },
@@ -99,10 +99,12 @@
         },
         methods:{
             sendRequest(){
-                const apiURL = "http://localhost:8081/api/admin/users/add/";
+                console.log("enter sendRequest")
+                const apiURL = "http://localhost:8081/api/admin/add/user/";
                 axios.post(apiURL, this.form, {withCredentials: true})
                     .then(response => {
-                        if(response.data.status) {
+                        if(response.data.status === "success") {
+                            console.log(response.data)
                             this.$emit('requestSent', {
                                 variant:'success',
                                 title: 'Add user success',

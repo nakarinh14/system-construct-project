@@ -6,6 +6,7 @@ import project.sso.sso.entity.Course;
 import project.sso.sso.entity.Profile;
 import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
+import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.AddUserRequest;
 import project.sso.sso.model.AssignCourseRequest;
 import project.sso.sso.model.RemoveCourseRequest;
@@ -13,7 +14,6 @@ import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.repository.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -55,23 +55,26 @@ public class AdminService {
             profile.setFirstname(addUserRequest.getFirstname());
             profile.setLastname(addUserRequest.getLastname());
             profile.setTitle(addUserRequest.getTitle());
-            profileRepository.save(profile);
-            //Set role
-            Role role = new Role();
 
             // Set user
             User user = new User();
             user.setUsername(addUserRequest.getUsername());
             user.setPassword(addUserRequest.getPassword());
+
             user.setProfile(profile);
-            Optional<Role> roleName = roleRepository.findById(addUserRequest.getRole());
-            user.setRole(roleName.get());
             profile.setUser(user);
 
+            Role role = roleRepository.findByRoleEquals(RoleType.valueOf(addUserRequest.getRole().toUpperCase()));
+            user.setRole(role);
+            role.getUser().add(user);
+
             userRepository.save(user);
-            return new ValidateResponse("Success");
+            roleRepository.save(role);
+
+
+            return new ValidateResponse("success");
         } else {
-            return new ValidateResponse("Fail");
+            return new ValidateResponse("fail");
         }
     }
 
