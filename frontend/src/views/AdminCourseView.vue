@@ -27,10 +27,10 @@
                 <b-form-group
                         id="input-group-1"
                         label="Term period:"
-                        label-for="input-id"
+                        label-for="input-term"
                 >
                     <b-form-input
-                            id="input-id"
+                            id="input-term"
                             v-model="termForm.term"
                             type="text"
                             required
@@ -40,10 +40,10 @@
                 <b-form-group
                         id="input-group-2"
                         label="Year period:"
-                        label-for="input-id"
+                        label-for="input-year"
                 >
                     <b-form-input
-                            id="input-id"
+                            id="input-year"
                             v-model="termForm.year"
                             type="text"
                             required
@@ -61,7 +61,7 @@
 
 <script>
     import AddCourseForm from '@/components/AddCourseForm.vue'
-    import DashboardComponent from "./DashboardComponent";
+    import DashboardComponent from "../components/DashboardComponent";
 
     export default {
         name: 'EditCourseVue',

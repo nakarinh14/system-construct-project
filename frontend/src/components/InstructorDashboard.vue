@@ -27,6 +27,9 @@
                                 rows="12"
                                 max-rows="12"
                         ></b-form-textarea>
+                        <template v-slot:modal-ok>
+                            Update
+                        </template>
                     </b-modal>
                     <b-button v-b-modal="row.item.id+'-modal'" size="sm" class="mr-2">
                         <BIconPencilSquare />
@@ -44,16 +47,21 @@
                     <b-modal
                             :id="'show-modal-'+row.item.id"
                             size="lg"
+                            ok-only
+                            scrollable
                     >
                         <template v-slot:modal-title>
                             Enrolled Students for {{row.item.courseName}} (Section {{row.item.section}})
                         </template>
                         <!-- Table in show students modal  -->
-                        <b-table bordered :head-variant="'dark'" :items="studentsGet" :fields="students_fields">
+                        <b-table bordered :head-variant="'dark'" :items="studentsGet" :fields="students_fields"  sticky-header="400px">
                             <template v-slot:cell(name)="inner">
                                 {{inner.item.profile.title}} {{inner.item.profile.firstname}} {{inner.item.profile.lastname}}
                             </template>
                         </b-table>
+                        <template v-slot:modal-ok>
+                            Done
+                        </template>
                     </b-modal>
                 </template>
                 <template v-slot:cell(seatAvailable)="row">
@@ -72,14 +80,14 @@
         data() {
             return {
                 course_fields: [
-                    {key:"courseId", sortable:true, label:"Course ID"},
+                    {key:"courseId", sortable:true, label:"ID"},
                     {key:"courseName", sortable:true},
                     {key:"division", sortable:true},
                     {key:"section", sortable:true},
-                    {key:"instructorName", sortable:true},
+                    {key:"instructorName", sortable:true, label:"Instructor"},
                     {key:"capacity", sortable:true},
                     {key:"registered", sortable:true},
-                    {key:"seatAvailable", sortable: true},
+                    {key:"seatAvailable", sortable: true, label:"Available"},
                     {key:"date"},
                     {key:"students",label:"Students"},
                     {key:"infos", label:"Info"}

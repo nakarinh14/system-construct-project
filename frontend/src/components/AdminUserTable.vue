@@ -45,6 +45,7 @@
                 <b-modal
                         :id="'show-modal-'+row.item.id"
                         size="lg"
+                        ok-only
                 >
                     <template v-slot:modal-title>
                         <p v-if="row.item.role.role.toLowerCase() === 'student'" >
@@ -63,6 +64,9 @@
                             {{inner.item.term.semester}}, {{inner.item.term.year}}
                         </template>
                     </b-table>
+                    <template v-slot:modal-ok>
+                        Done
+                    </template>
                 </b-modal>
             </template>
         </b-table>
