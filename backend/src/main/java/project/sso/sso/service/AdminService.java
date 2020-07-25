@@ -74,7 +74,6 @@ public class AdminService {
             userRepository.save(user);
             roleRepository.save(role);
 
-
             return new ValidateResponse("success");
         } else {
             return new ValidateResponse("fail");
@@ -84,26 +83,21 @@ public class AdminService {
     public ValidateResponse removeUser(RemoveUserRequest removeUserRequest) {
         User target = userRepository.findByUsername(removeUserRequest.getUsername());
         Profile profile = profileRepository.findByUser(target);
+        userRepository.delete(target);
+        profileRepository.delete(profile);
         if (target.getRole().getRole().getPermission().equals("student")) {
-            userRepository.delete(target);
-            profileRepository.delete(profile);
             List<Course> userCourse = courseRepository.findCourseByStudentId(target.getId());
             for (Course c : userCourse) {
                 c.getStudents().remove(target);
             }
-            if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
-                return new ValidateResponse("success");
-            }
         } else if (target.getRole().getRole().getPermission().equals("instructor")) {
-            userRepository.delete(target);
-            profileRepository.delete(profile);
             List<Course> userCourse = courseRepository.findAllByInstructorId(target.getId());
             for (Course c : userCourse) {
                 c.setInstructorId(null);
             }
-            if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
-                return new ValidateResponse("success");
-            }
+        }
+        if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
+            return new ValidateResponse("success");
         }
         return new ValidateResponse("fail");
     }
