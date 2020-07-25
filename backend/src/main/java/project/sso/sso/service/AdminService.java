@@ -2,10 +2,8 @@ package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.sso.sso.entity.Course;
-import project.sso.sso.entity.Profile;
-import project.sso.sso.entity.Role;
-import project.sso.sso.entity.User;
+import org.thymeleaf.util.Validate;
+import project.sso.sso.entity.*;
 import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.*;
 import project.sso.sso.repository.*;
@@ -138,6 +136,15 @@ public class AdminService {
             return new ValidateResponse("Fail");
         }
         return new ValidateResponse("Success");
+    }
+
+    public ValidateResponse addNewTerm(AddNewTermRequest addNewTermRequest) {
+        Term term = new Term(addNewTermRequest);
+        termRepository.save(term);
+        if (termRepository.existsById(term.getId())) {
+            return new ValidateResponse("Success");
+        }
+        return new ValidateResponse("Fail");
     }
 
 }

@@ -88,5 +88,12 @@ public class AdminController {
         return null;
     }
 
+    @PostMapping("/api/admin/add/term")
+    ValidateResponse addNewTerm(@RequestBody AddNewTermRequest addNewTermRequest, HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
+            return adminService.addNewTerm(addNewTermRequest);
+        }
+        return null;
+    }
 
 }
