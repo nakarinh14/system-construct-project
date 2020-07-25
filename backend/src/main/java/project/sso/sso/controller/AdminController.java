@@ -4,16 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
-<<<<<<< HEAD
 import project.sso.sso.model.AddUserRequest;
 import project.sso.sso.model.RemoveUserRequest;
 
 import project.sso.sso.model.AssignCourseRequest;
-import project.sso.sso.model.RemoveCourseRequest;
 import project.sso.sso.model.ValidateResponse;
-=======
 import project.sso.sso.model.*;
->>>>>>> master
 import project.sso.sso.service.AdminService;
 import project.sso.sso.service.DashboardService;
 import project.sso.sso.service.SecurityService;
@@ -49,13 +45,6 @@ public class AdminController {
         return null;
     }
 
-    @PostMapping("/api/admin/remove/user")
-    ValidateResponse removeUser(@RequestBody RemoveUserRequest removeUserRequest, HttpSession httpSession){
-        if(securityService.isAuthorized(httpSession,"admin")){
-            return adminService.removeUser(removeUserRequest);
-        }
-        return null;
-}
 
     @GetMapping("/api/admin/users/course/{id}")
     List<Course> getAllCoursesByUsers(@PathVariable Long id, HttpSession httpSession){

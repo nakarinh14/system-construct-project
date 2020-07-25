@@ -2,7 +2,6 @@ package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.Validate;
 import project.sso.sso.entity.*;
 import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.AddUserRequest;
