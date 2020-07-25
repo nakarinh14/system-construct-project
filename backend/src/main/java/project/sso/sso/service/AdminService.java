@@ -2,10 +2,8 @@ package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.sso.sso.entity.Course;
-import project.sso.sso.entity.Profile;
-import project.sso.sso.entity.Role;
-import project.sso.sso.entity.User;
+import org.thymeleaf.util.Validate;
+import project.sso.sso.entity.*;
 import project.sso.sso.misc.RoleType;
 import project.sso.sso.model.*;
 import project.sso.sso.repository.*;
@@ -113,9 +111,9 @@ public class AdminService {
             targetCourse.getStudents().remove(target);
             userRepository.save(target);
             courseRepository.save(targetCourse);
-            return new ValidateResponse("Success");
+            return new ValidateResponse("success");
         }
-        return new ValidateResponse("Fail");
+        return new ValidateResponse("fail");
     }
 
     public ValidateResponse assignCourse(AssignCourseRequest assignCourseRequest) {
@@ -126,18 +124,27 @@ public class AdminService {
             user.getCourses().add(course);
             userRepository.save(user);
             courseRepository.save(course);
-            return new ValidateResponse("Success");
+            return new ValidateResponse("success");
         }
-        return new ValidateResponse("Fail");
+        return new ValidateResponse("fail");
     }
 
     public ValidateResponse addNewCourse(AddNewCourseRequest addNewCourseRequest) {
         Course newCourse = new Course(addNewCourseRequest);
         courseRepository.save(newCourse);
         if (!courseRepository.existsByCourseId(newCourse.getCourseId())) {
-            return new ValidateResponse("Fail");
+            return new ValidateResponse("fail");
         }
-        return new ValidateResponse("Success");
+        return new ValidateResponse("success");
+    }
+
+    public ValidateResponse addNewTerm(AddNewTermRequest addNewTermRequest) {
+        Term term = new Term(addNewTermRequest);
+        termRepository.save(term);
+        if (termRepository.existsById(term.getId())) {
+            return new ValidateResponse("success");
+        }
+        return new ValidateResponse("fail");
     }
 
 }
