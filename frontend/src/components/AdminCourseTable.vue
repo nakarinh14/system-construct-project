@@ -1,5 +1,6 @@
 <template>
     <b-container fluid>
+
         <b-modal
                 ref="assign-modal"
                 size="xl"
@@ -113,6 +114,7 @@
                 Done
             </template>
         </b-modal>
+
         <b-table striped bordered hover :head-variant="'dark'"
                  :items="data"
                  :fields="course_fields"

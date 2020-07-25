@@ -21,8 +21,10 @@
             <template v-slot:cell(role)="row">
                 <b>{{ row.item.role.role}}</b>
             </template>
-            <template v-slot:cell(remove)>
-                <b-btn size="sm" variant="warning"><BIconTrashFill></BIconTrashFill></b-btn>
+            <template v-slot:cell(remove)="row">
+                <b-btn size="sm" variant="warning" @click="removeUserRequest(row.item.username)">
+                    <BIconTrashFill></BIconTrashFill>
+                </b-btn>
             </template >
             <template  v-slot:cell(courses)="row">
                 <b-btn v-if="row.item.role.role.toLowerCase() !== 'admin'"
@@ -107,7 +109,39 @@
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 // Emit event back to DashboardComponent to update pagination with filtered length
                 this.$emit('filterUpdated', filteredItems.length)
-            }
+            },
+            removeUserRequest(username){
+                this.sendRemoveUserRequest(username)
+            },
+            sendRemoveUserRequest(username){
+                const apiURL = "http://localhost:8081/api/admin/remove/user"
+                axios.post(apiURL,{username:username}, {withCredentials: true})
+                    .then(response => {
+                        if(response.data.status === "success") {
+                            this.$emit('fetchData')
+                            this.makeToast(
+                                'Remove user success',
+                                `${username} is removed from the database.`,
+                                'warning',
+                            )
+                        }
+                    })
+                    .catch(()=> {
+                        this.makeToast(
+                            'Server request failed',
+                            `Something went wrong. Please try again later.`,
+                            'warning',
+                        )
+                    })
+            },
+            makeToast: function(title, msg, variant){ // Creating small popup window on top right
+                this.$bvToast.toast(msg, {
+                    title: title,
+                    variant: variant,
+                    autoHideDelay: 2000,
+                    appendToast: false
+                })
+            },
         },
         watch: {
             view_id: function(){

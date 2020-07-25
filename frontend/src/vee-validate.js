@@ -1,4 +1,4 @@
-import { required, alpha_num, alpha } from 'vee-validate/dist/rules';
+import { required, alpha_num, alpha, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
 
 extend('required', {
@@ -14,4 +14,9 @@ extend('alpha_num', {
 extend('alpha', {
     ...alpha,
     message: 'Only alphabets characters are allowed'
+})
+
+extend('numeric', {
+    ...numeric,
+    message: 'Only numerical values allowed'
 })

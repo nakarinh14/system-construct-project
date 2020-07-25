@@ -9,116 +9,139 @@
                 <BIconPlusSquareFill></BIconPlusSquareFill> Add new course
             </a>
         </div>
+        <ValidationObserver ref="observer" v-slot="{ passes }">
         <b-modal
                 ref="add-course-modal"
-                @ok="sendCourseRequest"
+                @ok.prevent="passes(sendCourseRequest)"
         >
             <template v-slot:modal-title>
                 Add new course
             </template>
             <b-container>
                 <b-form>
-                    <b-form-group
-                            id="input-group-id"
-                            label="Course Id:"
-                            label-for="input-id"
-                    >
-                        <b-form-input
-                                id="input-id"
-                                v-model="courseForm.id"
-                                type="text"
-                                required
-                                placeholder="Enter Course ID"
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                            id="input-group-name"
-                            label="Course Name:"
-                            label-for="input-name"
-                    >
-                        <b-form-input
-                                id="input-name"
-                                v-model="courseForm.name"
-                                type="text"
-                                required
-                                placeholder="Enter Course Name"
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                            id="input-group-division"
-                            label="Course Division:"
-                            label-for="input-division"
-                    >
-                        <b-form-input
-                                id="input-division"
-                                v-model="courseForm.division"
-                                type="text"
-                                required
-                                placeholder="Enter Course Division"
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                            id="input-group-section"
-                            label="Course Division:"
-                            label-for="input-section"
-                    >
-                        <b-form-input
-                                id="input-section"
-                                v-model="courseForm.section"
-                                type="text"
-                                required
-                                placeholder="Enter Course Section"
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group id="input-group-instructor" label="Instructor:" label-for="input-instructor">
-                        <b-form-select
-                                v-model="courseForm.instructor"
-                                id="input-instructor"
-                                required
-                        ></b-form-select>
-                    </b-form-group>
-                    <b-form-group
-                            id="input-group-capacity"
-                            label="Course Capacity:"
-                            label-for="input-capacity"
-                    >
-                        <b-form-input
-                                id="input-capacity"
-                                v-model="courseForm.capacity"
-                                type="text"
-                                required
-                                placeholder="Enter Capacity"
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                            id="input-group-registered"
-                            label="Course Registered:"
-                            label-for="input-registered"
-                    >
-                        <b-form-input
-                                id="input-registered"
-                                v-model="courseForm.registered"
-                                type="text"
-                                required
-                                placeholder="Enter Registered Students"
-                        ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                            id="input-group-date"
-                            label="Course Date:"
-                            label-for="input-date"
-                    >
-                        <b-form-input
-                                id="input-date"
-                                v-model="courseForm.date"
-                                type="text"
-                                required
-                                placeholder="Enter Date"
-                        ></b-form-input>
-                    </b-form-group>
+                    <ValidationProvider rules="alpha_num|required" name="ID" v-slot="{ valid, errors }">
+                        <b-form-group
+                                id="input-group-id"
+                                label="Course Id:"
+                                label-for="input-id"
+                        >
+                            <b-form-input
+                                    id="input-id"
+                                    v-model="courseForm.id"
+                                    type="text"
+                                    :state="errors[0] ? false : null"
+                                    placeholder="Enter Course ID"
+                            ></b-form-input>
+                            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                        </b-form-group>
+                    </ValidationProvider>
+                    <ValidationProvider rules="required" name="Name" v-slot="{ valid, errors }">
+                            <b-form-group
+                                    id="input-group-name"
+                                    label="Course Name:"
+                                    label-for="input-name"
+                            >
+                                <b-form-input
+                                        id="input-name"
+                                        v-model="courseForm.name"
+                                        type="text"
+                                        :state="errors[0] ? false : null"
+                                        placeholder="Enter Course Name"
+                                ></b-form-input>
+                                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                            </b-form-group>
+                    </ValidationProvider>
+                    <ValidationProvider rules="alpha|required" name="Division" v-slot="{ valid, errors }">
+                        <b-form-group
+                                id="input-group-division"
+                                label="Course Division:"
+                                label-for="input-division"
+                        >
+                            <b-form-input
+                                    id="input-division"
+                                    v-model="courseForm.division"
+                                    type="text"
+                                    :state="errors[0] ? false : null"
+                                    placeholder="Enter Course Division"
+                            ></b-form-input>
+                            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                        </b-form-group>
+                    </ValidationProvider>
+                    <ValidationProvider rules="numeric|required" name="Section" v-slot="{ valid, errors }">
+                        <b-form-group
+                                id="input-group-section"
+                                label="Course Section:"
+                                label-for="input-section"
+                        >
+                            <b-form-input
+                                    id="input-section"
+                                    v-model="courseForm.section"
+                                    type="text"
+                                    :state="errors[0] ? false : null"
+                                    placeholder="Enter Course Section"
+                            ></b-form-input>
+                            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                        </b-form-group>
+                    </ValidationProvider>
+                        <b-form-group id="input-group-instructor" label="Instructor:" label-for="input-instructor">
+                            <b-form-select
+                                    v-model="courseForm.instructor"
+                                    id="input-instructor"
+                                    required
+                            ></b-form-select>
+                        </b-form-group>
+                    <ValidationProvider rules="numeric|required" name="Capacity" v-slot="{ valid, errors }">
+                        <b-form-group
+                                id="input-group-capacity"
+                                label="Course Capacity:"
+                                label-for="input-capacity"
+                        >
+                            <b-form-input
+                                    id="input-capacity"
+                                    v-model="courseForm.capacity"
+                                    type="text"
+                                    :state="errors[0] ? false : null"
+                                    placeholder="Enter Capacity"
+                            ></b-form-input>
+                            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                        </b-form-group>
+                    </ValidationProvider>
+                    <ValidationProvider rules="numeric|required" name="Registered" v-slot="{ valid, errors }">
+                        <b-form-group
+                                id="input-group-registered"
+                                label="Course Registered:"
+                                label-for="input-registered"
+                        >
+                            <b-form-input
+                                    id="input-registered"
+                                    v-model="courseForm.registered"
+                                    type="text"
+                                    :state="errors[0] ? false : null"
+                                    placeholder="Enter Registered Students"
+                            ></b-form-input>
+                            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                        </b-form-group>
+                    </ValidationProvider>
+                    <ValidationProvider rules="required" name="Date" v-slot="{ valid, errors }">
+                        <b-form-group
+                                id="input-group-date"
+                                label="Course Date:"
+                                label-for="input-date"
+                        >
+                            <b-form-input
+                                    id="input-date"
+                                    v-model="courseForm.date"
+                                    type="text"
+                                    :state="errors[0] ? false : null"
+                                    placeholder="Enter Date"
+                            ></b-form-input>
+                            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                        </b-form-group>
+                    </ValidationProvider>
                 </b-form>
             </b-container>
         </b-modal>
+        </ValidationObserver>
         <b-modal
                 ref="add-term-modal"
         >
@@ -163,6 +186,7 @@
 
 <script>
     import DashboardComponent from "../components/DashboardComponent";
+    import { ValidationObserver, ValidationProvider } from "vee-validate";
     import axios from "axios";
 
     export default {
@@ -190,6 +214,8 @@
 
         components:{
             DashboardComponent,
+            ValidationObserver,
+            ValidationProvider
         },
         methods:{
             showModalCourse(){
