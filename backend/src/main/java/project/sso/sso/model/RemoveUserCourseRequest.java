@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class RemoveCourseRequest {
+public class RemoveUserCourseRequest {
     private String username;
     private Long removeCourseID;
 

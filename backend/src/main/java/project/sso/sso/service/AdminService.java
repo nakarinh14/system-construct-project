@@ -75,10 +75,10 @@ public class AdminService {
         }
     }
 
-    public ValidateResponse removeCourse(RemoveCourseRequest removeCourseRequest) {
-        User target = userRepository.findByUsername(removeCourseRequest.getUsername());
-        Course targetCourse = courseRepository.findCourseById(removeCourseRequest.getRemoveCourseID());
-        if(target != null){
+    public ValidateResponse removeCourseFromUser(RemoveUserCourseRequest removeUserCourseRequest) {
+        User target = userRepository.findByUsername(removeUserCourseRequest.getUsername());
+        Course targetCourse = courseRepository.findCourseById(removeUserCourseRequest.getRemoveCourseID());
+        if (target != null) {
             target.getCourses().remove(targetCourse);
             targetCourse.getStudents().remove(target);
             userRepository.save(target);
