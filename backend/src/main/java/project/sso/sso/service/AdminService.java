@@ -124,13 +124,13 @@ public class AdminService {
             case STUDENT:
                 return assignCourseToStudent(assignCourseRequest);
             case INSTRUCTOR:
-                return assignCourseToInstructure(assignCourseRequest);
+                return assignCourseToInstructor(assignCourseRequest);
             default:
                 return new ValidateResponse("Fail");
         }
     }
 
-    public ValidateResponse assignCourseToInstructure(AssignCourseRequest assignCourseRequest) {
+    public ValidateResponse assignCourseToInstructor(AssignCourseRequest assignCourseRequest) {
         User user = userRepository.findByUsername(assignCourseRequest.getUsername());
         Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
         if (user != null && course != null) {
