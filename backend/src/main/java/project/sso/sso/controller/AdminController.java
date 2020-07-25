@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
+<<<<<<< HEAD
 import project.sso.sso.model.AddUserRequest;
 import project.sso.sso.model.RemoveUserRequest;
 
 import project.sso.sso.model.AssignCourseRequest;
 import project.sso.sso.model.RemoveCourseRequest;
 import project.sso.sso.model.ValidateResponse;
+=======
+import project.sso.sso.model.*;
+>>>>>>> master
 import project.sso.sso.service.AdminService;
 import project.sso.sso.service.DashboardService;
 import project.sso.sso.service.SecurityService;
@@ -61,18 +65,42 @@ public class AdminController {
         return null;
     }
 
-    @PostMapping("/api/admin/users/remove/course")
-    ValidateResponse  removeCourseFromUser(@RequestBody RemoveCourseRequest removeCourseRequest, HttpSession httpSession){
+    @GetMapping("/api/admin/users/instructor")
+    List<User> getAllInstructor(HttpSession httpSession){
         if(securityService.isAuthorized(httpSession, "admin")){
-            return adminService.removeCourse(removeCourseRequest);
+            return adminService.getAllInstructor();
+        }
+        return null;
+    }
+
+    @PostMapping("/api/admin/users/remove/course")
+    ValidateResponse removeCourseFromUser(@RequestBody RemoveUserCourseRequest removeUserCourseRequest, HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
+            return adminService.removeCourseFromUser(removeUserCourseRequest);
         }
         return null;
     }
 
     @PostMapping("/api/admin/courses/assign")
     ValidateResponse assignCourseToUser(@RequestBody AssignCourseRequest assignCourseRequest, HttpSession httpSession) {
-        if (securityService.isAuthorized(httpSession,"admin")) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
             return adminService.assignCourse(assignCourseRequest);
+        }
+        return null;
+    }
+
+    @PostMapping("/api/admin/add/course")
+    ValidateResponse addNewCourse(@RequestBody AddNewCourseRequest addNewCourseRequest, HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
+            return adminService.addNewCourse(addNewCourseRequest);
+        }
+        return null;
+    }
+
+    @PostMapping("/api/admin/remove/user")
+    ValidateResponse removeUser(@RequestBody RemoveUserRequest removeUserRequest, HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
+            return adminService.removeUser(removeUserRequest);
         }
         return null;
     }

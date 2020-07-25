@@ -74,7 +74,7 @@
                 }, {withCredentials: true})
                     .then(response =>{
                         if(response.data.status === "success") {
-                            this.$cookies.config(60 * 35); // set 15 minute expired token
+                            this.$cookies.config(60 * 35); // set 35 minute expired token
                             this.$cookies.set('username',response.data.username);
                             this.$cookies.set('firstname',response.data.firstname);
                             this.$cookies.set('lastname',response.data.lastname);

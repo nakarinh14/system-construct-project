@@ -2,10 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "../views/Login";
-import Setting from "../components/AdminSettingComponent";
-import EditUserVue from "../components/EditUserVue";
-import EditCourseVue from "../components/EditCourseVue";
+import EditUserVue from "../views/AdminUserView";
+import EditCourseVue from "../views/AdminCourseView";
+import PageNotFound from "../views/PageNotFound";
 import axios from 'axios';
+
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,7 @@ const routes = [
         name: 'Home',
         component: Home,
         meta:{
+            title: 'Home | Learning Management System',
             requiresAuth:true
         }
     },
@@ -24,19 +26,17 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../components/About.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../components/About.vue'),
+        meta:{
+            title: 'About | Learning Management System'
+        }
     },
     {
         path: '/login',
         name: 'Login',
         component: Login,
-    },
-    {
-        path:'/setting',
-        name:'Setting',
-        component: Setting,
         meta:{
-            requiresAuth: true
+            title: 'Login | Learning Management System'
         }
     },
     {
@@ -44,7 +44,9 @@ const routes = [
         name: 'Courses',
         component: EditCourseVue,
         meta:{
-            requiresAuth: true
+            title: 'Course Settings | Learning Management System',
+            requiresAuth: true,
+            adminOnly: true
         }
     },
     {
@@ -52,9 +54,15 @@ const routes = [
         name:'Users',
         component: EditUserVue,
         meta:{
-            requiresAuth: true
+            title: 'User Settings | Learning Management System',
+            requiresAuth: true,
+            adminOnly: true
         }
 
+    },
+    {
+        path:'*',
+        component: PageNotFound
     }
 ]
 
@@ -66,17 +74,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if(to.matched.some(record => record.meta.requiresAuth)){
-
         const validateUrl = "http://localhost:8081/api/auth/validate";
         axios.get(validateUrl, {withCredentials: true})
             .then(response => {
                 if(response.data.status === "success"){
-                    console.log("validated")
-                    next();
+                    Vue.$cookies.config(60 * 35); // set 35 minute expired token
+                    if(to.matched.some(record => record.meta.adminOnly)){
+                        if(Vue.$cookies.get("role") === "admin"){
+                            next();
+                        } else{
+                            next({name: 'Home'})
+                        }
+                    } else{
+                        next();
+                    }
                 } else {
-                    this.$cookies.remove("username");
-                    this.$cookies.remove("firstname");
-                    this.$cookies.remove("lastname");
                     console.log("not validate");
                     next({name: "Login"})
                 }
@@ -89,5 +101,12 @@ router.beforeEach((to, from, next) => {
         next();
     }
 })
+
+router.afterEach((to) => {
+    // Use next tick to handle router history correctly
+    Vue.nextTick(() => {
+        document.title = to.meta.title;
+    });
+});
 
 export default router

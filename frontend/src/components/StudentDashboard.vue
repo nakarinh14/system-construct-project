@@ -21,15 +21,18 @@
                     <b-modal scrollable
                             :id="row.item.id+'-modal'"
                             size="lg"
+                             ok-only
                     >
                         <template v-slot:modal-title>
                             {{row.item.courseName}} (Section {{row.item.section}})
                         </template>
                         {{row.item.info}}
+                        <template v-slot:modal-ok>
+                            Done
+                        </template>
                     </b-modal>
                     <b-button v-b-modal="row.item.id+'-modal'"
                               size="sm"
-                              class="mr-2"
                               variant="primary"
                     >
                         Show Info
@@ -52,7 +55,7 @@
         data() {
             return {
                 fields: [
-                    {key:"courseId", sortable:true, label:"Course ID"},
+                    {key:"courseId", sortable:true, label:"ID"},
                     {key:"courseName", sortable:true},
                     {key:"division", sortable:true},
                     {key:"section", sortable:true},
