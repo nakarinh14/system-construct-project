@@ -72,5 +72,13 @@ public class AdminController {
         return null;
     }
 
+    @PostMapping("/api/admin/remove/user")
+    ValidateResponse removeUser(@RequestBody RemoveUserRequest removeUserRequest, HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
+            return adminService.removeUser(removeUserRequest);
+        }
+        return null;
+    }
+
 
 }
