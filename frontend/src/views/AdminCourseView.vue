@@ -12,7 +12,8 @@
         <ValidationObserver ref="observer" v-slot="{ passes }">
             <b-modal
                     ref="add-course-modal"
-                    @ok.prevent="passes(sendCourseRequest)"
+                    @ok.prevent="passes(handleCourseFormOk)"
+                    @cancel="clearForm(courseForm)"
             >
                 <template v-slot:modal-title>
                     Add new course
@@ -148,7 +149,8 @@
         <ValidationObserver ref="observer" v-slot="{ passes }">
             <b-modal
                     ref="add-term-modal"
-                    @ok.prevent="passes(sendTermRequest)"
+                    @ok.prevent="passes(handleTermFormOk)"
+                    @cancel="clearForm(termForm)"
             >
                 <template v-slot:modal-title>
                     Add new term
@@ -156,7 +158,7 @@
                 <b-form>
                     <ValidationProvider rules="required" name="Term" v-slot="{ valid, errors }">
                             <b-form-group
-                                    id="input-group-1"
+                                    id="input-group-term"
                                     label="Term period:"
                                     label-for="input-term"
                             >
@@ -172,7 +174,7 @@
                     </ValidationProvider>
                     <ValidationProvider rules="required" name="Year" v-slot="{ valid, errors }">
                         <b-form-group
-                                id="input-group-2"
+                                id="input-group-year"
                                 label="Year period:"
                                 label-for="input-year"
                         >
@@ -187,6 +189,9 @@
                         </b-form-group>
                     </ValidationProvider>
                 </b-form>
+                <template v-slot:modal-ok>
+                    Submit
+                </template>
             </b-modal>
         </ValidationObserver>
         <DashboardComponent>
@@ -251,63 +256,79 @@
             },
             sendCourseRequest(){
                 const apiURL = "http://localhost:8081/api/admin/add/course";
-                this.trimForm();
                 axios.post(apiURL, this.courseForm, {withCredentials: true})
                     .then(response => {
                         if(response.data.status) {
                             this.makeToast(
-                                'success',
                                 'Add user success',
-                                `New user, ${this.form.username} is successfully added to the database.`
+                                `New stuff added`,
+                            'success',
                             )
                         } else{
                             this.makeToast(
-                                'danger',
                                 'Add user failed',
-                                'The server isn\'t able to add user. Please use a different username'
+                                'The server isn\'t able to add course. Please try again later',
+                            'danger',
                             )
                         }
                     })
                     .catch(()=>
                         this.makeToast(
-                            'warning',
                             'Server request failed',
-                            'Server may be temporally unavailable. Please try again later.'
+                            'Server may be temporally unavailable. Please try again later.',
+                            'warning',
                         )
                     )
+                    .finally(() => this.clearForm(this.courseForm))
             },
             sendTermRequest(){
                 const apiURL = "http://localhost:8081/api/admin/add/term";
-                this.trimForm();
                 axios.post(apiURL, this.termForm, {withCredentials: true})
                     .then(response => {
                         if(response.data.status) {
                             this.makeToast(
-                                'success',
+
                                 'Add term success',
-                                `New user, ${this.termForm.term} ${this.termForm.year} is successfully added to the database.`
+                                `Term, ${this.termForm.term} ${this.termForm.year} is successfully added to the database.`,
+                                'success',
                             )
                         } else{
                             this.makeToast(
-                                'danger',
+
                                 'Add term failed',
-                                'The server isn\'t able to add term. Please try again later'
+                                'The server isn\'t able to add term. Please try again later',
+                                'danger',
                             )
                         }
                     })
                     .catch(()=>
                         this.makeToast(
-                            'warning',
+
                             'Server request failed',
-                            'Server may be temporally unavailable. Please try again later.'
+                            'Server may be temporally unavailable. Please try again later.',
+                            'warning',
                         )
                     )
+                    .finally(() => this.clearForm(this.termForm))
 
             },
-            trimForm(){
-                for(const key of Object.keys(this.form)){
-                    this.form[key] = this.form[key].trim()
+            handleCourseFormOk(){
+              this.$refs['add-course-modal'].hide()
+              this.sendCourseRequest()
+            },
+            handleTermFormOk(){
+                this.$refs["add-term-modal"].hide()
+                this.sendTermRequest()
+            },
+            clearForm(form) {
+                for(let key in form){
+                    if(Object.prototype.hasOwnProperty.call(form,key)){
+                        form[key] = ""
+                    }
                 }
+                requestAnimationFrame(() => {
+                    this.$refs.observer.reset();
+                });
             },
             makeToast: function(title, msg, variant){ // Creating small popup window on top right
                 this.$bvToast.toast(msg, {
