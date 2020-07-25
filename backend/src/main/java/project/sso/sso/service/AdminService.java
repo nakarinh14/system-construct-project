@@ -38,6 +38,10 @@ public class AdminService {
         return userRepository.findAll();
     }
 
+    public List<User> getAllInstructor(){
+        return userRepository.findAllByRole(roleRepository.findByRoleEquals(RoleType.INSTRUCTOR));
+    }
+
     public List<Course> getAllCourses(Long id){
         String role = userRepository.getRoleOfId(id).toLowerCase();
         if(role.equals("student")){
