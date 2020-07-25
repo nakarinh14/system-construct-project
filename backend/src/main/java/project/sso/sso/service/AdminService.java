@@ -92,7 +92,7 @@ public class AdminService {
             profileRepository.deleteById(removeUserRequest.getId());
             List<Course> userCourse = courseRepository.findAllByInstructorId(removeUserRequest.getId());
             for (Course c : userCourse) {
-                c.getStudents().remove(target);
+                c.setInstructorId(null);
             }
             if (!userRepository.existsById(removeUserRequest.getId())) {
                 return new ValidateResponse("success");
