@@ -192,10 +192,10 @@
             DashboardComponent,
         },
         methods:{
-            showModal(){
+            showModalCourse(){
                 this.$refs['add-course-modal'].show()
             },
-            showModalCourse(){
+            showModalTerm(){
                 this.getInstructor()
                 this.$refs['add-term-modal'].show()
             },

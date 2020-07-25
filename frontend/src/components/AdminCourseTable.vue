@@ -5,7 +5,7 @@
                 size="xl"
                 okOnly
         >
-            <template v-slot:modal-header>
+            <template v-slot:modal-title>
                 <b>Assigning Students For {{currentViewedCourse.courseCode}}</b>
             </template>
             <b-container>
