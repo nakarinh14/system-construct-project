@@ -49,18 +49,21 @@
             AddUserForm
         },
         created() {
-            const apiURL = "http://localhost:8081/api/admin/users";
-            axios.get(apiURL, {withCredentials: true})
-                .then(response => {
-                    if(response.data){
-                        this.users = response.data
-                    }
-                })
-                .catch(()=> {
-                    console.log("Dashboard user get call failed.")
-                })
+            this.fetchUsers()
         },
         methods:{
+            fetchUsers(){
+                const apiURL = "http://localhost:8081/api/admin/users";
+                axios.get(apiURL, {withCredentials: true})
+                    .then(response => {
+                        if(response.data){
+                            this.users = response.data
+                        }
+                    })
+                    .catch(()=> {
+                        console.log("Dashboard user get call failed.")
+                    })
+            },
             showModal() {
                 this.$refs['add-user-modal'].show()
             },
@@ -68,14 +71,13 @@
                 this.toggle = true;
             },
             requestSent(res){
-                this.toggle = false;
+                if(res.variant === "success") {
+                    this.fetchUsers()
+                }
                 this.makeToast(res);
+                this.toggle = false;
             },
             makeToast(res){
-                console.log(res)
-                console.log(res.msg)
-                console.log(res.title)
-                console.log(res.variant)
                 this.$bvToast.toast(res.msg, {
                     title: res.title,
                     variant: res.variant,
