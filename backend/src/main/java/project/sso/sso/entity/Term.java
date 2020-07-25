@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.sso.sso.model.AddNewTermRequest;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -31,4 +32,9 @@ public class Term {
     )
     @JsonIgnore
     private Set<Course> courses = new HashSet<>();
+
+    public Term(AddNewTermRequest request) {
+        this.semester = request.getSemester();
+        this.year = request.getYear();
+    }
 }
