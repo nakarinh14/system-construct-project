@@ -7,10 +7,7 @@ import project.sso.sso.entity.Profile;
 import project.sso.sso.entity.Role;
 import project.sso.sso.entity.User;
 import project.sso.sso.misc.RoleType;
-import project.sso.sso.model.AddUserRequest;
-import project.sso.sso.model.AssignCourseRequest;
-import project.sso.sso.model.RemoveCourseRequest;
-import project.sso.sso.model.ValidateResponse;
+import project.sso.sso.model.*;
 import project.sso.sso.repository.*;
 
 import java.util.List;
@@ -82,10 +79,36 @@ public class AdminService {
         }
     }
 
-    public ValidateResponse removeCourse(RemoveCourseRequest removeCourseRequest) {
-        User target = userRepository.findByUsername(removeCourseRequest.getUsername());
-        Course targetCourse = courseRepository.findCourseById(removeCourseRequest.getRemoveCourseID());
-        if(target != null){
+    public ValidateResponse removeUser(RemoveUserRequest removeUserRequest) {
+        User target = userRepository.findByUsername(removeUserRequest.getUsername());
+        if (target.getRole().getRole().getPermission().equals("student")) {
+            userRepository.deleteById(removeUserRequest.getId());
+            profileRepository.deleteById(removeUserRequest.getId());
+            List<Course> userCourse = courseRepository.findCourseByStudentId(removeUserRequest.getId());
+            for (Course c : userCourse) {
+                c.getStudents().remove(target);
+            }
+            if (!userRepository.existsById(removeUserRequest.getId())) {
+                return new ValidateResponse("success");
+            }
+        } else if (target.getRole().getRole().getPermission().equals("instructor")) {
+            userRepository.deleteById(removeUserRequest.getId());
+            profileRepository.deleteById(removeUserRequest.getId());
+            List<Course> userCourse = courseRepository.findAllByInstructorId(removeUserRequest.getId());
+            for (Course c : userCourse) {
+                c.setInstructorId(null);
+            }
+            if (!userRepository.existsById(removeUserRequest.getId())) {
+                return new ValidateResponse("success");
+            }
+        }
+        return new ValidateResponse("fail");
+    }
+
+    public ValidateResponse removeCourseFromUser(RemoveUserCourseRequest removeUserCourseRequest) {
+        User target = userRepository.findByUsername(removeUserCourseRequest.getUsername());
+        Course targetCourse = courseRepository.findCourseById(removeUserCourseRequest.getRemoveCourseID());
+        if (target != null) {
             target.getCourses().remove(targetCourse);
             targetCourse.getStudents().remove(target);
             userRepository.save(target);
@@ -98,7 +121,7 @@ public class AdminService {
     public ValidateResponse assignCourse(AssignCourseRequest assignCourseRequest) {
         User user = userRepository.findByUsername(assignCourseRequest.getUsername());
         Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
-        if (user !=  null) {
+        if (user != null) {
             course.getStudents().add(user);
             user.getCourses().add(course);
             userRepository.save(user);
@@ -108,5 +131,13 @@ public class AdminService {
         return new ValidateResponse("Fail");
     }
 
+    public ValidateResponse addNewCourse(AddNewCourseRequest addNewCourseRequest) {
+        Course newCourse = new Course(addNewCourseRequest);
+        courseRepository.save(newCourse);
+        if (!courseRepository.existsByCourseId(newCourse.getCourseId())) {
+            return new ValidateResponse("Fail");
+        }
+        return new ValidateResponse("Success");
+    }
 
 }
