@@ -7,7 +7,6 @@ import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
@@ -28,6 +27,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findAllByInstructorId(Long id);
 
-    @Query ("SELECT c FROM Course c LEFT JOIN c.students s WHERE s.id = ?1")
+    @Query("SELECT c FROM Course c LEFT JOIN c.students s WHERE s.id = ?1")
     List<Course> findCourseByStudentId(Long id);
+
+    boolean existsByCourseId(String courseID);
 }

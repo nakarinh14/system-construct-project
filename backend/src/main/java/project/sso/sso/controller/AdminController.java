@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.User;
-import project.sso.sso.model.AddUserRequest;
-import project.sso.sso.model.AssignCourseRequest;
-import project.sso.sso.model.RemoveCourseRequest;
-import project.sso.sso.model.ValidateResponse;
+import project.sso.sso.model.*;
 import project.sso.sso.service.AdminService;
 import project.sso.sso.service.DashboardService;
 import project.sso.sso.service.SecurityService;
@@ -61,8 +58,16 @@ public class AdminController {
 
     @PostMapping("/api/admin/courses/assign")
     ValidateResponse assignCourseToUser(@RequestBody AssignCourseRequest assignCourseRequest, HttpSession httpSession) {
-        if (securityService.isAuthorized(httpSession,"admin")) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
             return adminService.assignCourse(assignCourseRequest);
+        }
+        return null;
+    }
+
+    @PostMapping("/api/admin/add/course")
+    ValidateResponse addNewCourse(@RequestBody AddNewCourseRequest addNewCourseRequest, HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
+            return adminService.addNewCourse(addNewCourseRequest);
         }
         return null;
     }

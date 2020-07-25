@@ -2,11 +2,11 @@ package project.sso.sso.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.sso.sso.model.AddNewCourseRequest;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -55,8 +55,22 @@ public class Course {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "join_enrollment",
-            inverseJoinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"),
             joinColumns = @JoinColumn(name = "course_id")
     )
     private Set<User> students = new HashSet<>();
+
+    public Course(AddNewCourseRequest request) {
+        this.setCourseId(request.getCourseId());
+        this.setCourseName(request.getCourseName());
+        this.setDivision(request.getDivision());
+        this.setSection(request.getSection());
+        this.setDate(request.getDate());
+        this.setCapacity(request.getCapacity());
+        this.setRegistered(request.getRegistered());
+        this.setInstructorId(request.getInstructorId());
+        this.setTerm(request.getTerm());
+        this.setInfo(request.getInfo());
+
+    }
 }
