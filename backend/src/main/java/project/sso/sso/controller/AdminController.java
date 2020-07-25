@@ -67,7 +67,7 @@ public class AdminController {
     @PostMapping("/api/admin/courses/assign")
     ValidateResponse assignCourseToUser(@RequestBody AssignCourseRequest assignCourseRequest, HttpSession httpSession) {
         if (securityService.isAuthorized(httpSession, "admin")) {
-            return adminService.assignCourse(assignCourseRequest);
+            return adminService.assignCourseToUser(assignCourseRequest);
         }
         return null;
     }

@@ -118,10 +118,35 @@ public class AdminService {
         return new ValidateResponse("Fail");
     }
 
-    public ValidateResponse assignCourse(AssignCourseRequest assignCourseRequest) {
+    public ValidateResponse assignCourseToUser(AssignCourseRequest assignCourseRequest) {
+        User user = userRepository.findByUsername(assignCourseRequest.getUsername());
+        switch (user.getRole().getRole()) {
+            case STUDENT:
+                return assignCourseToStudent(assignCourseRequest);
+            case INSTRUCTOR:
+                return assignCourseToInstructure(assignCourseRequest);
+            default:
+                return new ValidateResponse("Fail");
+        }
+    }
+
+    public ValidateResponse assignCourseToInstructure(AssignCourseRequest assignCourseRequest) {
         User user = userRepository.findByUsername(assignCourseRequest.getUsername());
         Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
-        if (user != null) {
+        if (user != null && course != null) {
+            course.setInstructorId(user.getId());
+            user.getCourses().add(course);
+            userRepository.save(user);
+            courseRepository.save(course);
+            return new ValidateResponse("Success");
+        }
+        return new ValidateResponse("Fail");
+    }
+
+    public ValidateResponse assignCourseToStudent(AssignCourseRequest assignCourseRequest) {
+        User user = userRepository.findByUsername(assignCourseRequest.getUsername());
+        Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
+        if (user != null && course != null) {
             course.getStudents().add(user);
             user.getCourses().add(course);
             userRepository.save(user);
