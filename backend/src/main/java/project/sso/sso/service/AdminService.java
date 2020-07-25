@@ -108,7 +108,7 @@ public class AdminService {
     public ValidateResponse removeCourseFromUser(RemoveUserCourseRequest removeUserCourseRequest) {
         User target = userRepository.findByUsername(removeUserCourseRequest.getUsername());
         Course targetCourse = courseRepository.findCourseById(removeUserCourseRequest.getRemoveCourseID());
-        if (target != null) {
+        if (target != null && targetCourse != null) {
             target.getCourses().remove(targetCourse);
             targetCourse.getStudents().remove(target);
             userRepository.save(target);
@@ -119,8 +119,8 @@ public class AdminService {
     }
 
     public ValidateResponse assignCourseToUser(AssignCourseRequest assignCourseRequest) {
-        User user = userRepository.findByUsername(assignCourseRequest.getUsername());
-        switch (user.getRole().getRole()) {
+        Role role = userRepository.findByUsername(assignCourseRequest.getUsername()).getRole();
+        switch (role.getRole()) {
             case STUDENT:
                 return assignCourseToStudent(assignCourseRequest);
             case INSTRUCTOR:
