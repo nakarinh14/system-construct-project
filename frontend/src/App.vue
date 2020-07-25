@@ -1,7 +1,8 @@
 <template>
     <div id="app">
+
         <b-container fluid v-if="this.$cookies.isKey('username')">
-            <b-row>
+            <b-row align-v="center">
                 <b-col></b-col>
                 <b-col>
                     <div id="nav">
@@ -13,10 +14,17 @@
                     </div>
                 </b-col>
                 <b-col>
-                    <p style="padding:30px">Logged in as
-                        <b>{{this.$cookies.get("username")}}</b> |
-                        <a href="#" @click.prevent="logout">Logout</a>
-                    </p>
+                    <div >
+                        <b-avatar badge="S" badge-variant="info" v-if="this.$cookies.get('role') === 'student'" size="33px"></b-avatar>
+                        <b-avatar badge="I" badge-variant="primary" v-if="this.$cookies.get('role') === 'instructor'" size="33px"></b-avatar>
+                        <b-avatar badge-variant="warning" v-if="this.$cookies.get('role') === 'admin'" size="33px">
+                            <template v-slot:badge><b-icon icon="star-fill" variant="white"></b-icon> </template>
+                        </b-avatar>
+                        <span style="padding:10px; font-size: 15px">Logged in as
+                            <strong>{{this.$cookies.get("username")}}</strong> |
+                            <a href="#" @click.prevent="logout">Logout</a>
+                        </span>
+                    </div>
                 </b-col>
             </b-row>
         </b-container>

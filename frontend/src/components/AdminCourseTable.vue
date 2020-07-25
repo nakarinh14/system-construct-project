@@ -1,10 +1,12 @@
 <template>
     <b-container fluid>
+
         <b-modal
                 ref="assign-modal"
                 size="xl"
+                okOnly
         >
-            <template v-slot:modal-header>
+            <template v-slot:modal-title>
                 <b>Assigning Students For {{currentViewedCourse.courseCode}}</b>
             </template>
             <b-container>
@@ -29,8 +31,10 @@
                                  :items="studentsGet"
                                  :fields="students_fields_assign"
                                  :filter="searchFilterE"
+                                 :busy="assignBusy"
                                  class="assign-table text-center"
                                  sticky-header="400px"
+                                 style="min-height: 400px"
                                  small
                         >
                             <template v-slot:thead-top>
@@ -47,6 +51,11 @@
                                 <a href="#" @click.prevent="requestWithdraw(currentViewedCourse.courseId, currentViewedCourse.courseCode, row.item.username)">
                                     <BIconPersonDashFill class="icon-tmp"></BIconPersonDashFill>
                                 </a>
+                            </template>
+                            <template v-slot:table-busy>
+                                <div class="text-center">
+                                    <b-spinner variant="primary" class="align-middle" style="margin-right: 7px"></b-spinner>
+                                </div>
                             </template>
                         </b-table>
 
@@ -71,8 +80,10 @@
                                 :items="unassigned_students"
                                 :fields="students_fields_assign"
                                 :filter="searchFilterA"
+                                :busy="assignBusy"
                                 class="assign-table text-center"
                                 sticky-header="400px"
+                                style="min-height: 400px"
                                 small
                         >
                             <template v-slot:thead-top>
@@ -90,11 +101,20 @@
                                     <BIconPersonPlusFill class="icon-tmp"></BIconPersonPlusFill>
                                 </a>
                             </template>
+                            <template v-slot:table-busy>
+                                <div class="text-center">
+                                    <b-spinner variant="warning" class="align-middle" style="margin-right: 7px"></b-spinner>
+                                </div>
+                            </template>
                         </b-table>
                     </b-col>
                 </b-row>
             </b-container>
+            <template v-slot:modal-ok>
+                Done
+            </template>
         </b-modal>
+
         <b-table striped bordered hover :head-variant="'dark'"
                  :items="data"
                  :fields="course_fields"
@@ -135,6 +155,8 @@
                         :id="'show-modal-'+row.item.id"
                         size="lg"
                         no-stacking
+                        ok-only
+                        scrollable
                 >
                     <template v-slot:modal-header>
                         <b>Enrolled Students in {{row.item.courseId}} (Section {{row.item.section}})</b>
@@ -143,11 +165,15 @@
                         </a>
                     </template>
                     <!-- Table in show students modal  -->
-                    <b-table bordered :head-variant="'dark'" :items="studentsGet" :fields="students_fields">
+                    <b-table bordered :head-variant="'dark'" :items="studentsGet" :fields="students_fields" sticky-header="400px">
                         <template v-slot:cell(name)="inner">
                             {{inner.item.profile.title}} {{inner.item.profile.firstname}} {{inner.item.profile.lastname}}
                         </template>
+
                     </b-table>
+                    <template v-slot:modal-ok>
+                        Done
+                    </template>
                 </b-modal>
             </template>
         </b-table>
@@ -163,14 +189,14 @@
         data() {
             return {
                 course_fields: [
-                    {key:"courseId", sortable:true, label:"Course ID"},
+                    {key:"courseId", sortable:true, label:"ID"},
                     {key:"courseName", sortable:true},
                     {key:"division", sortable:true},
                     {key:"section", sortable:true},
-                    {key:"instructorName", sortable:true},
+                    {key:"instructorName", sortable:true, label:"Instructor"},
                     {key:"capacity", sortable:true},
                     {key:"registered", sortable:true},
-                    {key:"seatAvailable", sortable: true},
+                    {key:"seatAvailable", sortable: true, label:"Available"},
                     {key:"date"},
                     {key:"students",label:"Students"},
                     {key:"infos", label:"Info"}
@@ -192,7 +218,8 @@
                 searchFilterE: null,
                 searchFilterA: null,
                 enrolledId: null,
-                spamProtected: false
+                spamProtected: false,
+                assignBusy: false
             }
         },
         methods:{
@@ -224,7 +251,7 @@
                     })
                     .catch(()=> {
                         console.log("Dashboard user get call failed.")
-                    })
+                    }).finally(() => this.assignBusy = false)
             },
             showAssign: function(courseId, courseCode){
                 this.getAllStudents()
@@ -237,7 +264,7 @@
                 )
             },
             requestAssign: function(courseId, courseCode, username){
-
+                this.assignBusy = true
                 const apiURL = "http://localhost:8081/api/admin/courses/assign";
                 axios.post(apiURL,
                     {
@@ -249,11 +276,11 @@
                         if(response.data){
                             this.getStudentFromCourseId(courseId)
                             this.getAllStudents()
-                            this.makeToast(
-                                "Student Assigned Success",
-                                `${username} is successfully assigned to ${courseCode}`,
-                                "success"
-                            )
+                            // this.makeToast(
+                            //     "Student Assigned Success",
+                            //     `${username} is assigned to ${courseCode} successfully`,
+                            //     "primary"
+                            // )
                         }
                     })
                     .catch(()=> {
@@ -265,6 +292,7 @@
 
             },
             requestWithdraw: function(courseId, courseCode, username){
+                this.assignBusy = true
                 const apiURL = "http://localhost:8081/api/admin/users/remove/course";
                 axios.post(apiURL,
                     {
@@ -276,11 +304,11 @@
                         if(response.data){
                             this.getStudentFromCourseId(courseId)
                             this.getAllStudents()
-                            this.makeToast(
-                                "Student Removed Success",
-                                `${username} is successfully unassigned from ${courseCode}`,
-                                "success"
-                            )
+                            // this.makeToast(
+                            //     "Student Removed Success",
+                            //     `${username} is unassigned from ${courseCode} successfully`,
+                            //     "warning"
+                            // )
                         }
                     })
                     .catch(()=> {
@@ -293,8 +321,8 @@
                 this.$bvToast.toast(msg, {
                     title: title,
                     variant: variant,
-                    autoHideDelay: 3800,
-                    appendToast: true
+                    autoHideDelay: 1000,
+                    appendToast: false
                 })
             },
             createFailToast: function(){

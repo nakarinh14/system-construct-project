@@ -51,6 +51,14 @@ public class AdminController {
         return null;
     }
 
+    @GetMapping("/api/admin/users/instructor")
+    List<User> getAllInstructor(HttpSession httpSession){
+        if(securityService.isAuthorized(httpSession, "admin")){
+            return adminService.getAllInstructor();
+        }
+        return null;
+    }
+
     @PostMapping("/api/admin/users/remove/course")
     ValidateResponse  removeCourseFromUser(@RequestBody RemoveCourseRequest removeCourseRequest, HttpSession httpSession){
         if(securityService.isAuthorized(httpSession, "admin")){
