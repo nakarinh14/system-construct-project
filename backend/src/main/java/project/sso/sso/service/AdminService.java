@@ -111,9 +111,9 @@ public class AdminService {
             targetCourse.getStudents().remove(target);
             userRepository.save(target);
             courseRepository.save(targetCourse);
-            return new ValidateResponse("Success");
+            return new ValidateResponse("success");
         }
-        return new ValidateResponse("Fail");
+        return new ValidateResponse("fail");
     }
 
     public ValidateResponse assignCourse(AssignCourseRequest assignCourseRequest) {
@@ -124,27 +124,27 @@ public class AdminService {
             user.getCourses().add(course);
             userRepository.save(user);
             courseRepository.save(course);
-            return new ValidateResponse("Success");
+            return new ValidateResponse("success");
         }
-        return new ValidateResponse("Fail");
+        return new ValidateResponse("fail");
     }
 
     public ValidateResponse addNewCourse(AddNewCourseRequest addNewCourseRequest) {
         Course newCourse = new Course(addNewCourseRequest);
         courseRepository.save(newCourse);
         if (!courseRepository.existsByCourseId(newCourse.getCourseId())) {
-            return new ValidateResponse("Fail");
+            return new ValidateResponse("fail");
         }
-        return new ValidateResponse("Success");
+        return new ValidateResponse("success");
     }
 
     public ValidateResponse addNewTerm(AddNewTermRequest addNewTermRequest) {
         Term term = new Term(addNewTermRequest);
         termRepository.save(term);
         if (termRepository.existsById(term.getId())) {
-            return new ValidateResponse("Success");
+            return new ValidateResponse("success");
         }
-        return new ValidateResponse("Fail");
+        return new ValidateResponse("fail");
     }
 
 }
