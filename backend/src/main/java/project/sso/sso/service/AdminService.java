@@ -2,9 +2,12 @@ package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.Validate;
 import project.sso.sso.entity.*;
 import project.sso.sso.misc.RoleType;
+import project.sso.sso.model.AddUserRequest;
+import project.sso.sso.model.RemoveUserRequest;
+import project.sso.sso.model.AssignCourseRequest;
+import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.model.*;
 import project.sso.sso.repository.*;
 
@@ -61,6 +64,7 @@ public class AdminService {
             user.setPassword(addUserRequest.getPassword());
 
             user.setProfile(profile);
+
             profile.setUser(user);
 
             Role role = roleRepository.findByRoleEquals(RoleType.valueOf(addUserRequest.getRole().toUpperCase()));
@@ -79,24 +83,25 @@ public class AdminService {
 
     public ValidateResponse removeUser(RemoveUserRequest removeUserRequest) {
         User target = userRepository.findByUsername(removeUserRequest.getUsername());
+        Profile profile = profileRepository.findByUser(target);
         if (target.getRole().getRole().getPermission().equals("student")) {
-            userRepository.deleteById(removeUserRequest.getId());
-            profileRepository.deleteById(removeUserRequest.getId());
-            List<Course> userCourse = courseRepository.findCourseByStudentId(removeUserRequest.getId());
+            userRepository.delete(target);
+            profileRepository.delete(profile);
+            List<Course> userCourse = courseRepository.findCourseByStudentId(target.getId());
             for (Course c : userCourse) {
                 c.getStudents().remove(target);
             }
-            if (!userRepository.existsById(removeUserRequest.getId())) {
+            if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
                 return new ValidateResponse("success");
             }
         } else if (target.getRole().getRole().getPermission().equals("instructor")) {
-            userRepository.deleteById(removeUserRequest.getId());
-            profileRepository.deleteById(removeUserRequest.getId());
-            List<Course> userCourse = courseRepository.findAllByInstructorId(removeUserRequest.getId());
+            userRepository.delete(target);
+            profileRepository.delete(profile);
+            List<Course> userCourse = courseRepository.findAllByInstructorId(target.getId());
             for (Course c : userCourse) {
                 c.setInstructorId(null);
             }
-            if (!userRepository.existsById(removeUserRequest.getId())) {
+            if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
                 return new ValidateResponse("success");
             }
         }

@@ -26,4 +26,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      @Query("SELECT u.role.role FROM User u WHERE u.id = ?1")
      String getRoleOfId(Long id);
 
+//     @Query("DELETE u.role.role FROM User u WHERE u.username =?1")
+//     Void removeUser(String username);
+
+
 }
