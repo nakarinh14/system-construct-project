@@ -162,7 +162,6 @@
 
 
 <script>
-    import AddCourseForm from '@/components/AddCourseForm.vue'
     import DashboardComponent from "../components/DashboardComponent";
     import axios from "axios";
 
@@ -191,7 +190,6 @@
 
         components:{
             DashboardComponent,
-            AddCourseForm
         },
         methods:{
             showModal(){
