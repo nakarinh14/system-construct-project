@@ -34,7 +34,6 @@ public class Term {
     private Set<Course> courses = new HashSet<>();
 
     public Term(AddNewTermRequest request) {
-        this.id = request.getId();
         this.semester = request.getSemester();
         this.year = request.getYear();
     }

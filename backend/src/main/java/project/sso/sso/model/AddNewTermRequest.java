@@ -11,7 +11,6 @@ import project.sso.sso.entity.Term;
 @Setter
 @Getter
 public class AddNewTermRequest {
-    private Long id;
     private String semester;
     private String year;
 }
