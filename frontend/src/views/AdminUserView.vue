@@ -109,6 +109,7 @@
        <BaseTable
                :data="users"
                tableComponent="AdminUserTable"
+               v-on:fetchData="fetchData"
        ></BaseTable>
     </div>
 </template>
