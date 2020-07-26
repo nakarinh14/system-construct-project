@@ -28,7 +28,7 @@ public class Profile {
     private String title;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.REMOVE,CascadeType.ALL})
     private User user;
 
 }
