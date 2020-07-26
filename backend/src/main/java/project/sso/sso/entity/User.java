@@ -1,7 +1,6 @@
 package project.sso.sso.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,7 +38,7 @@ public class User{
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Profile profile;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     @JoinTable(
             name = "enrollment",
             joinColumns = @JoinColumn(name = "student_id"),

@@ -28,7 +28,7 @@
                             >
                                 <b-form-input
                                         id="input-id"
-                                        v-model="courseForm.id"
+                                        v-model="courseForm.courseId"
                                         type="text"
                                         :state="errors[0] ? false : null"
                                         placeholder="Enter Course ID"
@@ -44,7 +44,7 @@
                                 >
                                     <b-form-input
                                             id="input-name"
-                                            v-model="courseForm.name"
+                                            v-model="courseForm.courseName"
                                             type="text"
                                             :state="errors[0] ? false : null"
                                             placeholder="Enter Course Name"
@@ -93,6 +93,19 @@
                                         text-field="username"
                                 ></b-form-select>
                             </b-form-group>
+                        <ValidationProvider rules="required" name="Term" v-slot="{ valid, errors }">
+                            <b-form-group id="input-group-termcourse" label="Term:" label-for="input-term-c">
+                                <b-form-select
+                                        v-model="courseForm.termId"
+                                        id="input-term-c"
+                                        value-field="id"
+                                        text-field="name"
+                                        :options="termOptions"
+                                        :state="errors[0] ? false : null"
+                                ></b-form-select>
+                                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                            </b-form-group>
+                        </ValidationProvider>
                         <ValidationProvider rules="numeric|required" name="Capacity" v-slot="{ valid, errors }">
                             <b-form-group
                                     id="input-group-capacity"
@@ -164,7 +177,7 @@
                             >
                                 <b-form-input
                                         id="input-term"
-                                        v-model="termForm.term"
+                                        v-model="termForm.semester"
                                         type="text"
                                         :state="errors[0] ? false : null"
                                         placeholder="Enter term period  (e.g. 'Summer', 'Term I', 'Term II', etc.)"
@@ -212,11 +225,11 @@
             return {
                 termForm:{
                     term: "",
-                    year: ""
+                    semester: ""
                 },
                 courseForm:{
-                    id: '',
-                    name: '',
+                    courseId: '',
+                    courseName: '',
                     division: '',
                     section: '',
                     capacity: '',
@@ -225,7 +238,8 @@
                     instructorId: '',
                     termId: ''
                 },
-                allInstructor: []
+                allInstructor: [],
+                termOptions: []
             }
         },
 
@@ -236,10 +250,11 @@
         },
         methods:{
             showModalCourse(){
+                this.getTerm()
+                this.getInstructor()
                 this.$refs['add-course-modal'].show()
             },
             showModalTerm(){
-                this.getInstructor()
                 this.$refs['add-term-modal'].show()
             },
             getInstructor(){
@@ -252,6 +267,18 @@
                     })
                     .catch(()=>
                        console.log("error getting instructor")
+                    )
+            },
+            getTerm(){
+                const apiURL = "http://localhost:8081/api/admin/get/term";
+                axios.get(apiURL, {withCredentials: true})
+                    .then(response => {
+                        if(response.data) {
+                            this.termOptions = response.data.map(x => ({id: x.id, name:`${x.semester}, ${x.year}`}))
+                        }
+                    })
+                    .catch(()=>
+                        console.log("error getting instructor")
                     )
             },
             sendCourseRequest(){
@@ -279,7 +306,12 @@
                             'warning',
                         )
                     )
-                    .finally(() => this.clearForm(this.courseForm))
+                    .finally(
+                        () => {
+                            this.clearForm(this.courseForm)
+                            this.$emit('fetchData')
+                        }
+                    )
             },
             sendTermRequest(){
                 const apiURL = "http://localhost:8081/api/admin/add/term";

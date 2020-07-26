@@ -1,11 +1,11 @@
 package project.sso.sso.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import project.sso.sso.misc.RoleType;
 
 import javax.persistence.*;
@@ -26,11 +26,13 @@ public class Role {
     private RoleType role;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+
     @JoinTable(
-            name="set_role_user",
-            joinColumns = @JoinColumn(name="role_id"),
-            inverseJoinColumns=@JoinColumn(name="user_id")
+            name = "set_role_user",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> user;
 

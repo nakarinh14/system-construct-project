@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import project.sso.sso.model.AddNewCourseRequest;
 
 import javax.persistence.*;
@@ -40,9 +41,10 @@ public class Course {
     private Long instructorId;
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     @JoinTable(
             name = "join_term_course",
-            inverseJoinColumns = @JoinColumn(name="term_id"),
+            inverseJoinColumns = @JoinColumn(name = "term_id"),
             joinColumns = @JoinColumn(name = "course_id")
     )
 
@@ -69,8 +71,5 @@ public class Course {
         this.setCapacity(request.getCapacity());
         this.setRegistered(request.getRegistered());
         this.setInstructorId(request.getInstructorId());
-        this.setTerm(request.getTerm());
-        this.setInfo(request.getInfo());
-
     }
 }
