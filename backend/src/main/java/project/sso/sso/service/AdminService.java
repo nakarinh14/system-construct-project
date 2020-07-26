@@ -130,6 +130,8 @@ public class AdminService {
 
     public ValidateResponse addNewCourse(AddNewCourseRequest addNewCourseRequest) {
         Course newCourse = new Course(addNewCourseRequest);
+        Term term = termRepository.findById(addNewCourseRequest.getTermId()).get();
+        newCourse.setTerm(term);
         courseRepository.save(newCourse);
         if (!courseRepository.existsByCourseId(newCourse.getCourseId())) {
             return new ValidateResponse("fail");
