@@ -146,4 +146,8 @@ public class AdminService {
         return new ValidateResponse("fail");
     }
 
+    public List<Term> getAllTerm(){
+        return termRepository.findAll();
+    }
+
 }

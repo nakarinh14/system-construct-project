@@ -3,6 +3,7 @@ package project.sso.sso.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.sso.sso.entity.Course;
+import project.sso.sso.entity.Term;
 import project.sso.sso.entity.User;
 import project.sso.sso.model.AddUserRequest;
 import project.sso.sso.model.RemoveUserRequest;
@@ -102,4 +103,11 @@ public class AdminController {
         return null;
     }
 
+    @GetMapping("/api/admin/get/term")
+    List<Term> getAllTerm(HttpSession httpSession){
+        if(securityService.isAuthorized(httpSession, "admin")){
+            return adminService.getAllTerm();
+        }
+        return null;
+    }
 }
