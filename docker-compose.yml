@@ -16,6 +16,7 @@ services:
       - ./db/data:/docker-entrypoint-initdb.d
   web-service:
     build: ./backend
+    #image: nakarinh14/ooc-backend	
     container_name: web-service
     ports:
       - "8081:8081"
@@ -25,9 +26,10 @@ services:
       - mysql-db
   vue-app:
     build: ./frontend
+    #image: nakarinh14/ooc-frontend
     container_name: vue-app
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - webapp
 networks:
