@@ -95,7 +95,7 @@ public class AdminService {
                 return new ValidateResponse("success");
             }
         } else if (target.getRole().getRole().getPermission().equals("instructor")) {
-            userRepository.delete(target);
+            userRepository.deleteById(target.getId());
             profileRepository.delete(profile);
             List<Course> userCourse = courseRepository.findAllByInstructorId(target.getId());
             for (Course c : userCourse) {
