@@ -11,7 +11,7 @@ services:
 	  - MYSQL_ROOT_PASSWORD=Nakarinh198799
 	  - MYSQL_DATABASE=construct_project
 	  - MYSQL_USER=root
-	  - MYSQL_PASSWORD=Nakarinh198799
+	  - MYSQL_PASSWORD=root12345
   web-service:
 	build: ./backend
 	container_name: web-service
