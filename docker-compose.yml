@@ -29,5 +29,5 @@ container_name: mysql-db
   networks:
     - webapp
 networks:
-  webapp-network:
-  driver: bridge
+  webapp:
+    driver: bridge
