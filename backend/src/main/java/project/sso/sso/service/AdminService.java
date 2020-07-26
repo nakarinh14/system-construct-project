@@ -1,13 +1,10 @@
 package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.*;
 import project.sso.sso.misc.RoleType;
-import project.sso.sso.model.AddUserRequest;
-import project.sso.sso.model.RemoveUserRequest;
-import project.sso.sso.model.AssignCourseRequest;
-import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.model.*;
 import project.sso.sso.repository.*;
 
@@ -84,7 +81,6 @@ public class AdminService {
         User target = userRepository.findByUsername(removeUserRequest.getUsername());
         Profile profile = profileRepository.findByUser(target);
         Role role = roleRepository.findByUser(target);
-        Course course = courseRepository.findCourseById(target.getId());
 
         if (target.getRole().getRole().getPermission().equals("student")) {
             List<Course> userCourse = courseRepository.findCourseByStudentId(target.getId());
@@ -100,7 +96,7 @@ public class AdminService {
         }
         role.getUser().remove(target);
         roleRepository.save(role);
-//        profileRepository.delete(profile);
+        profileRepository.delete(profile);
         userRepository.delete(target);
         if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
             return new ValidateResponse("success");
@@ -111,7 +107,7 @@ public class AdminService {
     public ValidateResponse removeCourseFromUser(RemoveUserCourseRequest removeUserCourseRequest) {
         User target = userRepository.findByUsername(removeUserCourseRequest.getUsername());
         Course targetCourse = courseRepository.findCourseById(removeUserCourseRequest.getRemoveCourseID());
-        if (target != null) {
+        if (target != null && targetCourse != null) {
             target.getCourses().remove(targetCourse);
             targetCourse.getStudents().remove(target);
             userRepository.save(target);
@@ -121,10 +117,35 @@ public class AdminService {
         return new ValidateResponse("fail");
     }
 
-    public ValidateResponse assignCourse(AssignCourseRequest assignCourseRequest) {
+    public ValidateResponse assignCourseToUser(AssignCourseRequest assignCourseRequest) {
+        Role role = userRepository.findByUsername(assignCourseRequest.getUsername()).getRole();
+        switch (role.getRole()) {
+            case STUDENT:
+                return assignCourseToStudent(assignCourseRequest);
+            case INSTRUCTOR:
+                return assignCourseToInstructor(assignCourseRequest);
+            default:
+                return new ValidateResponse("Fail");
+        }
+    }
+
+    public ValidateResponse assignCourseToInstructor(AssignCourseRequest assignCourseRequest) {
         User user = userRepository.findByUsername(assignCourseRequest.getUsername());
         Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
-        if (user != null) {
+        if (user != null && course != null) {
+            course.setInstructorId(user.getId());
+            user.getCourses().add(course);
+            userRepository.save(user);
+            courseRepository.save(course);
+            return new ValidateResponse("Success");
+        }
+        return new ValidateResponse("Fail");
+    }
+
+    public ValidateResponse assignCourseToStudent(AssignCourseRequest assignCourseRequest) {
+        User user = userRepository.findByUsername(assignCourseRequest.getUsername());
+        Course course = courseRepository.findCourseById(assignCourseRequest.getAddCourseID());
+        if (user != null && course != null) {
             course.getStudents().add(user);
             user.getCourses().add(course);
             userRepository.save(user);
@@ -136,12 +157,12 @@ public class AdminService {
 
     public ValidateResponse addNewCourse(AddNewCourseRequest addNewCourseRequest) {
         Course newCourse = new Course(addNewCourseRequest);
-        Term term = termRepository.findById(addNewCourseRequest.getTermId()).get();
+        Term term = termRepository.findTermById(addNewCourseRequest.getTermId());
         newCourse.setTerm(term);
         term.getCourses().add(newCourse);
         courseRepository.save(newCourse);
         termRepository.save(term);
-        if (!courseRepository.existsByCourseId(newCourse.getCourseId())) {
+        if (!courseRepository.exists(Example.of(newCourse))) {
             return new ValidateResponse("fail");
         }
         return new ValidateResponse("success");
@@ -156,7 +177,7 @@ public class AdminService {
         return new ValidateResponse("fail");
     }
 
-    public List<Term> getAllTerm(){
+    public List<Term> getAllTerm() {
         return termRepository.findAll();
     }
 

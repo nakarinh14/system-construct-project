@@ -44,7 +44,7 @@ public class Course {
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     @JoinTable(
             name = "join_term_course",
-            inverseJoinColumns = @JoinColumn(name="term_id"),
+            inverseJoinColumns = @JoinColumn(name = "term_id"),
             joinColumns = @JoinColumn(name = "course_id")
     )
 
