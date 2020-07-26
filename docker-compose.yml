@@ -12,6 +12,8 @@ services:
       - MYSQL_DATABASE=construct_project
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root12345
+    volumes:
+      - ./db/data:/docker-entrypoint-initdb.d
   web-service:
     build: ./backend
     container_name: web-service
