@@ -306,7 +306,12 @@
                             'warning',
                         )
                     )
-                    .finally(() => this.clearForm(this.courseForm))
+                    .finally(
+                        () => {
+                            this.clearForm(this.courseForm)
+                            this.$emit('fetchData')
+                        }
+                    )
             },
             sendTermRequest(){
                 const apiURL = "http://localhost:8081/api/admin/add/term";

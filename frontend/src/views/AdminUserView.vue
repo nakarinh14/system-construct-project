@@ -146,10 +146,10 @@
             ValidationProvider
         },
         created() {
-            this.fetchUsers()
+            this.fetchData()
         },
         methods:{
-            fetchUsers(){
+            fetchData(){
                 const apiURL = "http://localhost:8081/api/admin/users";
                 axios.get(apiURL, {withCredentials: true})
                     .then(response => {
@@ -166,7 +166,7 @@
             },
             requestSent(res){
                 if(res.variant === "success") {
-                    this.fetchUsers()
+                    this.fetchData()
                 }
                 this.makeToast(res);
                 this.clearForm();

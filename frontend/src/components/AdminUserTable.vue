@@ -116,11 +116,10 @@
                 axios.post(apiURL,{username:username}, {withCredentials: true})
                     .then(response => {
                         if(response.data.status === "success") {
-                            this.$emit('fetchData')
                             this.makeToast(
                                 'Remove user success',
                                 `${username} is removed from the database.`,
-                                'warning',
+                                'info',
                             )
                         }
                     })
@@ -131,6 +130,7 @@
                             'warning',
                         )
                     })
+                   .finally(() => {this.$emit('fetchData')})
             },
             makeToast: function(title, msg, variant){ // Creating small popup window on top right
                 this.$bvToast.toast(msg, {
