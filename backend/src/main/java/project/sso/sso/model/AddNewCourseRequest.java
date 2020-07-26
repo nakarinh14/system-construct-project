@@ -21,6 +21,5 @@ public class AddNewCourseRequest {
     private int capacity;
     private int registered;
     private Long instructorId;
-    private Term term;
-    private String info;
+    private Long termId;
 }

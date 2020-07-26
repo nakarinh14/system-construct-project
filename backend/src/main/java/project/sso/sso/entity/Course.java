@@ -69,8 +69,5 @@ public class Course {
         this.setCapacity(request.getCapacity());
         this.setRegistered(request.getRegistered());
         this.setInstructorId(request.getInstructorId());
-        this.setTerm(request.getTerm());
-        this.setInfo(request.getInfo());
-
     }
 }
