@@ -80,12 +80,13 @@ public class AdminService {
     public ValidateResponse removeUser(RemoveUserRequest removeUserRequest) {
         User target = userRepository.findByUsername(removeUserRequest.getUsername());
         Profile profile = profileRepository.findByUser(target);
-        userRepository.delete(target);
-        profileRepository.delete(profile);
+        Role role = roleRepository.findByUser(target);
+
         if (target.getRole().getRole().getPermission().equals("student")) {
             List<Course> userCourse = courseRepository.findCourseByStudentId(target.getId());
             for (Course c : userCourse) {
                 c.getStudents().remove(target);
+                courseRepository.save(c);
             }
         } else if (target.getRole().getRole().getPermission().equals("instructor")) {
             List<Course> userCourse = courseRepository.findAllByInstructorId(target.getId());
@@ -93,6 +94,10 @@ public class AdminService {
                 c.setInstructorId(null);
             }
         }
+        role.getUser().remove(target);
+        roleRepository.save(role);
+        profileRepository.delete(profile);
+        userRepository.delete(target);
         if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
             return new ValidateResponse("success");
         }
@@ -152,7 +157,11 @@ public class AdminService {
 
     public ValidateResponse addNewCourse(AddNewCourseRequest addNewCourseRequest) {
         Course newCourse = new Course(addNewCourseRequest);
+        Term term = termRepository.findTermById(addNewCourseRequest.getTermId());
+        newCourse.setTerm(term);
+        term.getCourses().add(newCourse);
         courseRepository.save(newCourse);
+        termRepository.save(term);
         if (!courseRepository.exists(Example.of(newCourse))) {
             return new ValidateResponse("fail");
         }
@@ -166,6 +175,10 @@ public class AdminService {
             return new ValidateResponse("success");
         }
         return new ValidateResponse("fail");
+    }
+
+    public List<Term> getAllTerm() {
+        return termRepository.findAll();
     }
 
 }

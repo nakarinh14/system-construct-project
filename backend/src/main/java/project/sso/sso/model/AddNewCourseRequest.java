@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.sso.sso.entity.Term;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +20,5 @@ public class AddNewCourseRequest {
     private int capacity;
     private int registered;
     private Long instructorId;
-    private Term term;
-    private String info;
+    private Long termId;
 }

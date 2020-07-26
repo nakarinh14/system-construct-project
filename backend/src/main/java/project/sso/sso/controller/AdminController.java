@@ -3,12 +3,8 @@ package project.sso.sso.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.sso.sso.entity.Course;
+import project.sso.sso.entity.Term;
 import project.sso.sso.entity.User;
-import project.sso.sso.model.AddUserRequest;
-import project.sso.sso.model.RemoveUserRequest;
-
-import project.sso.sso.model.AssignCourseRequest;
-import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.model.*;
 import project.sso.sso.service.AdminService;
 import project.sso.sso.service.DashboardService;
@@ -98,6 +94,14 @@ public class AdminController {
     ValidateResponse addNewTerm(@RequestBody AddNewTermRequest addNewTermRequest, HttpSession httpSession) {
         if (securityService.isAuthorized(httpSession, "admin")) {
             return adminService.addNewTerm(addNewTermRequest);
+        }
+        return null;
+    }
+
+    @GetMapping("/api/admin/get/term")
+    List<Term> getAllTerm(HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
+            return adminService.getAllTerm();
         }
         return null;
     }
