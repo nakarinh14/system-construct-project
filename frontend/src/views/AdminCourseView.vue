@@ -258,7 +258,7 @@
                 this.$refs['add-term-modal'].show()
             },
             getInstructor(){
-                const apiURL = "http://localhost:8081/api/admin/users/instructor";
+                const apiURL = "http://web-service:8081/api/admin/users/instructor";
                 axios.get(apiURL, {withCredentials: true})
                     .then(response => {
                         if(response.data) {
@@ -270,7 +270,7 @@
                     )
             },
             getTerm(){
-                const apiURL = "http://localhost:8081/api/admin/get/term";
+                const apiURL = "http://web-service:8081/api/admin/get/term";
                 axios.get(apiURL, {withCredentials: true})
                     .then(response => {
                         if(response.data) {
@@ -282,7 +282,7 @@
                     )
             },
             sendCourseRequest(){
-                const apiURL = "http://localhost:8081/api/admin/add/course";
+                const apiURL = "http://web-service:8081/api/admin/add/course";
                 axios.post(apiURL, this.courseForm, {withCredentials: true})
                     .then(response => {
                         if(response.data.status) {
@@ -314,7 +314,7 @@
                     )
             },
             sendTermRequest(){
-                const apiURL = "http://localhost:8081/api/admin/add/term";
+                const apiURL = "http://web-service:8081/api/admin/add/term";
                 axios.post(apiURL, this.termForm, {withCredentials: true})
                     .then(response => {
                         if(response.data.status) {

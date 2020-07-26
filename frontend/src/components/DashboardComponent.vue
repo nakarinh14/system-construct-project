@@ -74,7 +74,7 @@
                 }
             },
             fetchData: function(){
-                const apiURL = "http://localhost:8081/api/dashboard";
+                const apiURL = "http://web-service:8081/api/dashboard";
                 this.busy = true;
                 axios.get(apiURL,{
                     params: {id: this.selected_term},

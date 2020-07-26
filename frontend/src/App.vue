@@ -42,7 +42,7 @@
         name: 'app',
         methods: {
             logout: function() {
-                const postUrl = "http://localhost:8081/api/auth/logout";
+                const postUrl = "http://web-service:8081/api/auth/logout";
                 axios.post(postUrl, {}, {withCredentials: true})
                     .then(response =>{
                         if(response.data.status === "success") {
