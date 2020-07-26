@@ -28,7 +28,7 @@
                             >
                                 <b-form-input
                                         id="input-id"
-                                        v-model="courseForm.id"
+                                        v-model="courseForm.courseId"
                                         type="text"
                                         :state="errors[0] ? false : null"
                                         placeholder="Enter Course ID"
@@ -44,7 +44,7 @@
                                 >
                                     <b-form-input
                                             id="input-name"
-                                            v-model="courseForm.name"
+                                            v-model="courseForm.courseName"
                                             type="text"
                                             :state="errors[0] ? false : null"
                                             placeholder="Enter Course Name"
@@ -228,8 +228,8 @@
                     semester: ""
                 },
                 courseForm:{
-                    id: '',
-                    name: '',
+                    courseId: '',
+                    courseName: '',
                     division: '',
                     section: '',
                     capacity: '',
@@ -306,7 +306,12 @@
                             'warning',
                         )
                     )
-                    .finally(() => this.clearForm(this.courseForm))
+                    .finally(
+                        () => {
+                            this.clearForm(this.courseForm)
+                            this.$emit('fetchData')
+                        }
+                    )
             },
             sendTermRequest(){
                 const apiURL = "http://localhost:8081/api/admin/add/term";
