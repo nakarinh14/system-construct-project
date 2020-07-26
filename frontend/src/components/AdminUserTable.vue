@@ -19,29 +19,27 @@
                 {{row.item.profile.title}}
             </template>
             <template v-slot:cell(role)="row">
-                <b>{{ row.item.role.role}}</b>
+                <b :class="computeRoleColor(row.item.role.role)">{{ row.item.role.role}}</b>
             </template>
             <template v-slot:cell(remove)="row">
-                <b-btn size="sm" variant="warning" @click="removeUserRequest(row.item.username)">
+                <b-btn
+                        :disabled="$cookies.get('username') === row.item.username"
+                        size="sm"
+                        variant="warning"
+                        @click="removeUserRequest(row.item.username)"
+
+                >
                     <BIconTrashFill></BIconTrashFill>
                 </b-btn>
             </template >
             <template  v-slot:cell(courses)="row">
-                <b-btn v-if="row.item.role.role.toLowerCase() !== 'admin'"
+                <b-btn :disabled="row.item.role.role.toLowerCase() === 'admin'"
                        size="sm"
                        class="mr-2"
                        v-b-modal="'show-modal-'+row.item.id"
                        :id="'btn-'+row.item.id"
                        variant="primary"
                        @click="view_id = row.item.id">
-                    <BIconSearch></BIconSearch>
-                </b-btn>
-                <b-btn v-else
-                       disabled
-                       size="sm"
-                       class="mr-2"
-
-                >
                     <BIconSearch></BIconSearch>
                 </b-btn>
                 <b-modal
@@ -142,6 +140,16 @@
                     appendToast: false
                 })
             },
+            computeRoleColor: function(role){
+                switch(role){
+                    case("ADMIN"):
+                        return "text-warning"
+                    case("INSTRUCTOR"):
+                        return "text-primary"
+                    case("STUDENT"):
+                        return "text-info"
+                }
+            }
         },
         watch: {
             view_id: function(){

@@ -93,7 +93,7 @@
                             <b-form-select
                                     id="input-r"
                                     v-model="form.role"
-                                    :options="['Student', 'Instructor', 'Admin']"
+                                    :options="roleOptions"
                                     :state="errors[0] ? false : null"
                             ></b-form-select>
                             <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
@@ -131,7 +131,13 @@
                     firstname: '',
                     lastname: '',
                     role: null
-                }
+                },
+                roleOptions:[
+                    { text: 'Please select a role', value: null, disabled: false },
+                    { text: 'Student', value: 'Student', disabled: false },
+                    { text: 'Instructor', value: 'Instructor', disabled: false },
+                    { text: 'Admin', value: 'Admin', disabled: false },
+                ]
             }
         },
         components: {

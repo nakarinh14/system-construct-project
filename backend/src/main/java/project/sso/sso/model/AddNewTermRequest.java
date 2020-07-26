@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.sso.sso.entity.Term;
 
-
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RemoveUserRequest {
-    private String username;
+@Setter
+@Getter
+public class AddNewTermRequest {
+    private String semester;
+    private String year;
 }
