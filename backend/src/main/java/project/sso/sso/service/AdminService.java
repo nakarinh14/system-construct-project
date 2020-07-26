@@ -133,8 +133,8 @@ public class AdminService {
         Term term = termRepository.findById(addNewCourseRequest.getTermId()).get();
         newCourse.setTerm(term);
         term.getCourses().add(newCourse);
-        termRepository.save(term);
         courseRepository.save(newCourse);
+        termRepository.save(term);
         if (!courseRepository.existsByCourseId(newCourse.getCourseId())) {
             return new ValidateResponse("fail");
         }
