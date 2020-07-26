@@ -1,13 +1,10 @@
 package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.*;
 import project.sso.sso.misc.RoleType;
-import project.sso.sso.model.AddUserRequest;
-import project.sso.sso.model.RemoveUserRequest;
-import project.sso.sso.model.AssignCourseRequest;
-import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.model.*;
 import project.sso.sso.repository.*;
 
@@ -156,7 +153,7 @@ public class AdminService {
     public ValidateResponse addNewCourse(AddNewCourseRequest addNewCourseRequest) {
         Course newCourse = new Course(addNewCourseRequest);
         courseRepository.save(newCourse);
-        if (!courseRepository.existsByCourseId(newCourse.getCourseId())) {
+        if (!courseRepository.exists(Example.of(newCourse))) {
             return new ValidateResponse("fail");
         }
         return new ValidateResponse("success");
