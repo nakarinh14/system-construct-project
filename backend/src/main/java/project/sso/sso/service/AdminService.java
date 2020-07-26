@@ -74,7 +74,6 @@ public class AdminService {
             userRepository.save(user);
             roleRepository.save(role);
 
-
             return new ValidateResponse("success");
         } else {
             return new ValidateResponse("fail");
@@ -84,26 +83,27 @@ public class AdminService {
     public ValidateResponse removeUser(RemoveUserRequest removeUserRequest) {
         User target = userRepository.findByUsername(removeUserRequest.getUsername());
         Profile profile = profileRepository.findByUser(target);
+        Role role = roleRepository.findByUser(target);
+        Course course = courseRepository.findCourseById(target.getId());
+
         if (target.getRole().getRole().getPermission().equals("student")) {
-            userRepository.delete(target);
-            profileRepository.delete(profile);
             List<Course> userCourse = courseRepository.findCourseByStudentId(target.getId());
             for (Course c : userCourse) {
                 c.getStudents().remove(target);
-            }
-            if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
-                return new ValidateResponse("success");
+                courseRepository.save(c);
             }
         } else if (target.getRole().getRole().getPermission().equals("instructor")) {
-            userRepository.deleteById(target.getId());
-            profileRepository.delete(profile);
             List<Course> userCourse = courseRepository.findAllByInstructorId(target.getId());
             for (Course c : userCourse) {
                 c.setInstructorId(null);
             }
-            if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
-                return new ValidateResponse("success");
-            }
+        }
+        role.getUser().remove(target);
+        roleRepository.save(role);
+//        profileRepository.delete(profile);
+        userRepository.delete(target);
+        if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
+            return new ValidateResponse("success");
         }
         return new ValidateResponse("fail");
     }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -39,7 +40,7 @@ public class User{
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Profile profile;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     @JoinTable(
             name = "enrollment",
             joinColumns = @JoinColumn(name = "student_id"),
