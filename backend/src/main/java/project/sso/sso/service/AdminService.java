@@ -72,6 +72,7 @@ public class AdminService {
 
             userRepository.save(user);
             roleRepository.save(role);
+            profileRepository.save(profile);
 
             return new ValidateResponse("success");
         } else {
