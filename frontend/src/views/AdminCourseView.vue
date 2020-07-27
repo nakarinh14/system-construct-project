@@ -84,15 +84,19 @@
                                 <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
                             </b-form-group>
                         </ValidationProvider>
+                        <ValidationProvider rules="numeric|required" name="Instructor" v-slot="{ valid, errors }">
                             <b-form-group id="input-group-instructor" label="Instructor:" label-for="input-instructor">
                                 <b-form-select
                                         v-model="courseForm.instructorId"
                                         :options="allInstructor"
                                         id="input-instructor"
                                         value-field="id"
+                                        :state="errors[0] ? false : null"
                                         text-field="username"
                                 ></b-form-select>
+                                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
                             </b-form-group>
+                        </ValidationProvider>
                         <ValidationProvider rules="required" name="Term" v-slot="{ valid, errors }">
                             <b-form-group id="input-group-termcourse" label="Term:" label-for="input-term-c">
                                 <b-form-select

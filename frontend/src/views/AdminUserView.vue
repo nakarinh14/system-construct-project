@@ -151,7 +151,7 @@
         },
         methods:{
             fetchData(){
-                const apiURL = "http://13.250.4.112/api/admin/users";
+                const apiURL = "http://52.221.228.219/api/admin/users";
                 axios.get(apiURL, {withCredentials: true})
                     .then(response => {
                         if(response.data){
