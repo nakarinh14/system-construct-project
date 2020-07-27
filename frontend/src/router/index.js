@@ -4,7 +4,6 @@ import Home from '../views/Home.vue'
 import Login from "../views/Login";
 import EditUserVue from "../views/AdminUserView";
 import EditCourseVue from "../views/AdminCourseView";
-import PageNotFound from "../views/PageNotFound";
 import axios from 'axios';
 
 
@@ -60,10 +59,6 @@ const routes = [
         }
 
     },
-    {
-        path:'*',
-        component: PageNotFound
-    }
 ]
 
 const router = new VueRouter({
