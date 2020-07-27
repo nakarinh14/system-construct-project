@@ -35,10 +35,7 @@ public class AdminController {
 
     @PostMapping("/api/admin/add/user")
     ValidateResponse addUser(@RequestBody AddUserRequest addUserRequest, HttpSession httpSession){
-        if(securityService.isAuthorized(httpSession, "admin")){
-            return adminService.addUser(addUserRequest);
-        }
-        return null;
+        return adminService.addUser(addUserRequest);
     }
 
 
