@@ -87,19 +87,16 @@ public class AdminService {
         if (target.getRole().getRole().getPermission().equals("student")) {
             List<Course> userCourse = courseRepository.findCourseByStudentId(target.getId());
             for (Course c : userCourse) {
+                target.getCourses().remove(c);
                 c.getStudents().remove(target);
+                userRepository.save(target);
                 courseRepository.save(c);
             }
-        } else if (target.getRole().getRole().getPermission().equals("instructor")) {
-            List<Course> userCourse = courseRepository.findAllByInstructorId(target.getId());
-            for (Course c : userCourse) {
-                c.setInstructorId(null);
-            }
+            role.getUser().remove(target);
+            roleRepository.save(role);
+            profileRepository.delete(profile);
+            userRepository.delete(target);
         }
-        role.getUser().remove(target);
-        roleRepository.save(role);
-        profileRepository.delete(profile);
-        userRepository.delete(target);
         if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
             return new ValidateResponse("success");
         }
