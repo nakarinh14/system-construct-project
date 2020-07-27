@@ -207,7 +207,6 @@
                 axios.post(apiURL, this.form, {withCredentials: true})
                     .then(response => {
                         if(response.data.status === "success") {
-                            console.log(response.data)
                             this.requestSent({
                                 variant:'success',
                                 title: 'Add user success',

@@ -65,8 +65,8 @@ public class AdminService {
             user.setProfile(profile);
 
             profile.setUser(user);
+            Role role = roleRepository.findByRole(RoleType.valueOf(addUserRequest.getRole().toUpperCase()));
 
-            Role role = roleRepository.findByRoleEquals(RoleType.valueOf(addUserRequest.getRole().toLowerCase()));
             user.setRole(role);
             role.getUser().add(user);
 

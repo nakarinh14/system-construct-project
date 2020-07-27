@@ -207,7 +207,7 @@
                 </template>
             </b-modal>
         </ValidationObserver>
-        <DashboardComponent>
+        <DashboardComponent ref="dashboard">
 
         </DashboardComponent>
     </div>
@@ -286,14 +286,16 @@
                 axios.post(apiURL, this.courseForm, {withCredentials: true})
                     .then(response => {
                         if(response.data.status) {
-                            this.makeToast(
-                                'Add user success',
-                                `New stuff added`,
-                            'success',
-                            )
+                            {
+                                this.makeToast(
+                                'Add course success',
+                                `${this.courseForm.courseId} has been added to the database}`,
+                                'success')
+                                this.$refs.dashboard.fetchData()
+                            }
                         } else{
                             this.makeToast(
-                                'Add user failed',
+                                'Add course failed',
                                 'The server isn\'t able to add course. Please try again later',
                             'danger',
                             )
@@ -309,7 +311,6 @@
                     .finally(
                         () => {
                             this.clearForm(this.courseForm)
-                            this.$emit('fetchData')
                         }
                     )
             },
@@ -318,8 +319,8 @@
                 axios.post(apiURL, this.termForm, {withCredentials: true})
                     .then(response => {
                         if(response.data.status) {
+                            this.$refs.dashboard.fetchData()
                             this.makeToast(
-
                                 'Add term success',
                                 `Term, ${this.termForm.term} ${this.termForm.year} is successfully added to the database.`,
                                 'success',
