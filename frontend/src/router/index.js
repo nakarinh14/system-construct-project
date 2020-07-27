@@ -59,10 +59,6 @@ const routes = [
         }
 
     },
-    {
-        path:'*',
-        component: PageNotFound
-    }
 ]
 
 const router = new VueRouter({
