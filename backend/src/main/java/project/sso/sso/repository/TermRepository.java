@@ -17,4 +17,6 @@ public interface TermRepository extends JpaRepository<Term, Long> {
     @Query("SELECT DISTINCT t.id FROM Term t")
     List<Long> getAllTermId();
 
+    Term findTermById(Long id);
+
 }

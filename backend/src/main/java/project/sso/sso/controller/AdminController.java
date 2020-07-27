@@ -5,11 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import project.sso.sso.entity.Course;
 import project.sso.sso.entity.Term;
 import project.sso.sso.entity.User;
-import project.sso.sso.model.AddUserRequest;
-import project.sso.sso.model.RemoveUserRequest;
-
-import project.sso.sso.model.AssignCourseRequest;
-import project.sso.sso.model.ValidateResponse;
 import project.sso.sso.model.*;
 import project.sso.sso.service.AdminService;
 import project.sso.sso.service.DashboardService;
@@ -40,10 +35,7 @@ public class AdminController {
 
     @PostMapping("/api/admin/add/user")
     ValidateResponse addUser(@RequestBody AddUserRequest addUserRequest, HttpSession httpSession){
-        if(securityService.isAuthorized(httpSession, "admin")){
-            return adminService.addUser(addUserRequest);
-        }
-        return null;
+        return adminService.addUser(addUserRequest);
     }
 
 
@@ -74,7 +66,7 @@ public class AdminController {
     @PostMapping("/api/admin/courses/assign")
     ValidateResponse assignCourseToUser(@RequestBody AssignCourseRequest assignCourseRequest, HttpSession httpSession) {
         if (securityService.isAuthorized(httpSession, "admin")) {
-            return adminService.assignCourse(assignCourseRequest);
+            return adminService.assignCourseToUser(assignCourseRequest);
         }
         return null;
     }
@@ -104,10 +96,11 @@ public class AdminController {
     }
 
     @GetMapping("/api/admin/get/term")
-    List<Term> getAllTerm(HttpSession httpSession){
-        if(securityService.isAuthorized(httpSession, "admin")){
+    List<Term> getAllTerm(HttpSession httpSession) {
+        if (securityService.isAuthorized(httpSession, "admin")) {
             return adminService.getAllTerm();
         }
         return null;
     }
+
 }

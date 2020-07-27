@@ -2,7 +2,6 @@ package project.sso.sso.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +27,7 @@ public class Profile {
     private String title;
 
     @JsonIgnore
-    @OneToOne(cascade = {CascadeType.REMOVE,CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.ALL})
     private User user;
 
 }

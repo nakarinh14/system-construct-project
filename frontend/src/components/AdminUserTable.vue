@@ -23,7 +23,7 @@
             </template>
             <template v-slot:cell(remove)="row">
                 <b-btn
-                        :disabled="$cookies.get('username') === row.item.username"
+                        :disabled="!(row.item.role.role.toLowerCase() === 'student')"
                         size="sm"
                         variant="warning"
                         @click="removeUserRequest(row.item.username)"
