@@ -4,6 +4,7 @@
             <b-table striped bordered hover
                      :head-variant="'dark'"
                      :items="data"
+                     :busy="busy"
                      :fields="course_fields"
                      :filter="searchFilter"
                      :current-page="currentPage"
@@ -67,6 +68,12 @@
                 <template v-slot:cell(seatAvailable)="row">
                     {{row.item.capacity - row.item.registered}}
                 </template>
+                <template v-slot:table-busy>
+                    <div class="text-center text-primary my-2">
+                        <b-spinner class="align-middle"></b-spinner>
+                        <strong>Loading...</strong>
+                    </div>
+                </template>
             </b-table>
         </b-container>
     </div>
@@ -76,7 +83,7 @@
 
     export default {
         name: 'InstructorDashboard',
-        props: ['data', 'searchFilter', 'currentPage', 'perPage'],
+        props: ['data', 'searchFilter', 'currentPage', 'perPage', 'busy'],
         data() {
             return {
                 course_fields: [

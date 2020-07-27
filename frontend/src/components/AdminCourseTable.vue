@@ -116,6 +116,7 @@
         </b-modal>
 
         <b-table striped bordered hover :head-variant="'dark'"
+                 :busy="busy"
                  :items="data"
                  :fields="course_fields"
                  :filter="searchFilter"
@@ -175,6 +176,11 @@
                         Done
                     </template>
                 </b-modal>
+            </template>
+            <template v-slot:table-busy>
+                <div class="text-center">
+                    <b-spinner variant="primary" class="align-middle"></b-spinner>
+                </div>
             </template>
         </b-table>
     </b-container>

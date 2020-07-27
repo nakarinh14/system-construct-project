@@ -18,6 +18,7 @@
         </b-container>
         <BaseTable
                 :data="course"
+                :busy="busy"
                 :tableComponent="component_name"
                 v-on:fetchData="fetchData"
         ></BaseTable>
@@ -50,7 +51,7 @@
                 // Dropdown options
                 showed_term: '',
                 options: [],
-                busy: false,
+                busy: true,
             }
         },
         watch:{
@@ -94,6 +95,7 @@
                     .catch(()=> {
                         console.log("Dashboard REST call failed.")
                     })
+                    .finally(() => this.busy=false)
             }
         },
         created() {

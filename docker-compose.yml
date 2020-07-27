@@ -10,8 +10,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root12345
       - MYSQL_DATABASE=construct_project
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root12345
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=user
     volumes:
       - ./db/data:/docker-entrypoint-initdb.d
   web-service:

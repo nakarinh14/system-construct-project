@@ -12,7 +12,7 @@
                      @filtered="onFiltered"
             >
                 <template v-slot:table-busy>
-                    <div class="text-center text-danger my-2">
+                    <div class="text-center text-primary my-2">
                         <b-spinner class="align-middle"></b-spinner>
                         <strong>Loading...</strong>
                     </div>

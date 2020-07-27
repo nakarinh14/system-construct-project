@@ -79,7 +79,7 @@
 
     export default {
         name: "BaseTable",
-        props: ['data', 'tableComponent'],
+        props: ['data', 'tableComponent', 'busy'],
         components: {
             StudentDashboard,
             InstructorDashboard,
@@ -89,7 +89,6 @@
         data(){
             return{
                 searchFilter: null,
-                busy: false,
                 currentPage: 1,
                 perPage: 10,
                 rows: 0,

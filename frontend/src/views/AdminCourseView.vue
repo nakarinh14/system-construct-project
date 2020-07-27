@@ -293,7 +293,7 @@
                             {
                                 this.makeToast(
                                 'Add course success',
-                                `${this.courseForm.courseId} has been added to the database}`,
+                                `${this.courseForm.courseId} has been added to the database`,
                                 'success')
                                 this.$refs.dashboard.fetchData()
                             }
