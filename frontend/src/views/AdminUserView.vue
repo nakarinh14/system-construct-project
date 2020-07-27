@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Users Settings</h2>
-        <b-container v-if="users!=null" style="margin-bottom: 20px">
+        <b-container style="margin-bottom: 20px">
             <b-row>
                 <b-col>
                     <a href="#" @click.prevent="showModal"><BIconPersonPlusFill></BIconPersonPlusFill> Add User  </a>
