@@ -1,6 +1,7 @@
 package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.Profile;
 import project.sso.sso.entity.Role;
@@ -11,7 +12,6 @@ import project.sso.sso.repository.RoleRepository;
 import project.sso.sso.repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,7 +27,8 @@ public class SecurityService {
         String username = authenticationRequest.getUsername();
         String password = authenticationRequest.getPassword();
         User user = userRepository.findByUsername(username);
-        if(user != null && Objects.equals(user.getPassword(), password)){
+
+        if (user != null && BCrypt.checkpw(password, user.getPassword())) {
             Profile profile = user.getProfile();
             AuthenticationResponse response = new AuthenticationResponse();
             response.setStatus("success");
@@ -37,7 +38,7 @@ public class SecurityService {
             response.setRole(user.getRole().getRole().getPermission().toLowerCase());
             return response;
         }
-        return new AuthenticationResponse("failed",null,null,null, null);
+        return new AuthenticationResponse("failed", null, null, null, null);
     }
 
     public boolean isAuthorized(HttpSession session){

@@ -2,6 +2,7 @@ package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.*;
 import project.sso.sso.misc.RoleType;
@@ -58,7 +59,8 @@ public class AdminService {
             // Set user
             User user = new User();
             user.setUsername(addUserRequest.getUsername());
-            user.setPassword(addUserRequest.getPassword());
+            String hashedPassword = BCrypt.hashpw(addUserRequest.getPassword(), BCrypt.gensalt());
+            user.setPassword(hashedPassword);
 
             user.setProfile(profile);
 
