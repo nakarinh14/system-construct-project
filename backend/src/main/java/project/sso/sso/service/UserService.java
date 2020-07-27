@@ -1,6 +1,7 @@
 package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.Profile;
 import project.sso.sso.entity.User;
@@ -33,12 +34,13 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public User addUser(String username, String password, String firstname, String lastname){
+    public User addUser(String username, String password, String firstname, String lastname) {
         User user = new User();
         Profile profile = new Profile();
 
         user.setUsername(username);
-        user.setPassword(password);
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        user.setPassword(hashedPassword);
         userRepository.save(user);
 
         profile.setFirstname(firstname);

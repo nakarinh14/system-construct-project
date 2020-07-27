@@ -2,6 +2,7 @@ package project.sso.sso.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import project.sso.sso.entity.*;
 import project.sso.sso.misc.RoleType;
@@ -58,7 +59,8 @@ public class AdminService {
             // Set user
             User user = new User();
             user.setUsername(addUserRequest.getUsername());
-            user.setPassword(addUserRequest.getPassword());
+            String hashedPassword = BCrypt.hashpw(addUserRequest.getPassword(), BCrypt.gensalt());
+            user.setPassword(hashedPassword);
 
             user.setProfile(profile);
 
@@ -85,19 +87,16 @@ public class AdminService {
         if (target.getRole().getRole().getPermission().equals("student")) {
             List<Course> userCourse = courseRepository.findCourseByStudentId(target.getId());
             for (Course c : userCourse) {
+                target.getCourses().remove(c);
                 c.getStudents().remove(target);
+                userRepository.save(target);
                 courseRepository.save(c);
             }
-        } else if (target.getRole().getRole().getPermission().equals("instructor")) {
-            List<Course> userCourse = courseRepository.findAllByInstructorId(target.getId());
-            for (Course c : userCourse) {
-                c.setInstructorId(null);
-            }
+            role.getUser().remove(target);
+            roleRepository.save(role);
+            profileRepository.delete(profile);
+            userRepository.delete(target);
         }
-        role.getUser().remove(target);
-        roleRepository.save(role);
-        profileRepository.delete(profile);
-        userRepository.delete(target);
         if (!userRepository.existsByUsername(removeUserRequest.getUsername())) {
             return new ValidateResponse("success");
         }
