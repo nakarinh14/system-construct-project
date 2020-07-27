@@ -19,7 +19,6 @@ public class SsoApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/**")
-						.allowedOrigins("http://vue-app:80")
 						.allowCredentials(true);
 			}
 		};
