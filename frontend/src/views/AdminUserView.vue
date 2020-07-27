@@ -61,7 +61,7 @@
                                     v-model="form.title"
                                     type="text"
                                     :state="errors[0] ? false : null"
-                                    placeholder="Enter title"
+                                    placeholder="Enter title (Mr., Ms., Dr., etc.)"
                             ></b-form-input>
                             <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
                         </b-form-group>
