@@ -67,7 +67,7 @@
             login: function(e) {
                 e.preventDefault();
                 this.validateTrigger(null, "");
-                const postUrl = "http://localhost:80/api/auth/login";
+                const postUrl = "http://13.250.4.112/api/auth/login";
                 axios.post(postUrl, {
                     username: this.form.username,
                     password: this.form.password,

@@ -314,7 +314,7 @@
                     )
             },
             sendTermRequest(){
-                const apiURL = "http://localhost:80/api/admin/add/term";
+                const apiURL = "http://13.250.4.112/api/admin/add/term";
                 axios.post(apiURL, this.termForm, {withCredentials: true})
                     .then(response => {
                         if(response.data.status) {
