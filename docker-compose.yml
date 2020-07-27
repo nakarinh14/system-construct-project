@@ -15,8 +15,8 @@ services:
     volumes:
       - ./db/data:/docker-entrypoint-initdb.d
   web-service:
-    build: ./backend
-    #image: nakarinh14/ooc-backend	
+    #build: ./backend
+    image: nakarinh14/ooc-backend
     container_name: web-service
     ports:
       - "8081:8081"
