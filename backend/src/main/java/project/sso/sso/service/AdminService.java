@@ -68,6 +68,7 @@ public class AdminService {
             user.setRole(role);
             role.getUser().add(user);
 
+            profileRepository.save(profile);
             userRepository.save(user);
             roleRepository.save(role);
 
