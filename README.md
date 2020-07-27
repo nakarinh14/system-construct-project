@@ -15,12 +15,10 @@ git clone https://github.com/nakarinh14/system-construct-project
 
 ## To run:
 
-To deploy Vue, just ```cd``` to ```frontend``` and type ```yarn serve```, which would deploy in localhost8080 and display a URL where the website is.
+To deploy Vue in development, just ```cd``` to ```frontend``` and type ```yarn serve```, which would deploy in default localhost8080 and display a URL where the website is.
 
 * <b>For Window</b>: before running ```yarn serve``` run ```npm i``` first.
 
-
-I have asked Aj., he said we will need to configure and deploy Vue frontend in a Nginx webserver later, so the ```yarn serve``` is just temporary for development I guess, and we can move on nginx after everything is done
 
 ## To work on project seperately (IMPORTANT):
 
