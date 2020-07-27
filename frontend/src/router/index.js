@@ -67,7 +67,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if(to.matched.some(record => record.meta.requiresAuth)){
-        const validateUrl = "http://13.250.4.112//api/auth/validate";
+        const validateUrl = "http://52.221.228.219/api/auth/validate";
         axios.get(validateUrl, {withCredentials: true})
             .then(response => {
                 if(response.data.status === "success"){

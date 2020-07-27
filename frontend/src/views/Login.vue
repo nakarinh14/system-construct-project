@@ -203,7 +203,7 @@
             },
             addUserRequest(){
                 console.log("enter sendRequest")
-                const apiURL = "http://localhost:8081/api/admin/add/user/";
+                const apiURL = "http://52.221.228.219/api/admin/add/user/";
                 axios.post(apiURL, this.form, {withCredentials: true})
                     .then(response => {
                         if(response.data.status === "success") {
@@ -246,7 +246,7 @@
             login: function(e) {
                 e.preventDefault();
                 this.validateTrigger(null, "");
-                const postUrl = "http://13.250.4.112/api/auth/login";
+                const postUrl = "http://52.221.228.219/api/auth/login";
                 axios.post(postUrl, {
                     username: this.loginForm.username,
                     password: this.loginForm.password,
