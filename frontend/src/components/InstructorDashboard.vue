@@ -110,7 +110,7 @@
             },
             postInfo: function(id, text, courseId){
                 // Edit info of course teach by instructor.
-                const apiURL = "http://localhost:80/api/dashboard/update"
+                const apiURL = "http://13.250.4.112/api/dashboard/update"
                 axios.post(apiURL, {
                     "info": text,
                     "courseId": parseInt(id)
@@ -131,7 +131,7 @@
             },
             showStudents: function(id){ // For viewing students of a particular course when being viewed.
                 console.log(id)
-                const getUrl = "http://localhost:80/api/dashboard/enrolled/"+id
+                const getUrl = "http://13.250.4.112/api/dashboard/enrolled/"+id
                 axios.get(getUrl,{withCredentials: true})
                     .then(response => {
                         this.studentsGet = response.data

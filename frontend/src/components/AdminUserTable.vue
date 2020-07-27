@@ -112,7 +112,7 @@
                 this.sendRemoveUserRequest(username)
             },
             sendRemoveUserRequest(username){
-                const apiURL = "http://localhost:80/api/admin/remove/user"
+                const apiURL = "http://13.250.4.112/api/admin/remove/user"
                 axios.post(apiURL,{username:username}, {withCredentials: true})
                     .then(response => {
                         if(response.data.status === "success") {
@@ -153,7 +153,7 @@
         },
         watch: {
             view_id: function(){
-                const apiURL = "http://localhost:8080/api/admin/users/course/" + this.view_id;
+                const apiURL = "http://13.250.4.112/api/admin/users/course/" + this.view_id;
                 axios.get(apiURL,{withCredentials: true})
                     .then(response => {
                         if(response.data) {
