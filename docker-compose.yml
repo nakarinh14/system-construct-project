@@ -24,14 +24,6 @@ services:
       - webapp
     depends_on:
       - mysql-db
-  vue-app:
-    build: ./frontend
-    #image: nakarinh14/ooc-frontend
-    container_name: vue-app
-    ports:
-      - "80:80"
-    networks:
-      - webapp
 networks:
   webapp:
     driver: bridge
