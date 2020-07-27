@@ -130,7 +130,6 @@
                     })
             },
             showStudents: function(id){ // For viewing students of a particular course when being viewed.
-                console.log(id)
                 const getUrl = "http://localhost:8081/api/dashboard/enrolled/"+id
                 axios.get(getUrl,{withCredentials: true})
                     .then(response => {

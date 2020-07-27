@@ -194,16 +194,16 @@
                 });
             },
             addUserRequest(){
-                console.log("enter sendRequest")
                 const apiURL = "http://localhost:8081/api/admin/add/user/";
                 axios.post(apiURL, this.form, {withCredentials: true})
                     .then(response => {
                         if(response.data.status === "success") {
-                            console.log(response.data)
+                            this.fetchData()
                             this.requestSent({
                                 variant:'success',
                                 title: 'Add user success',
-                                msg:`New user, ${this.form.username} (${this.form.firstname} ${this.form.lastname}), is successfully added to the database.`})
+                                msg:`New user, ${this.form.username} (${this.form.firstname} ${this.form.lastname}), is successfully added to the database.`}
+                                )
                         } else{
                             this.requestSent({
                                 variant:'danger',

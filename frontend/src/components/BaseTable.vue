@@ -118,7 +118,6 @@
                     minBound = 0;
                     maxBound = 0;
                 }
-                console.log(minBound)
                 return `Showing ${minBound} to ${maxBound} entries out of ${this.rows}`
             }
         },
