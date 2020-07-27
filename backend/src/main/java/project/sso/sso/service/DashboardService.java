@@ -38,17 +38,13 @@ public class DashboardService {
         List<Course> courses = null;
         switch(role){
             case "admin":
-                System.out.println("Got in admin");
                 courses = courseRepository.findCourseByTermId(termId);
                 break;
             case "instructor":
-                System.out.println("Got in instructor");
                 courses = courseRepository.findCoursesFromInstructorAndTerm(user.getId(), termId);
                 break;
             case "student":
-                System.out.println("Got in student");
                 courses = courseRepository.findCoursesFromStudentAndTerm(username, termId);
-                System.out.println(courses.size());
                 break;
         }
 
