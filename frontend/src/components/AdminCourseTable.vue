@@ -230,7 +230,7 @@
             },
             getStudentFromCourseId: function(id){ // For viewing students of a particular course when being viewed.
                 console.log(id)
-                const getUrl = "http://web-service:8081/api/dashboard/enrolled/"+id
+                const getUrl = "http://localhost:80/api/dashboard/enrolled/"+id
                 axios.get(getUrl,{withCredentials: true})
                     .then(response => {
                         this.studentsGet = response.data
@@ -242,7 +242,7 @@
 
             },
             getAllStudents(){
-                const apiURL = "http://web-service:8081/api/admin/users";
+                const apiURL = "http://localhost:80/api/admin/users";
                 axios.get(apiURL, {withCredentials: true})
                     .then(response => {
                         if(response.data){
@@ -265,7 +265,7 @@
             },
             requestAssign: function(courseId, courseCode, username){
                 this.assignBusy = true
-                const apiURL = "http://web-service:8081/api/admin/courses/assign";
+                const apiURL = "http://localhost:80/api/admin/courses/assign";
                 axios.post(apiURL,
                     {
                         addCourseID: courseId,
@@ -293,7 +293,7 @@
             },
             requestWithdraw: function(courseId, courseCode, username){
                 this.assignBusy = true
-                const apiURL = "http://web-service:8081/api/admin/users/remove/course";
+                const apiURL = "http://localhost:80/api/admin/users/remove/course";
                 axios.post(apiURL,
                     {
                         removeCourseID: courseId,

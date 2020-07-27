@@ -151,7 +151,7 @@
         },
         methods:{
             fetchData(){
-                const apiURL = "http://web-service:8081/api/admin/users";
+                const apiURL = "http://localhost:80/api/admin/users";
                 axios.get(apiURL, {withCredentials: true})
                     .then(response => {
                         if(response.data){
@@ -195,7 +195,7 @@
             },
             addUserRequest(){
                 console.log("enter sendRequest")
-                const apiURL = "http://web-service:8081/api/admin/add/user/";
+                const apiURL = "http://localhost:80/api/admin/add/user/";
                 axios.post(apiURL, this.form, {withCredentials: true})
                     .then(response => {
                         if(response.data.status === "success") {
