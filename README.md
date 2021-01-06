@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contain the work of the final project in System Construct class. A school scheduling system webapp built with Vue.JS, Spring Boot and MySQL. Deployed to AWS EC2 in a containerized Docker backend.
+This repository contain the work of the final project in System Construct class. A school scheduling system webapp built with Vue.js, Spring Boot and MySQL. Deployed to AWS EC2 in a containerized Docker backend.
 
 
 ## To clone from git:
@@ -26,7 +26,7 @@ To deploy Vue in development, just ```cd``` to ```frontend``` and type ```yarn s
 * <b>For Window</b>: before running ```yarn serve``` run ```npm i``` first.
 
 
-## To work on project seperately (IMPORTANT):
+## For team member: To work on project seperately (IMPORTANT):
 
 <b> DON'T WORK ON ```master``` BRANCH ON YOUR PC. </b> To push change, don't ```git push``` on the ```master``` branch on your computer, as it will merge with master branch on Github and may cause file and error conflict for others when they ```git pull``` for latest update for their branch.
 
