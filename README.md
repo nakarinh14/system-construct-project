@@ -1,4 +1,10 @@
-# system-construct-project
+# System Construct Project: School Scheduling System Webapp
+
+## Introduction
+
+This repository contain the work of the final project in System Construct class. A school scheduling system webapp built with Vue.JS, Spring Boot and MySQL. Deployed to AWS EC2 in a containerized Docker backend.
+
+
 ## To clone from git:
 ```
 git clone https://github.com/nakarinh14/system-construct-project
